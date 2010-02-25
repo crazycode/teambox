@@ -6,105 +6,105 @@ en:
   common:
     and: and
     or: or
-    delete: É¾³ı
-    edit: ±à¼­
-    accept: ½ÓÊÜ
-    decline: ¾Ü¾ø
-    cancel: È¡Ïû
-    close: ¹Ø±Õ
-    save: ±£´æ
-    show_more: ÏÔÊ¾{{number}}µÄ¸ü¶àĞÅÏ¢
-    print: ´òÓ¡´ËÒ³
+    delete: åˆ é™¤
+    edit: ç¼–è¾‘
+    accept: æ¥å—
+    decline: æ‹’ç»
+    cancel: å–æ¶ˆ
+    close: å…³é—­
+    save: ä¿å­˜
+    show_more: æ˜¾ç¤º{{number}}çš„æ›´å¤šä¿¡æ¯
+    print: æ‰“å°æ­¤é¡µ
     comment:
-      one: "{{count}}ÌõÆÀÂÛ"
-      other: "{{count}}ÌõÆÀ¼Û"
+      one: "{{count}}æ¡è¯„è®º"
+      other: "{{count}}æ¡è¯„ä»·"
   confirm:
-    delete_task_list: ÄúÈ·ĞÅÒªÉ¾³ıÕâ¸öÈÎÎñÁĞ±í£¿
-    delete_task: ÄúÈ·ĞÅÒªÉ¾³ı´ËÈÎÎñ£¿
-    delete_page: ÄúÈ·ĞÅÒªÉ¾³ı´ËÒ³Ãæ£¿
-    delete_upload: ÄúÈ·ĞÅÒªÉ¾³ı´ËÎÄ¼ş£¿
+    delete_task_list: æ‚¨ç¡®ä¿¡è¦åˆ é™¤è¿™ä¸ªä»»åŠ¡åˆ—è¡¨ï¼Ÿ
+    delete_task: æ‚¨ç¡®ä¿¡è¦åˆ é™¤æ­¤ä»»åŠ¡ï¼Ÿ
+    delete_page: æ‚¨ç¡®ä¿¡è¦åˆ é™¤æ­¤é¡µé¢ï¼Ÿ
+    delete_upload: æ‚¨ç¡®ä¿¡è¦åˆ é™¤æ­¤æ–‡ä»¶ï¼Ÿ
   deleted:
-    conversation: "ÒÑÉ¾³ı<b>{{name}}</b>ÌÖÂÛ"
-    task: "ÒÑÉ¾³ı<b>{{name}}</b>ÈÎÎñ"
-    page: "ÒÑÉ¾³ı<b>{{name}}</b>Ò³Ãæ"
-    upload: "ÒÑÉ¾³ı<b>{{name}}</b>ÎÄ¼ş"
-    person: "{{name}}²»ÔÙÊôÓÚ´ËÏîÄ¿"
-    left_project: "Äú²»ÔÙÊôÓÚ´ËÏîÄ¿"
+    conversation: "å·²åˆ é™¤<b>{{name}}</b>è®¨è®º"
+    task: "å·²åˆ é™¤<b>{{name}}</b>ä»»åŠ¡"
+    page: "å·²åˆ é™¤<b>{{name}}</b>é¡µé¢"
+    upload: "å·²åˆ é™¤<b>{{name}}</b>æ–‡ä»¶"
+    person: "{{name}}ä¸å†å±äºæ­¤é¡¹ç›®"
+    left_project: "æ‚¨ä¸å†å±äºæ­¤é¡¹ç›®"
   activities:
-    create_upload: ÉÏ´«ĞÂÎÄ¼ş
+    create_upload: ä¸Šä¼ æ–°æ–‡ä»¶
     create_conversation:
-      create_conversation: ¿ªÊ¼ĞÂµÄÌÖÂÛ
+      create_conversation: å¼€å§‹æ–°çš„è®¨è®º
     create_task_list:
-      create_task_list: ´´½¨ĞÂµÄÈÎÎñÁĞ±í
+      create_task_list: åˆ›å»ºæ–°çš„ä»»åŠ¡åˆ—è¡¨
     create_task:
-      create_task: ´´½¨ĞÂÈÎÎñ
+      create_task: åˆ›å»ºæ–°ä»»åŠ¡
     create_page:
-      create_page: ´´½¨ĞÂÒ³Ãæ
+      create_page: åˆ›å»ºæ–°é¡µé¢
     create_person:
-      create_person: ÒÑ¾­±»ÑûÇë¼ÓÈë´ËÏîÄ¿
-      by: ÓÉ
+      create_person: å·²ç»è¢«é‚€è¯·åŠ å…¥æ­¤é¡¹ç›®
+      by: ç”±
     delete_person:
-      delete_person: ÒÑ¾­±»´Ó´ËÏîÄ¿ÒÆ³ı
-      by: ÓÉ
-      left: Àë¿ª´ËÏîÄ¿
+      delete_person: å·²ç»è¢«ä»æ­¤é¡¹ç›®ç§»é™¤
+      by: ç”±
+      left: ç¦»å¼€æ­¤é¡¹ç›®
   avatars:
     new:
-      title: ÉÏ´«Í·Ïñ
-      upload: ÉÏ´«
+      title: ä¸Šä¼ å¤´åƒ
+      upload: ä¸Šä¼ 
     edit:
-      upload_new_image: ÉÏ´«Ò»¸öĞÂµÄÍ¼Æ¬×÷ÎªÍ·Ïñ
-      upload: ÉÏ´«Í·Ïñ
+      upload_new_image: ä¸Šä¼ ä¸€ä¸ªæ–°çš„å›¾ç‰‡ä½œä¸ºå¤´åƒ
+      upload: ä¸Šä¼ å¤´åƒ
     show:
-      save: ±£´æ±ä¸ü
+      save: ä¿å­˜å˜æ›´
   reset_passwords:
     new:
-      title: Íü¼ÇÃÜÂë£¿
-      email: Äú×¢²áÊ±Ê¹ÓÃµÄÓÊÏäÊÇ£¿
-      back: ·µ»ØµÇÂ¼Ò³
-      submit: ·¢¸øÎÒÒ»¸öÖØÖÃÃÜÂëµÄÁ´½Ó
+      title: å¿˜è®°å¯†ç ï¼Ÿ
+      email: æ‚¨æ³¨å†Œæ—¶ä½¿ç”¨çš„é‚®ç®±æ˜¯ï¼Ÿ
+      back: è¿”å›ç™»å½•é¡µ
+      submit: å‘ç»™æˆ‘ä¸€ä¸ªé‡ç½®å¯†ç çš„é“¾æ¥
     create:
-      not_found: "ÎÒÃÇ²»ÄÜÕÒµ½ÈÎºÎÊ¹ÓÃ´Ëµç×ÓÓÊÏäµÄÓÃ»§£º {{email}}<br/>Çë¼ì²éµç×ÓÓÊÏäµØÖ·²¢ÖØĞÂ³¢ÊÔ¡£Èç¹û²»ÄÜ³É¹¦£¬ÇëÁªÏµÎÒÃÇ{{support}}"
-      invalid: "ÄúÊäÈëµÄĞŞ¸ÄÃÜÂëµØÖ·ÎŞĞ§»òÒÑ¾­¹ıÆÚ¡£Çë³¢ÊÔÔÙ´ÎÊ¹ÓÃÖ÷Ò³ÉÏµÄÕÒ»ØÃÜÂë¹¦ÄÜ¡£<br/>Çë¼ì²éµç×ÓÓÊÏäµØÖ·²¢ÖØĞÂ³¢ÊÔ¡£Èç¹û²»ÄÜ³É¹¦£¬ÇëÁªÏµÎÒÃÇ{{support}}"
-      password_not_updated: "ĞÂÃÜÂëÎŞĞ§£¬ÇëÖØÊÔ¡£"
-      password_updated: "ÃÜÂëĞŞ¸Ä³É¹¦£¬ÇëÖØĞÂµÇÂ¼"
+      not_found: "æˆ‘ä»¬ä¸èƒ½æ‰¾åˆ°ä»»ä½•ä½¿ç”¨æ­¤ç”µå­é‚®ç®±çš„ç”¨æˆ·ï¼š {{email}}<br/>è¯·æ£€æŸ¥ç”µå­é‚®ç®±åœ°å€å¹¶é‡æ–°å°è¯•ã€‚å¦‚æœä¸èƒ½æˆåŠŸï¼Œè¯·è”ç³»æˆ‘ä»¬{{support}}"
+      invalid: "æ‚¨è¾“å…¥çš„ä¿®æ”¹å¯†ç åœ°å€æ— æ•ˆæˆ–å·²ç»è¿‡æœŸã€‚è¯·å°è¯•å†æ¬¡ä½¿ç”¨ä¸»é¡µä¸Šçš„æ‰¾å›å¯†ç åŠŸèƒ½ã€‚<br/>è¯·æ£€æŸ¥ç”µå­é‚®ç®±åœ°å€å¹¶é‡æ–°å°è¯•ã€‚å¦‚æœä¸èƒ½æˆåŠŸï¼Œè¯·è”ç³»æˆ‘ä»¬{{support}}"
+      password_not_updated: "æ–°å¯†ç æ— æ•ˆï¼Œè¯·é‡è¯•ã€‚"
+      password_updated: "å¯†ç ä¿®æ”¹æˆåŠŸï¼Œè¯·é‡æ–°ç™»å½•"
     sent:
-      title: ÖØÖÃÃÜÂë
+      title: é‡ç½®å¯†ç 
       login_link_sent: "We just sent you an email to {{email}} so you can retrieve your password."
       follow_the_link: "Follow the link inside this email to log into Teambox! If you can't find it, look in the spam folder."
       not_found: "The email <b>{{email}}</b> doesn't belong to any Teambox user. Maybe you misspelt it?"
       change_password_now: "You are now logged in. <b>Choose a new password now</b> so you won't forget it!"
   cards:
     card:
-      phone_numbers: µç»°ºÅÂë
-      email_addresses: µç×ÓÓÊ¼şµØÖ·
-      websites: ÍøÖ·
-      addresses: µØÖ·
-      ims: ¼´Ê±Í¨Ñ¶
-      social_networks: Éç»áÍøÂç
-      vcard: ÏÂÔØvCard
+      phone_numbers: ç”µè¯å·ç 
+      email_addresses: ç”µå­é‚®ä»¶åœ°å€
+      websites: ç½‘å€
+      addresses: åœ°å€
+      ims: å³æ—¶é€šè®¯
+      social_networks: ç¤¾ä¼šç½‘ç»œ
+      vcard: ä¸‹è½½vCard
     field:
-      add_phone_numbers: Ìí¼Óµç»°ºÅÂë
-      add_email_addresses: Ìí¼ÓEmail
-      add_websites: Ìí¼ÓÍøÖ·
-      add_addresses: Ìí¼ÓµØÖ·
-      add_ims: Ìí¼Ó¼´Ê±Í¨Ñ¶
-      add_social_networks: Ìí¼ÓÉç»áÍøÂç
+      add_phone_numbers: æ·»åŠ ç”µè¯å·ç 
+      add_email_addresses: æ·»åŠ Email
+      add_websites: æ·»åŠ ç½‘å€
+      add_addresses: æ·»åŠ åœ°å€
+      add_ims: æ·»åŠ å³æ—¶é€šè®¯
+      add_social_networks: æ·»åŠ ç¤¾ä¼šç½‘ç»œ
   users:
     fields:
-      login: ÓÃ»§Ãû
-      first_name: ĞÕ
-      last_name: Ãû
-      biography: ×ÔÎÒ½éÉÜ
-      time_zone: Ê±Çø
-      language: ÓïÑÔ
-      email: µç×ÓÓÊ¼ş
-      password: ÃÜÂë
-      password_confirmation: È·ÈÏÃÜÂë
-      sunday: ÖÜÈÕ
-      monday: ÖÜÒ»
-      first_day_of_week: Ò»ÖÜ¿ªÊ¼ÓÚ
-      change_password: ĞŞ¸ÄÃÜÂë
-      confirm_password: È·ÈÏÃÜÂë
+      login: ç”¨æˆ·å
+      first_name: å§“
+      last_name: å
+      biography: è‡ªæˆ‘ä»‹ç»
+      time_zone: æ—¶åŒº
+      language: è¯­è¨€
+      email: ç”µå­é‚®ä»¶
+      password: å¯†ç 
+      password_confirmation: ç¡®è®¤å¯†ç 
+      sunday: å‘¨æ—¥
+      monday: å‘¨ä¸€
+      first_day_of_week: ä¸€å‘¨å¼€å§‹äº
+      change_password: ä¿®æ”¹å¯†ç 
+      confirm_password: ç¡®è®¤å¯†ç 
       use_this_email: "You have invitations to share projects for this email address. If you want to access these projects, don't change this email address. You can change your email address once you've completed the signup process."
       notify_mentions: "Notify me when I'm mentioned e.g. Howdy @{{login}}! You'll receive an email!"
       notify_conversations: Notify me when I'm watching a conversation
@@ -113,10 +113,10 @@ en:
       wants_task_reminder: "Send me a daily email of my tasks"
       invalid_login: "use only letters, numbers and _"
       avatar:
-        field: ÄúµÄÍ·Ïñ
-        presence: "Äú²»ÄÜÉÏ´«¿ÕÎÄ¼ş"
-        max_size: "ÎÄ¼ş´óĞ¡²»ÄÜ³¬¹ı{{mb}}"
-        we_have_this_avatar: "µ±Ç°ÄúµÄÍ·Ïñ£º"
+        field: æ‚¨çš„å¤´åƒ
+        presence: "æ‚¨ä¸èƒ½ä¸Šä¼ ç©ºæ–‡ä»¶"
+        max_size: "æ–‡ä»¶å¤§å°ä¸èƒ½è¶…è¿‡{{mb}}"
+        we_have_this_avatar: "å½“å‰æ‚¨çš„å¤´åƒï¼š"
         upload_here_or_at_gravatar: "You can upload a new avatar here, or upload it to <a href='http://gravatar.com'>Gravatar</a> for a global avatar you can use with Teambox and many other websites."
       tooltips:
         login: "You need a username to login. People will be able to find you by username. Must be all lowercase, no spaces. You can use undescores."
@@ -125,23 +125,23 @@ en:
         email: Enter your real email so your team-mates can contact you.
         password: "Combining letters, numbers, uppercase and lowercase is a good idea."
     new:
-      title: ´´½¨ĞÂÕÊºÅ
-      submit: ´´½¨ÕÊºÅ
+      title: åˆ›å»ºæ–°å¸å·
+      submit: åˆ›å»ºå¸å·
       you_are_logged_in: "You already have an account. Log out first to sign up as a different user."
       existing_user: "If you already have an account, <a href='{{login_url}}'>log in</a> or <a href='{{forgot_url}}'>retrieve your password</a>."
     create:
-      thanks: Ğ»Ğ»×¢²á£¡
+      thanks: è°¢è°¢æ³¨å†Œï¼
       error: "We couldn't set up that account, sorry. Please try again, or contact an admin (link is above)."
     edit:
-      title_settings: ÄúµÄÕÊºÅÉèÖÃ
-      title_profile: ÄúµÄ¸öĞÔÉèÖÃ
-      title_picture: ÄúµÄ¸öĞÔÍ¼Æ¬
-      title_notifications: ÄúµÄÌáĞÑ
-      title_deletion: ÏîÄ¿´æµµ/»ØÊÕÕ¾
-      submit: ¸üĞÂÕÊºÅ
+      title_settings: æ‚¨çš„å¸å·è®¾ç½®
+      title_profile: æ‚¨çš„ä¸ªæ€§è®¾ç½®
+      title_picture: æ‚¨çš„ä¸ªæ€§å›¾ç‰‡
+      title_notifications: æ‚¨çš„æé†’
+      title_deletion: é¡¹ç›®å­˜æ¡£/å›æ”¶ç«™
+      submit: æ›´æ–°å¸å·
     update:
-      updated: ÓÃ»§¸öĞÔÉèÖÃÒÑ¸üĞÂ£¡
-      error: "²»ÄÜ±£´æĞŞ¸ÄµÄ¸öĞÔÉèÖÃ£¬ÇëĞŞÕı´íÎó²¢ÖØÊÔ¡£"
+      updated: ç”¨æˆ·ä¸ªæ€§è®¾ç½®å·²æ›´æ–°ï¼
+      error: "ä¸èƒ½ä¿å­˜ä¿®æ”¹çš„ä¸ªæ€§è®¾ç½®ï¼Œè¯·ä¿®æ­£é”™è¯¯å¹¶é‡è¯•ã€‚"
     activation:
       resent: "We've re-sent the activation email. Take a look at your inbox!"
       already_done: "You had already confirmed your email! You can now use Teambox."
@@ -149,22 +149,22 @@ en:
       invalid: "<p>Invalid or expired access link. Login with your email and password.</p><p>If you don't remember your login data, follow the Forgot your Password link.</p>"
       invalid_user: Invalid user
     show:
-      profile: ¸öĞÔÉèÖÃ
-      projects: ÏîÄ¿
-      recent_activity_for: "{{user_name}}µÄ½üÆÚ»î¶¯"
+      profile: ä¸ªæ€§è®¾ç½®
+      projects: é¡¹ç›®
+      recent_activity_for: "{{user_name}}çš„è¿‘æœŸæ´»åŠ¨"
     user:
       formatted_address: "{{city}} {{street}}({{country}})"
-      remove_from_project: ´ÓÏîÄ¿ÖĞÒÆ³ı
+      remove_from_project: ä»é¡¹ç›®ä¸­ç§»é™¤
     welcome:
-      get_started: ¿ªÊ¼Ê¹ÓÃTeambox!
+      get_started: å¼€å§‹ä½¿ç”¨Teambox!
       intro1: "You're our newest member! You'll soon see how Teambox can become your day's starting point."
       intro2: "Where can you go now? Create a project to <b>collaborate</b>:" # or an agenda to <b>keep track of contacts</b>:"
       projects:
-        title: ÏîÄ¿
+        title: é¡¹ç›®
         share_and_collaborate: "Share and collaborate with your team! Project's wall updates, conversations, tasks, pages and files."
         create_your_first_project: "An event, a design, a product... Go ahead and <a href='{{link}}'>create your first project</a> now!"
       spread:
-        title: ÄúÒ²Ï²»¶ÎÒÃÇÂğ£¿
+        title: æ‚¨ä¹Ÿå–œæ¬¢æˆ‘ä»¬å—ï¼Ÿ
         reasons: "We've been working on Teambox for years, hoping it can be useful for you.<br/>We're real people, motivated developers with a mission, just like you!"
         help: You can <b>help us</b> by telling your friends how you enjoy Teambox on
         twitter: 'Twitter,'
@@ -173,7 +173,7 @@ en:
         tell_us: "If you enjoy using Teambox, also consider <a href='mailto:{{address}}'>telling us about it</a> in an email!"
       stop_welcome: Stop showing this Welcome tab
     unconfirmed_email:
-      title: È·ÈÏÄúµÄÓÊ¼ş
+      title: ç¡®è®¤æ‚¨çš„é‚®ä»¶
       invitation_sent_to: "An email invitation was sent to <i>{{email}}</i>, in order to verify your email address."
       follow_the_link: Please <b>open this email and follow the link inside it</b> to activate your account.
       problems_title: Problems?
@@ -198,19 +198,19 @@ en:
       settings_page: "settings page"
   projects:
     index:
-      title: ÎÒµÄËùÓĞÏîÄ¿¶¯Ì¬
-      projects: ÎÒµÄÏîÄ¿
-      subscribe: ¶©ÔÄ¶¯Ì¬
-      calendars: ËùÓĞÏîÄ¿ÈÕÀú
-      new_project: ĞÂÔöÏîÄ¿
-      refreshes: Ã¿·ÖÖÓ×Ô¶¯Ë¢ĞÂ
+      title: æˆ‘çš„æ‰€æœ‰é¡¹ç›®åŠ¨æ€
+      projects: æˆ‘çš„é¡¹ç›®
+      subscribe: è®¢é˜…åŠ¨æ€
+      calendars: æ‰€æœ‰é¡¹ç›®æ—¥å†
+      new_project: æ–°å¢é¡¹ç›®
+      refreshes: æ¯åˆ†é’Ÿè‡ªåŠ¨åˆ·æ–°
       rss:
-        title: ÏîÄ¿ÕªÒª
-        description: ¸ÅÀÀËùÓĞÄúµÄÏîÄ¿
-      archived: "ÏÔÊ¾{{count}}¸öÒÑ´æµµÏîÄ¿..."
+        title: é¡¹ç›®æ‘˜è¦
+        description: æ¦‚è§ˆæ‰€æœ‰æ‚¨çš„é¡¹ç›®
+      archived: "æ˜¾ç¤º{{count}}ä¸ªå·²å­˜æ¡£é¡¹ç›®..."
     primer:
       empty: You don't own or belong to any projects yet.
-      create_first: ´´½¨ÄúµÚÒ»¸öÏîÄ¿!
+      create_first: åˆ›å»ºæ‚¨ç¬¬ä¸€ä¸ªé¡¹ç›®!
       define1: "Use projects to <b>collaborate</b> with groups of people: A website, organizing a party, client work..."
       define2: "You can create <b>as many projects as you wish</b> to share with different users online."
       item1: "<b>Create a project</b>, name it and <b>invite some contacts</b> to it."
@@ -220,9 +220,9 @@ en:
       item5: "<b>Share information</b> by easily editable Pages for each project."
       footer: "Projects are a centralized way of collaborating, so you'll never need to email your team again."
     show:
-      update_your_status: "¸üĞÂÄúµÄ×´Ì¬..."
-      text_styling: ÎÄ±¾ÑùÊ½
-      invite_people: 'ÑûÇëºÃÓÑ...'
+      update_your_status: "æ›´æ–°æ‚¨çš„çŠ¶æ€..."
+      text_styling: æ–‡æœ¬æ ·å¼
+      invite_people: 'é‚€è¯·å¥½å‹...'
       new_task_list_link: New Task List
       people_in_project: People in this project
       subscribe: Subscribe to the news feed
@@ -233,7 +233,7 @@ en:
         description: "Recent activities for the project {{name}}"
     fields:
       archiving: "Archive this project"
-      forever: "É¾³ı this project forever"
+      forever: "åˆ é™¤ this project forever"
       owner: "Owner"
       owner_description: "The owner is the main responsible for a project. He cannot be removed from the project unless ownership is transferred to another user."
       name: Name
@@ -265,7 +265,7 @@ en:
     edit:
       title_settings: General Settings
       title_picture: Project Logo
-      title_deletion: Archive/É¾³ı Project
+      title_deletion: Archive/åˆ é™¤ Project
       title_ownership: Ownership
       submit: Save Changes
       change_owner: Change owner
@@ -303,16 +303,16 @@ en:
     actions:
       confirm_delete: Are you sure you to delete this conversation?
     link:
-      edit: ±à¼­
+      edit: ç¼–è¾‘
     fields:
-      name: ±êÌâ
-      body: µÚÒ»ÌõÆÀÂÛ
+      name: æ ‡é¢˜
+      body: ç¬¬ä¸€æ¡è¯„è®º
       tooltips:
         name: "As short as possible, this will appear in notification email's subjects"
         body: "Ask a question, tell your team what's new, start a discussion"
     new:
-      title: ĞÂµÄÌÖÂÛ
-      submit: ´´½¨
+      title: æ–°çš„è®¨è®º
+      submit: åˆ›å»º
     watcher_fields:
       add_suscribers: Which people will be watching this conversation?
       subscribe_note: These people will be notified via email of this message and any following comments.<br/>They can unsubscribe at any moment.
@@ -320,13 +320,13 @@ en:
       no_users_yet: "Conversations are more useful when shared. <a href='{{invite_link}}'>Invite some users</a> to this project now so they can access this conversation, answer and receive updates."
       people_all: "All people in project"
     edit:
-      submit: '¸üĞÂÌÖÂÛ'
+      submit: 'æ›´æ–°è®¨è®º'
     index:
       rss:
-        title: "ÌÖÂÛ"
-        description: "{{name}}ÏîÄ¿µÄÌÖÂÛ"
+        title: "è®¨è®º"
+        description: "{{name}}é¡¹ç›®çš„è®¨è®º"
     primer:
-      empty: µ±Ç°ÏîÄ¿»¹Ã»ÓĞÈÎºÎÌÖÂÛ¡£
+      empty: å½“å‰é¡¹ç›®è¿˜æ²¡æœ‰ä»»ä½•è®¨è®ºã€‚
       create_first: Create the first conversation in this project!
       define: "Use conversations to <b>discuss decisions</b> and <b>update your team</b> in a centralized way.<br/>Each conversation is a thread of comments, which replace messy emails."
       item1: "<b>Share files</b>. Comments can have attached files, too."
@@ -336,49 +336,49 @@ en:
       footer1: "Conversations are great to <b>share a design</b>, <b>decide a date</b> for meeting or <b>report</b> some news."
       footer2: "Since they're threaded, it's easy to go back in time and see which files were sent and what did each teammate said. In Teambox, <b>collaborating is also reporting</b>."
     column:
-      new_conversation: ĞÂµÄÌÖÂÛ
-      subscribe: ¶©ÔÄ
+      new_conversation: æ–°çš„è®¨è®º
+      subscribe: è®¢é˜…
     conversation_with_extract:
       posted_by: Posted by
     show:
-      started_by: ¿ªÊ¼ÓÚ
-      edit: ĞŞ¸Ä±êÌâ
-      message: ÏûÏ¢
-      messages: ÏûÏ¢
+      started_by: å¼€å§‹äº
+      edit: ä¿®æ”¹æ ‡é¢˜
+      message: æ¶ˆæ¯
+      messages: æ¶ˆæ¯
     short_conversation:
-      comment: ÆÀÂÛ
-      comments: ÆÀÂÛ
+      comment: è¯„è®º
+      comments: è¯„è®º
 
   tasks:
     errors:
       name:
-        cant_be_blank: '±ØĞë²»Îª¿Õ'
-        too_long: '±ØĞëÉÙÓÚ255×Ö·û'
+        cant_be_blank: 'å¿…é¡»ä¸ä¸ºç©º'
+        too_long: 'å¿…é¡»å°‘äº255å­—ç¬¦'
     fields:
-      name: ÓĞÄÄĞ©ÈÎÎñĞèÒªÍê³É£¿
-      due_on: ĞèÒªÔÚ...Ö®Ç°Íê³É <i>(¿ÉÑ¡)</i>
+      name: æœ‰å“ªäº›ä»»åŠ¡éœ€è¦å®Œæˆï¼Ÿ
+      due_on: éœ€è¦åœ¨...ä¹‹å‰å®Œæˆ <i>(å¯é€‰)</i>
     assigned:
-      assigned_to: "·ÖÅä¸ø{{user}}"
+      assigned_to: "åˆ†é…ç»™{{user}}"
     due_on:
-      due_on: ½ØÖ¹ÓÚ
-      today: ½ñÌì
-      tomorrow: Ã÷Ìì
-    create: Ìí¼ÓÈÎÎñ
+      due_on: æˆªæ­¢äº
+      today: ä»Šå¤©
+      tomorrow: æ˜å¤©
+    create: æ·»åŠ ä»»åŠ¡
     edit:
-      submit: ĞŞ¸ÄÈÎÎñ
+      submit: ä¿®æ”¹ä»»åŠ¡
     new:
-      title: ĞÂÈÎÎñ
-      submit: Ìí¼ÓÈÎÎñ
+      title: æ–°ä»»åŠ¡
+      submit: æ·»åŠ ä»»åŠ¡
     show:
-      title: "ÈÎÎñ: {{name}}"
+      title: "ä»»åŠ¡: {{name}}"
     link:
-      new: + Ìí¼ÓÈÎÎñ
-      edit: ±à¼­
+      new: + æ·»åŠ ä»»åŠ¡
+      edit: ç¼–è¾‘
       show_archived_tasks:
-        one: "ÏÔÊ¾Ò»ÌõÒÑ´æµµµÄÈÎÎñ"
-        other: "ÏÔÊ¾{{count}}ÌõÒÑ´æµµµÄÈÎÎñ"
+        one: "æ˜¾ç¤ºä¸€æ¡å·²å­˜æ¡£çš„ä»»åŠ¡"
+        other: "æ˜¾ç¤º{{count}}æ¡å·²å­˜æ¡£çš„ä»»åŠ¡"
       hide_archived_tasks:
-        one: "Òş²ØÒ»ÌõÒÑ´æµµµÄÈÎÎñ"
+        one: "éšè—ä¸€æ¡å·²å­˜æ¡£çš„ä»»åŠ¡"
         other: "Hide {{count}} archived tasks"
     destroy_message:
       deleted: "The Task <b>{{name}}</b> was successfully deleted!"
@@ -394,42 +394,42 @@ en:
       reopen: Reopen this task
     overdue: "{{days}} days late"
     status:
-      new: ĞÂ½¨
-      open: Î´·ÖÅä
-      hold: ÒÑ·ÖÅä
-      resolved: ÒÑ½â¾ö
-      rejected: ÒÑ¾Ü¾ø
+      new: æ–°å»º
+      open: æœªåˆ†é…
+      hold: å·²åˆ†é…
+      resolved: å·²è§£å†³
+      rejected: å·²æ‹’ç»
     my_tasks:
-      my_tasks: ÎÒµÄÈÎÎñ
+      my_tasks: æˆ‘çš„ä»»åŠ¡
   notes:
     actions:
-      delete_confirm: ÄúÈ·ĞÅÒªÉ¾³ıÕâÌõ±¸×¢£¿
+      delete_confirm: æ‚¨ç¡®ä¿¡è¦åˆ é™¤è¿™æ¡å¤‡æ³¨ï¼Ÿ
     new:
-      submit: Ìí¼Ó±¸×¢
+      submit: æ·»åŠ å¤‡æ³¨
     edit:
-      submit: ĞŞ¸Ä±¸×¢
+      submit: ä¿®æ”¹å¤‡æ³¨
     fields:
-      title: ±êÌâ
-      body: ÄÚÈİ
-      text_styling: ÎÄ±¾ÑùÊ½
+      title: æ ‡é¢˜
+      body: å†…å®¹
+      text_styling: æ–‡æœ¬æ ·å¼
   dividers:
     actions:
       delete_confirm: Are you sure you want to delete this divider?
     new:
-      submit: ĞÂÔö
+      submit: æ–°å¢
     edit:
-      submit: ¸üĞÂ
+      submit: æ›´æ–°
   pages:
     index:
-      pages_in_this_project: µ±Ç°ÏîÄ¿µÄÒ³Ãæ
+      pages_in_this_project: å½“å‰é¡¹ç›®çš„é¡µé¢
       rss:
-        title: Ò³Ãæ
-        description: "{{name}}ÏîÄ¿µÄÒ³Ãæ"
+        title: é¡µé¢
+        description: "{{name}}é¡¹ç›®çš„é¡µé¢"
     primer:
       empty: This project doesn't have any pages yet.
       create_first: Create the first page in this project!
       define1: "Here you can <b>share useful information</b> for your team: A roadmap, interesting links, instructions, email templates..."
-      define2: "±à¼­ing a page is easy and fun, with drag-and-drop elements you can edit in place."
+      define2: "ç¼–è¾‘ing a page is easy and fun, with drag-and-drop elements you can edit in place."
       item1: "<b>Share</b>. All your teammates can view and edit the project's pages."
       item2: "<b>Publish</b>. Instant web publishing with shared pages. Show the world."
       item3: "<b>Print</b>. Pages are printer-friendly. Try printing or exporting a PDF!"
@@ -437,10 +437,10 @@ en:
       footer1: "Use Teambox as your <b>shared whiteboard</b> for frequently used stuff."
       footer2: "You can also attach files to any page inside each note. Enjoy!"
     buttons:
-      new_note: ±¸×¢
+      new_note: å¤‡æ³¨
       new_divider: Divider
-      new_upload: ÉÏ´«
-      new_task_list: ÈÎÎñÁĞ±í
+      new_upload: ä¸Šä¼ 
+      new_task_list: ä»»åŠ¡åˆ—è¡¨
     new:
       title: New Page
       define1: "Here you can <b>share useful information</b> for your team: A roadmap, interesting links, instructions, email templates..."
@@ -453,12 +453,12 @@ en:
       footer2: "You can also attach files to any page inside each note. Enjoy!"
       submit: Create
     edit:
-      title: ĞŞ¸ÄÒ³Ãæ
-      submit: ¸üĞÂ
+      title: ä¿®æ”¹é¡µé¢
+      submit: æ›´æ–°
     fields:
-      name: ±êÌâ
-      name_description: ÇëÊ¹ÓÃ¼ò¶ÌÇåÎúµÄ±êÌâ
-      description: ËµÃ÷
+      name: æ ‡é¢˜
+      name_description: è¯·ä½¿ç”¨ç®€çŸ­æ¸…æ™°çš„æ ‡é¢˜
+      description: è¯´æ˜
       description_description: "Optional. Enter any information that people reading or editing this page should know."
     slots:
       insert_here: Insert Here
@@ -479,7 +479,7 @@ en:
       finish_on: End on... <i>optional</i>
     link:
       new: New Task List
-      edit: ±à¼­
+      edit: ç¼–è¾‘
       reorder: Reorder
     index:
       add_link: New Task List
@@ -510,7 +510,7 @@ en:
       deleted: "The Task List <b>{{name}}</b> was successfully deleted!"
   people:
     link:
-      edit: ±à¼­
+      edit: ç¼–è¾‘
     edit:
       submit: Update Person
     fields:
@@ -577,8 +577,8 @@ en:
       uploaded_the_file: "uploaded the file"
       download: Download
       uploaded_by: Uploaded by
-      remove: É¾³ı
-      on_: "´ò¿ª"
+      remove: åˆ é™¤
+      on_: "æ‰“å¼€"
   sessions:
     fields:
       username_or_email: Email or Username
@@ -586,13 +586,13 @@ en:
       forgot: Forgot your password?
       signup: Sign up for an account
     new:
-      title: µÇÂ¼
+      title: ç™»å½•
       video: What's Teambox about?
-      submit: µÇÂ¼
+      submit: ç™»å½•
 
   email:
     user:
-      welcome: »¶Ó­Ê¹ÓÃTeambox!
+      welcome: æ¬¢è¿ä½¿ç”¨Teambox!
 
   shared:
     strip:
@@ -625,7 +625,7 @@ en:
       people: People
       pages: Pages
       time_tracking: Time Tracking
-      login: µÇÂ¼
+      login: ç™»å½•
       signup: Signup
       files: Files
       invitations: Invitations
@@ -633,16 +633,16 @@ en:
       project_invitations: Project Invitations
       home: Home
       logout: Logout
-      login: µÇÂ¼
+      login: ç™»å½•
       project_invitations: "Invitations ({{count}})"
       settings: Settings
     public_navigation:
       home: Teambox
-      tour: ½Ì³Ì
-      users: ÎÒÃÇµÄÓÃ»§
-      services: ·şÎñ
-      community: ÉçÇø
-      help: °ïÖúºÍÖ§³Ö
+      tour: æ•™ç¨‹
+      users: æˆ‘ä»¬çš„ç”¨æˆ·
+      services: æœåŠ¡
+      community: ç¤¾åŒº
+      help: å¸®åŠ©å’Œæ”¯æŒ
       privacy: Privacy
       terms: Terms of use
     user_navigation:
@@ -729,11 +729,11 @@ en:
       uploaded_by: uploaded by
 
   weakling:
-    default: ±ØĞëÖÁÉÙ5¸ö×Ö·û
-    error: Ì«¶Ì
-    weak: Èõ
-    average: Ò»°ã
-    strong: Ç¿
+    default: å¿…é¡»è‡³å°‘5ä¸ªå­—ç¬¦
+    error: å¤ªçŸ­
+    weak: å¼±
+    average: ä¸€èˆ¬
+    strong: å¼º
 
   completeness_scoring:
     models:
@@ -747,27 +747,27 @@ en:
         biography_length_long:
           title: 'Expand your profile to 30 words'
   form:
-    cancel: È¡Ïû
+    cancel: å–æ¶ˆ
 
   page_title:
-    show_projects: ¸ÅÊö
-    index_task_lists: ËùÓĞÈÎÎñÁĞ±í
-    index_conversations: ËùÓĞÌÖÂÛ
-    index_pages: ËùÓĞÒ³Ãæ
-    index_uploads: ËùÓĞÎÄ¼ş
-    create_uploads: ÎÄ¼şÉÏ´«
-    index_projects: ËùÓĞÏîÄ¿
-    edit_projects: ĞŞ¸ÄÏîÄ¿
-    index_people: ÈËÔ±
-    new_users: ×¢²á
-    new_pages: ĞÂÒ³Ãæ
-    create_users: ×¢²á
-    edit_users: ±à¼­
-    welcome_users: »¶Ó­£¡
-    new_projects: ĞÂÔöÏîÄ¿
-    archived_task_lists: ´æµµÈÎÎñ
-    new_example_projects: ´´½¨ÑùÀıÏîÄ¿
-    new_conversations: ĞÂÔöÌÖÂÛ
+    show_projects: æ¦‚è¿°
+    index_task_lists: æ‰€æœ‰ä»»åŠ¡åˆ—è¡¨
+    index_conversations: æ‰€æœ‰è®¨è®º
+    index_pages: æ‰€æœ‰é¡µé¢
+    index_uploads: æ‰€æœ‰æ–‡ä»¶
+    create_uploads: æ–‡ä»¶ä¸Šä¼ 
+    index_projects: æ‰€æœ‰é¡¹ç›®
+    edit_projects: ä¿®æ”¹é¡¹ç›®
+    index_people: äººå‘˜
+    new_users: æ³¨å†Œ
+    new_pages: æ–°é¡µé¢
+    create_users: æ³¨å†Œ
+    edit_users: ç¼–è¾‘
+    welcome_users: æ¬¢è¿ï¼
+    new_projects: æ–°å¢é¡¹ç›®
+    archived_task_lists: å­˜æ¡£ä»»åŠ¡
+    new_example_projects: åˆ›å»ºæ ·ä¾‹é¡¹ç›®
+    new_conversations: æ–°å¢è®¨è®º
 
   number:
     # Used in number_with_delimiter()
@@ -820,8 +820,8 @@ en:
         format: "%n %u"
         units:
           byte:
-            one: "×Ö½Ú"
-            other: "×Ö½Ú"
+            one: "å­—èŠ‚"
+            other: "å­—èŠ‚"
           kb: "KB"
           mb: "MB"
           gb: "GB"
@@ -863,93 +863,93 @@ en:
         one:   "over 1 year"
         other: "over {{count}} years"
     prompts:
-      year:   "Äê"
-      month:  "ÔÂ"
-      day:    "ÈÕ"
-      hour:   "Ê±"
-      minute: "·Ö"
-      second: "Ãë"
+      year:   "å¹´"
+      month:  "æœˆ"
+      day:    "æ—¥"
+      hour:   "æ—¶"
+      minute: "åˆ†"
+      second: "ç§’"
 
   activerecord:
     models:
       card: Card
-      address: µØÖ·
-      email_address: µç×ÓÓÊ¼ş
-      phone_number: µç»°
-      website: ÍøÖ·
-      im: ¼´Ê±Í¨ĞÅ
-      social_network: Éç»áÍøÂç
-      project: ÏîÄ¿
-      task_list: ÈÎÎñÁĞ±í
-      task: ÈÎÎñ
-      comment: ÆÀÂÛ
-      conversation: ÌÖÂÛ
-      page: Ò³Ãæ
+      address: åœ°å€
+      email_address: ç”µå­é‚®ä»¶
+      phone_number: ç”µè¯
+      website: ç½‘å€
+      im: å³æ—¶é€šä¿¡
+      social_network: ç¤¾ä¼šç½‘ç»œ
+      project: é¡¹ç›®
+      task_list: ä»»åŠ¡åˆ—è¡¨
+      task: ä»»åŠ¡
+      comment: è¯„è®º
+      conversation: è®¨è®º
+      page: é¡µé¢
       divider: Divider
-      note: ±¸×¢
-      invitation: ÑûÇë
-      upload: ÉÏ´«
+      note: å¤‡æ³¨
+      invitation: é‚€è¯·
+      upload: ä¸Šä¼ 
     attributes:
       card:
-        street: ½ÖµÀ
-        city: ³ÇÊĞ
-        state: Ê¡/Öİ
-        zip: ÓÊ±à
-        country: ¹ú¼Ò
+        street: è¡—é“
+        city: åŸå¸‚
+        state: çœ/å·
+        zip: é‚®ç¼–
+        country: å›½å®¶
       email_address:
-        name: µØÖ·
-        account_type: ÀàĞÍ
+        name: åœ°å€
+        account_type: ç±»å‹
       phone_number:
-        name: µç»°
-        account_type: ÀàĞÍ
+        name: ç”µè¯
+        account_type: ç±»å‹
       website:
         name: Site
       im:
         name: Address
-        account_im_type: ·şÎñ
-        account_type: ÀàĞÍ
+        account_im_type: æœåŠ¡
+        account_type: ç±»å‹
       social_network:
         name: Address
-        account_network_type: ÍøÂç
-        account_type: ÀàĞÍ
+        account_network_type: ç½‘ç»œ
+        account_type: ç±»å‹
       user:
-        login: ÓÃ»§Ãû
-        first_name: ĞÕ
-        last_name: Ãû
-        biography: ×Ô´«
-        email: µç×ÓÓÊÏä
-        time_zone: Ê±Çø
-        language: ÓïÑÔ
-        first_day_of_week: ĞÇÆÚ¿ªÊ¼ÓÚ
+        login: ç”¨æˆ·å
+        first_name: å§“
+        last_name: å
+        biography: è‡ªä¼ 
+        email: ç”µå­é‚®ç®±
+        time_zone: æ—¶åŒº
+        language: è¯­è¨€
+        first_day_of_week: æ˜ŸæœŸå¼€å§‹äº
       project:
-        name: Ãû³Æ
-        permalink: Á´½Ó
+        name: åç§°
+        permalink: é“¾æ¥
       task_list:
-        name: Ãû³Æ
-        start_on: ¿ªÊ¼ÈÕÆÚ
-        finish_on: ½ØÖ¹ÈÕÆÚ
+        name: åç§°
+        start_on: å¼€å§‹æ—¥æœŸ
+        finish_on: æˆªæ­¢æ—¥æœŸ
       task:
-        name: Ãû³Æ
-        status: ×´Ì¬
-        due_on: ½ØÖ¹ÈÕÆÚ
+        name: åç§°
+        status: çŠ¶æ€
+        due_on: æˆªæ­¢æ—¥æœŸ
       comment:
-        body: ÄÚÈİ
-        hours: Ğ¡Ê±
-        status: ×´Ì¬
+        body: å†…å®¹
+        hours: å°æ—¶
+        status: çŠ¶æ€
       conversation:
-        name: ±êÌâ
+        name: æ ‡é¢˜
       pages:
-        name: ±êÌâ
-        description: ËµÃ÷
+        name: æ ‡é¢˜
+        description: è¯´æ˜
       divider:
-        name: Ãû³Æ
+        name: åç§°
       note:
-        name: ±êÌâ
-        body: ÄÚÈİ
+        name: æ ‡é¢˜
+        body: å†…å®¹
       invitation:
-        email: µç×ÓÓÊ¼ş
+        email: ç”µå­é‚®ä»¶
       upload:
-        description: ËµÃ÷
+        description: è¯´æ˜
     errors:
       messages:
         inclusion: "is not included in the list"
@@ -974,15 +974,15 @@ en:
         record_invalid: "Validation failed: {{errors}}"
 
   date:
-    yesterday: ×òÌì
+    yesterday: æ˜¨å¤©
     formats:
       default: "%Y-%m-%d"
       short: "%b %d"
       long: "%B %d, %Y"
     order: [ :day, :month, :year ]
 
-    day_names: [ÖÜÈÕ, ÖÜÒ», ÖÜ¶ş, ÖÜÈı, ÖÜËÄ, ÖÜÎå, ÖÜÁù]
-    abbr_day_names: [ÈÕ, Ò», ¶ş, Èı, ËÄ, Îå, Áù]
+    day_names: [å‘¨æ—¥, å‘¨ä¸€, å‘¨äºŒ, å‘¨ä¸‰, å‘¨å››, å‘¨äº”, å‘¨å…­]
+    abbr_day_names: [æ—¥, ä¸€, äºŒ, ä¸‰, å››, äº”, å…­]
 
     month_names: [~, January, February, March, April, May, June, July, August, September, October, November, December]
     abbr_month_names: [~, Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec]
@@ -993,13 +993,13 @@ en:
       default: "%a, %d %b %Y %H:%M:%S %z"
       short: "%d %b %H:%M"
       long: "%B %d, %Y %H:%M"
-    am: "ÉÏÎç"
-    pm: "ÏÂÎç"
+    am: "ä¸Šåˆ"
+    pm: "ä¸‹åˆ"
 
   support:
     select:
-      prompt: "ÇëÑ¡Ôñ"
+      prompt: "è¯·é€‰æ‹©"
     array:
       words_connector: ", "
-      two_words_connector: " ºÍ "
-      last_word_connector: ", ºÍ "
+      two_words_connector: " å’Œ "
+      last_word_connector: ", å’Œ "

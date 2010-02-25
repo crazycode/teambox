@@ -27,7 +27,8 @@ class User < ActiveRecord::Base
                ['Français', 'fr'],
                ['Deutsche', 'de'],
                ['Català',   'ca'],
-               ['Italiano', 'it']]
+               ['Italiano', 'it'],
+	       ['Chinese', 'zh']]
 
   has_many :projects_owned, :class_name => 'Project', :foreign_key => 'user_id'
   has_many :comments
