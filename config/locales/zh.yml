@@ -5,7 +5,7 @@ zh:
   latest_announcement: "Now with <a href='http://blog.teambox.com/whats-going-on-in-the-kitchen/'>Mobile Site, French and German locales and API</a>!"
   common:
     and: and
-    or: or
+    or: 或者
     delete: 删除
     edit: 编辑
     accept: 接受
@@ -24,7 +24,7 @@ zh:
     delete_page: 您确信要删除此页面？
     delete_upload: 您确信要删除此文件？
   deleted:
-    conversation: "已删除<b>{{name}}</b>讨论"
+    conversation: "已删除<b>{{name}}</b>话题"
     task: "已删除<b>{{name}}</b>任务"
     page: "已删除<b>{{name}}</b>页面"
     upload: "已删除<b>{{name}}</b>文件"
@@ -33,7 +33,7 @@ zh:
   activities:
     create_upload: 上传新文件
     create_conversation:
-      create_conversation: 开始新的讨论
+      create_conversation: 开始新的话题
     create_task_list:
       create_task_list: 创建新的任务列表
     create_task:
@@ -69,10 +69,10 @@ zh:
       password_updated: "密码修改成功，请重新登录"
     sent:
       title: 重置密码
-      login_link_sent: "We just sent you an email to {{email}} so you can retrieve your password."
-      follow_the_link: "Follow the link inside this email to log into Teambox! If you can't find it, look in the spam folder."
-      not_found: "The email <b>{{email}}</b> doesn't belong to any Teambox user. Maybe you misspelt it?"
-      change_password_now: "You are now logged in. <b>Choose a new password now</b> so you won't forget it!"
+      login_link_sent: "我们将发送邮件到{{email}}给您以重置您的密码。"
+      follow_the_link: "点击此邮件中的链接以登录Teambox！如果您找不到邮件，请尝试看一下垃圾邮件夹。"
+      not_found: "此邮件地址<b>{{email}}</b>不属于任何Teambox用户，可能您的拼写有误？"
+      change_password_now: "您现在已经登录。<b>现在就重新设置密码</b>，这样您就不会再忘记密码！"
   cards:
     card:
       phone_numbers: 电话号码
@@ -120,18 +120,18 @@ zh:
         upload_here_or_at_gravatar: "You can upload a new avatar here, or upload it to <a href='http://gravatar.com'>Gravatar</a> for a global avatar you can use with Teambox and many other websites."
       tooltips:
         login: "You need a username to login. People will be able to find you by username. Must be all lowercase, no spaces. You can use undescores."
-        first_name: Up to 20 characters.
-        last_name: Up to 20 characters.
+        first_name: 最多20个字符.
+        last_name: 最多20个字符.
         email: Enter your real email so your team-mates can contact you.
         password: "Combining letters, numbers, uppercase and lowercase is a good idea."
     new:
       title: 创建新帐号
       submit: 创建帐号
-      you_are_logged_in: "You already have an account. Log out first to sign up as a different user."
-      existing_user: "If you already have an account, <a href='{{login_url}}'>log in</a> or <a href='{{forgot_url}}'>retrieve your password</a>."
+      you_are_logged_in: "您已经有一个帐号。请先注销，并使用另一个帐号登录。"
+      existing_user: "如果您已经有一个帐号，请<a href='{{login_url}}'>登录</a>或者<a href='{{forgot_url}}'>找回密码</a>。"
     create:
       thanks: 谢谢注册！
-      error: "We couldn't set up that account, sorry. Please try again, or contact an admin (link is above)."
+      error: "对不起，我们不能创建此帐号。请重新尝试，或者联系管理员（链接如下）。"
     edit:
       title_settings: 您的帐号设置
       title_profile: 您的个性设置
@@ -171,7 +171,7 @@ zh:
         facebook: Facebook
         in_your_site: in your site!
         tell_us: "If you enjoy using Teambox, also consider <a href='mailto:{{address}}'>telling us about it</a> in an email!"
-      stop_welcome: Stop showing this Welcome tab
+      stop_welcome: 不再显示此欢迎页签
     unconfirmed_email:
       title: 确认您的邮件
       invitation_sent_to: "An email invitation was sent to <i>{{email}}</i>, in order to verify your email address."
@@ -182,9 +182,9 @@ zh:
       wrong_address: "Wrong address? If you mistyped your email address, <a href='{{link}}'>cancel the signup process</a> and re-create your account with a valid address."
       problems: "If you're still having problems, please contact us at {{support}}"
     profile_completeness:
-      title: Profile Completion
-      complete_your_profile: Complete your profile so your team can keep in touch with your contact information!
-      completeness: "{{percentage}}% complete"
+      title: 完整的个人信息
+      complete_your_profile: 填写完整您的个人信息，有助于您的团队可以通过您的信息与您保持联系！
+      completeness: "完整程序：{{percentage}}%"
       to_get_to: to get to
     daily_task_reminder_email:
       daily_task_reminder: "Daily task reminder"
@@ -195,12 +195,12 @@ zh:
       tasks_for_next_two_weeks: "Tasks for next two weeks"
       tasks_without_a_due_date: "Tasks without a due date"
       you_receive_this_message: "You receive this message because you signed up for it. You can disable it on your {{link}}"
-      settings_page: "settings page"
+      settings_page: "设置页"
   projects:
     index:
       title: 我的所有项目动态
       projects: 我的项目
-      subscribe: 订阅动态
+      subscribe: 订阅动态反馈
       calendars: 所有项目日历
       new_project: 新增项目
       refreshes: 每分钟自动刷新
@@ -209,7 +209,7 @@ zh:
         description: 概览所有您的项目
       archived: "显示{{count}}个已存档项目..."
     primer:
-      empty: You don't own or belong to any projects yet.
+      empty: 您还不能拥有或属于任何项目。
       create_first: 创建您第一个项目!
       define1: "Use projects to <b>collaborate</b> with groups of people: A website, organizing a party, client work..."
       define2: "You can create <b>as many projects as you wish</b> to share with different users online."
@@ -223,52 +223,52 @@ zh:
       update_your_status: "更新您的状态..."
       text_styling: 文本样式
       invite_people: '邀请好友...'
-      new_task_list_link: New Task List
-      people_in_project: People in this project
-      subscribe: Subscribe to the news feed
-      tip: Mentioning somebody's @username they will receive an email with your message
-      calendar: Calendar for this project's tasks
+      new_task_list_link: 新建任务列表
+      people_in_project: 项目成员
+      subscribe: 订阅动态反馈
+      tip: 引用某人的 @username，某人将会收到一个包含您消息内容的email
+      calendar: 此项目任务的日历
       rss:
         title: "{{name}}"
-        description: "Recent activities for the project {{name}}"
+        description: "项目{{name}}的近期活动"
     fields:
-      archiving: "Archive this project"
-      forever: "删除 this project forever"
-      owner: "Owner"
-      owner_description: "The owner is the main responsible for a project. He cannot be removed from the project unless ownership is transferred to another user."
-      name: Name
+      archiving: "存档此项目"
+      forever: "永久删除此项目"
+      owner: "所有者"
+      owner_description: "所有者是一个项目的主要负责人，他不能被从此项目中移除，除非先行指定另一个所有者。"
+      name: 名称
       name_description: "Choose a brief and descriptive title. For example: Taggart Transcontinental"
       permalink: URL
       permalink_description: "This will be the web address for your project. Keep it as short as possible. No spaces allowed."
-      archived: Archive this Project
+      archived: 存档此项目
       confirm_delete: "Are you sure you'd want to delete this project forever? THERE IS NO WAY TO RECOVER IT. If you want to keep it, use Archive Project instead."
     new_primer:
-      define1: A project is a shared group with your teammates.
-      define2: "Inside a project, each team member can:"
-      feature1: Post status updates.
-      feature2: Start conversations or reply.
-      feature3: Send attachments.
-      feature4: Assign and review tasks.
-      feature5: Comment on tasks.
-      feature6: Track hours spent on each item.
-      feature7: "Create, edit and view pages."
-      footer: This project will belong to you. You can transfer this project to other contacts at any time.
-      limited: "As a free account, you can only upload up to 50 Mb of attachments to this project."
-      upgrade: Upgrade your account now!
+      define1: 项目是一个与您的团队成员共享的群。
+      define2: "在项目中，每个项目成员可以："
+      feature1: 发表状态更新
+      feature2: 开始话题或回复话题
+      feature3: 发送附件
+      feature4: 分配并解决任务
+      feature5: 评论任务
+      feature6: 跟踪花费在每件事上的时间
+      feature7: "创建，修改和查看页面"
+      footer: 此项目归你所有。你可以随时发送这个项目给其他人。
+      limited: "作为免费帐户，你最多只能上传50M的附件到这个项目。"
+      upgrade: 现在就升级您的帐号！
     new:
-      title: Create a Project
-      submit: Create project and start inviting people
-      new_project: New Project...
-      created: Your project has been created!
-      invalid_project: "Invalid project, correct errors and try again."
-      create_an_example_project: "First time in Teambox? <a href='{{link}}'>Create an example project</a> to play around and learn."
+      title: 创建项目
+      submit: 创建项目并开始邀请其他人
+      new_project: 新项目...
+      created: 您的项目已经创建成功！
+      invalid_project: "无效的项目，请修正错误并重试"
+      create_an_example_project: "第一次使用Teambox？可以先<a href='{{link}}'>创建一个样例项目</a>以尝试并熟悉Teambox。"
     edit:
-      title_settings: General Settings
-      title_picture: Project Logo
-      title_deletion: Archive/删除 Project
-      title_ownership: Ownership
-      submit: Save Changes
-      change_owner: Change owner
+      title_settings: 一般设置
+      title_picture: 项目Logo
+      title_deletion: 存档/删除项目
+      title_ownership: 所有者
+      submit: 保存修改
+      change_owner: 修改所有者
       transferred: "Project ownership has been transferred."
       invalid_transferred: "Project ownership could not be transferred, correct errors and try again."
   invitations:
@@ -288,20 +288,20 @@ zh:
       invited_to_join: "{{by}} has invited you to join the project {{project}}."
     resend:
       resent: "The invitation has been resent to {{recipient}}. If the email is not received make sure to check the spam folder."
-      return: Go back
+      return: 返回
     index_user:
-      title: Pending invitations
+      title: 待确认的邀请
       no_invitations: "You have no pending project invitations."
     search:
-      username_or_email: "Enter your teammate's username or email"
-      invite_people: Invite people to this project
-      invite: Invite
-      submit: Send
+      username_or_email: "请输入您的团队成员的用户名或email"
+      invite_people: 邀请其他人加入此项目
+      invite: 邀请
+      submit: 发布
     recent:
-      invite: Invite {{username}}
+      invite: 邀请 {{username}}
   conversations:
     actions:
-      confirm_delete: Are you sure you to delete this conversation?
+      confirm_delete: 您确信要删除此评论？
     link:
       edit: 编辑
     fields:
@@ -311,22 +311,22 @@ zh:
         name: "As short as possible, this will appear in notification email's subjects"
         body: "Ask a question, tell your team what's new, start a discussion"
     new:
-      title: 新的讨论
+      title: 新的话题
       submit: 创建
     watcher_fields:
       add_suscribers: Which people will be watching this conversation?
       subscribe_note: These people will be notified via email of this message and any following comments.<br/>They can unsubscribe at any moment.
-      invite_users: You are the only user in this project!
+      invite_users: 您是这个项目的唯一成员！
       no_users_yet: "Conversations are more useful when shared. <a href='{{invite_link}}'>Invite some users</a> to this project now so they can access this conversation, answer and receive updates."
-      people_all: "All people in project"
+      people_all: "所有项目成员"
     edit:
-      submit: '更新讨论'
+      submit: '更新话题'
     index:
       rss:
-        title: "讨论"
-        description: "{{name}}项目的讨论"
+        title: "话题"
+        description: "{{name}}项目的话题"
     primer:
-      empty: 当前项目还没有任何讨论。
+      empty: 当前项目还没有任何话题。
       create_first: Create the first conversation in this project!
       define: "Use conversations to <b>discuss decisions</b> and <b>update your team</b> in a centralized way.<br/>Each conversation is a thread of comments, which replace messy emails."
       item1: "<b>Share files</b>. Comments can have attached files, too."
@@ -336,8 +336,8 @@ zh:
       footer1: "Conversations are great to <b>share a design</b>, <b>decide a date</b> for meeting or <b>report</b> some news."
       footer2: "Since they're threaded, it's easy to go back in time and see which files were sent and what did each teammate said. In Teambox, <b>collaborating is also reporting</b>."
     column:
-      new_conversation: 新的讨论
-      subscribe: 订阅
+      new_conversation: 新的话题
+      subscribe: 订阅动态反馈
     conversation_with_extract:
       posted_by: Posted by
     show:
@@ -442,7 +442,7 @@ zh:
       new_upload: 上传
       new_task_list: 任务列表
     new:
-      title: New Page
+      title: 新增页面
       define1: "Here you can <b>share useful information</b> for your team: A roadmap, interesting links, instructions, email templates..."
       define2: "Editing a page is easy and fun, with drag-and-drop elements you can edit in place."
       feature1: "<b>Share</b>. All your teammates can view and edit the project's pages."
@@ -461,33 +461,33 @@ zh:
       description: 说明
       description_description: "Optional. Enter any information that people reading or editing this page should know."
     slots:
-      insert_here: Insert Here
+      insert_here: 插入在这里
     column:
-      new_page: New Page
+      new_page: 新增页面
   task_lists:
     errors:
       name:
-        cant_be_blank: Name must not be blank
-        too_long: 'Name is must be shorter than 255 characters'
+        cant_be_blank: 名称不能为空
+        too_long: '名称不能超过255个字符'
     archived:
-      title: All Archived Tasks
-      description: You're currently looking at archived tasks. These are tasks that have been closed.
+      title: 所有已存档的任务
+      description: 您正在查看已存档的任务，这些任务已经被关闭。
     fields:
-      task_list: A task lists defines a milestone for your project. Inside a task list you can create Tasks and assign them to people.
-      name: Task List name
-      start_on: Starts on... <i>optional</i>
-      finish_on: End on... <i>optional</i>
+      task_list: 任务列表为您的项目定义一个里程碑。在任务列表中，您可以创建任务并分配任务给项目成员。
+      name: 任务列表名称
+      start_on: 开始于... <i>可选</i>
+      finish_on: 结束于... <i>可选</i>
     link:
-      new: New Task List
+      new: 创建任务列表
       edit: 编辑
-      reorder: Reorder
+      reorder: 重新排序
     index:
-      add_link: New Task List
-      empty: No tasks in this category!
-      tasks_for_all_projects: Tasks across all projects
+      add_link: 创建任务列表
+      empty: 此目录中没有任务！
+      tasks_for_all_projects: 所有项目的任务
     primer:
-      empty: This project doesn't have any conversations yet.
-      create_first: Create the first task list in this project!
+      empty: 这个项目还没有任何话题。
+      create_first: 在这个项目中创建第一个任务列表！
       define: "Use tasks to <b>plan ahead</b>, <b>keep track of progress</b> and <b>review what's been done</b>.<br/><i>What? Who? When?</i> Tasks can have a status, an assigned person and due dates."
       item1: "<b>Plan</b>. Create tasks inside each list and assign them to your teammates."
       item2: "<b>Report</b>. Post comments for each task. Attach files. Ask for feedback."
@@ -496,98 +496,98 @@ zh:
       footer1: "Tasks are a simple and agile way to <b>get things done</b> and let others now."
       footer2: "It's time to forget about excel planning sheets and complex GANTT charts!"
     new:
-      title: New Task List
-      submit: Add Task List
-      submit: Add Task List
+      title: 创建任务列表
+      submit: 创建任务列表
+      submit: 创建任务列表
     edit:
-      submit: Update Task List
+      submit: 更新任务列表
     column:
-      new_task_list: New Task List
-      subscribe: Subscribe to the news feed
+      new_task_list: 创建任务列表
+      subscribe: 订阅动态反馈
     show:
-      title: "Task List: {{name}}"
+      title: "任务列表: {{name}}"
     destroy_message:
-      deleted: "The Task List <b>{{name}}</b> was successfully deleted!"
+      deleted: "任务列表<b>{{name}}</b>已经被成功删除！"
   people:
     link:
       edit: 编辑
     edit:
-      submit: Update Person
+      submit: 更新人员
     fields:
-      role: Role
-      observer: Observer
-      commenter: Commenter
-      participant: Participant
-      admin: Admin
+      role: 角色
+      observer: 观察者
+      commenter: 评论者
+      participant: 参与者
+      admin: 管理员
     header:
-      owner: Project Owner
-      observer: Observer
-      commenter: Commenter
-      participant: Participant
-      admin: Admin
-      remove: Remove
-      transfer: Transfer Ownership
-      leave_project: Leave Project
-      confirm_delete: Are you sure you want to remove this person from the project?
+      owner: 项目所有者
+      observer: 观察者
+      commenter: 评论者
+      participant: 参与者
+      admin: 管理员
+      remove: 移除
+      transfer: 改变所有者
+      leave_project: 离开项目
+      confirm_delete: 您确信要把此人从项目中移除？
   comments:
     comment:
       commented_on: "-"
       commented_on_a_task_list: "-"
-      confirm_delete: Are you sure you want to delete this comment?
+      confirm_delete: 您砍要删除这条评论？
     new:
-      assigned_to_nobody: 'Unassigned'
-      assigned_to: "Assigned to:"
-      submit: Comment
-      project: "What are you doing? Share ideas, links, updates."
-      conversation: "Send a message to the rest of the group."
-      task_list: "Share ideas for this task list. To create and assign tasks, use the sidebar."
-      task: "Define what needs to be done by commenting. Assign this task to somebody. Post updates. Attach results."
+      assigned_to_nobody: '未分配'
+      assigned_to: "分配给:"
+      submit: 评论
+      project: "您在做什么？分享想法，链接，更新。"
+      conversation: "发送消息给群里其他成员。"
+      task_list: "分享这个任务列表的想法。需要创建和分配任务，请使用侧务条。"
+      task: "通过注释定义需要做什么，分配此任务给某人，发布更新，附加结果。"
     edit:
-      submit: Save
+      submit: 保存
   example_projects:
     new:
-      learn: Learn by example!
+      learn: 通过例子学习！
       line1: "If it's your first time using Teambox, you can create an example project with some contents."
       line2: "Navigating through the pages will teach you how to use each part of Teambox."
       line3: "Make sure you <b>read the instructions</b> and <b>experiment</b> creating, editing and deleting elements!"
-      create: Create an example project
+      create: 创建一个样例项目
       line4: "In this project you won't be able to invite other users, but you can do all the rest."
   uploads:
-    comment_upload_link: Attachment
+    comment_upload_link: 附件
     new:
-      select_a_file: Select a file
+      select_a_file: 选择文件
     index:
-      new_file: Upload a File
-      max_upload_size: "Max upload size is {{mb}} Mb"
+      new_file: 上传文件
+      max_upload_size: "最大上传文件大小是{{mb}}Mb"
     form:
-      presence: "You can't upload a blank file"
-      max_size: "File size can't exceed {{mb}}"
-      select_file: Select file
-      description: Title <i>(optional)</i>
-      upload: Upload file
+      presence: "您不能上传空文件"
+      max_size: "文件大小不能超过{{mb}}"
+      select_file: 选择文件
+      description: 标题 <i>(可选)</i>
+      upload: 上传文件
     primer:
-      empty: This project doesn't have any files yet.
-      create_first: Upload the first file to this project!
+      empty: 这个项目还没有任何文件。
+      create_first: 在这个项目中上传第一个文件！
       define1: "Ever had problems sharing a file with your team? Teambox makes sharing easy again."
       define2: "You can upload files here or attach documents to conversations, tasks or pages. "
       item1: "<b>Bigger files</b>. Upload files of any size and forget about email limitations."
       item2: "<b>Versioning</b>. Upload new versions of a file and keep track of changes."
       item3: "<b>Always available</b>. Files stay in context in the project for future reference."
     upload:
-      uploaded_the_file: "uploaded the file"
-      download: Download
-      uploaded_by: Uploaded by
+      uploaded_the_file: "已上传文件"
+      download: 下载
+      uploaded_by: "上传者:"
       remove: 删除
       on_: "打开"
   sessions:
     fields:
-      username_or_email: Email or Username
-      password: Password
-      forgot: Forgot your password?
-      signup: Sign up for an account
+      username_or_email: Email或用户名
+      password: 密码
+      forgot: 忘记密码？
+      signup: 注册新帐号
     new:
       title: 登录
-      video: What's Teambox about?
+      video: 什么是Teambox?
       submit: 登录
 
   email:
@@ -596,46 +596,46 @@ zh:
 
   shared:
     strip:
-      archived: "This project is archived. To edit or comment on this project you must unarchive it on the <a href='{{link}}'>Project Settings page</a>" ####
+      archived: "此项目已经存档。要修改或评论此项目，你必须首先通过<a href='{{link}}'>项目设置页面</a>取消归档这个项目" ####
     gantt_banner_primer:
-      title: There are no task lists due to show on the gantt chart
+      title: 在甘特图中没有需要显示的任务列表
     upcoming_events_primer:
-      title: There are no tasks due to show on the calendar
+      title: 在日历中没有需要显示的任务
     projects:
-      projects: Projects
+      projects: 项目
     archived_projects:
-      archived_projects: Archived Projects
+      archived_projects: 已存档的项目
     navigation:
-      welcome: Welcome
-      all_projects: 'All Projects'
+      welcome: 欢迎
+      all_projects: '全部项目'
       new_project: +
     project_settings_navigation:
-      general: General Settings
-      picture: Project Picture
-      deletion: Project Archiving/Deletion
-      ownership: Ownership
+      general: 一般设置
+      picture: 项目图版
+      deletion: 项目存档/回收站
+      ownership: 所有者
     project_navigation:
-      overview: Overview
-      all_conversations: All Conversations
-      conversations: Conversations
-      task_lists: Task Lists
-      all_task_lists: All Tasks
-      project_settings: Project Settings
-      all_pages: All Pages
-      people: People
-      pages: Pages
-      time_tracking: Time Tracking
+      overview: 概述
+      all_conversations: 所有话题
+      conversations: 话题
+      task_lists: 任务列表
+      all_task_lists: 所有任务
+      project_settings: 项目设置
+      all_pages: 所有页面
+      people: 成员
+      pages: 页面
+      time_tracking: 时间跟踪
       login: 登录
-      signup: Signup
-      files: Files
-      invitations: Invitations
+      signup: 注册
+      files: 文件
+      invitations: 邀请
     global_navigation:
-      project_invitations: Project Invitations
-      home: Home
-      logout: Logout
+      project_invitations: 项目邀请
+      home: 主页
+      logout: 注销
       login: 登录
-      project_invitations: "Invitations ({{count}})"
-      settings: Settings
+      project_invitations: "邀请数 ({{count}})"
+      settings: 设置
     public_navigation:
       home: Teambox
       tour: 教程
@@ -646,36 +646,36 @@ zh:
       privacy: Privacy
       terms: Terms of use
     user_navigation:
-      account_settings: Account Settings
-      profile_information: Profile Information
-      profile_picture: Profile Picture
-      notifications: Notifications
+      account_settings: 帐号设置
+      profile_information: 个人信息
+      profile_picture: 个性图片
+      notifications: 提醒
     task_navigation:
-      all_tasks: "All Tasks"
-      unarchived_tasks: "Unarchived Tasks"
+      all_tasks: "全部任务"
+      unarchived_tasks: "未存档的任务"
       my_tasks:
-        one: "My 1 Task"
-        other: "My {{count}} Tasks"
-      everybodys_tasks: "Everybody's Tasks"
+        one: "我的1个任务"
+        other: "我的{{count}}个任务"
+      everybodys_tasks: "所有人的任务"
       show_archived_tasks:
         one: "Show 1 Archived Task"
         other: "Show {{count}} Archived Tasks"
       hide_archived_tasks: "Hide Archived Tasks"
     footer:
-      support: Feedback and bugs
-      mobile: Mobile version
-      help: Help
+      support: 反馈和缺陷
+      mobile: 移动版
+      help: 帮助
     watchers:
-      unwatch: Unwatch
-      watch: Watch
-      people_watching: "People watching: "
-      nobody_watching: "Nobody is watching"
-      started_watching: "You will now be notified by email of updates."
-      stopped_watching: "You will no longer receive notifications for this item."
+      unwatch: 取消关注
+      watch: 关注
+      people_watching: "关注中的人: "
+      nobody_watching: "没有人在关注"
+      started_watching: "在发生变更时您将收到email提醒。"
+      stopped_watching: "您将不再收到此记录的提醒。"
     upgrade_browser:
-      upgrade: You're using an outdated version of Internet Explorer. Teambox may not work properly under this version.
-      ie: Upgrade to Internet Explorer
-      or_install: or install
+      upgrade: 您正在使用一个过于陈旧版本的Internet Explorer，Teambox可能不能正常工作。
+      ie: 升级Internet Explorer
+      or_install: 或者安装
       chrome: "Chrome,"
       firefox: "Firefox"
       safari: "Safari"
@@ -708,25 +708,25 @@ zh:
       report_abuse: "You receive this message because you signed up for a Teambox account with {{email}}"
       problems: "If you have any problems, please contact us at {{support}}"
     notify:
-      project: "Teambox Project:"
+      project: "Teambox项目:"
       view_online: "You can <a href='{{link}}'>view this conversation online</a> to answer and attach files."
       reply: "You can also answer to this email to post a reply in the conversation."
       are_watching: " are suscribed to this conversation, and will be notified of future replies."
       stop_watching: "<a href='{{stop_watching_url}}'>Stop watching</a> this thread to stop receiving email notifications."
       notification_settings: "You can change your <a href='{{url}}'>notification settings</a> for further emails."
       comment: "Comment on project's wall: "
-      conversation: "Conversation:"
-      task: "Task:"
-      task_list: "Task List:"
-      recent_conversations: "Recent conversations for {{project}}"
-      comments: "{{number}} comments"
-      assigned_to: "Assigned to <b>{{user}}</b>"
-      due_on: "Due on {{date}}"
-      status: "Status: {{status}}"
-      my_tasks: "More tasks assigned to you in {{project}}"
+      conversation: "话题:"
+      task: "任务:"
+      task_list: "任务列表:"
+      recent_conversations: "{{project}}的近期话题"
+      comments: "{{number}}评论"
+      assigned_to: "分配给<b>{{user}}</b>"
+      due_on: "截止日期：{{date}}"
+      status: "状态: {{status}}"
+      my_tasks: "分配给您的更多{{project}}中的任务"
     upload:
-      file: "File:"
-      uploaded_by: uploaded by
+      file: "文件:"
+      uploaded_by: 上传者：
 
   weakling:
     default: 必须至少5个字符
@@ -752,7 +752,7 @@ zh:
   page_title:
     show_projects: 概述
     index_task_lists: 所有任务列表
-    index_conversations: 所有讨论
+    index_conversations: 所有话题
     index_pages: 所有页面
     index_uploads: 所有文件
     create_uploads: 文件上传
@@ -767,7 +767,7 @@ zh:
     new_projects: 新增项目
     archived_task_lists: 存档任务
     new_example_projects: 创建样例项目
-    new_conversations: 新增讨论
+    new_conversations: 新增话题
 
   number:
     # Used in number_with_delimiter()
@@ -829,39 +829,39 @@ zh:
 
   # Used in distance_of_time_in_words(), distance_of_time_in_words_to_now(), time_ago_in_words()
   datetime:
-    time_ago: "{{time_ago_in_words}} ago"
+    time_ago: "{{time_ago_in_words}}以前"
     distance_in_words:
-      half_a_minute: "half a minute"
+      half_a_minute: "半分钟"
       less_than_x_seconds:
-        one:   "less than 1 second"
-        other: "less than {{count}} seconds"
+        one:   "少于1秒"
+        other: "少于{{count}}秒"
       x_seconds:
-        one:   "1 second"
-        other: "{{count}} seconds"
+        one:   "1秒"
+        other: "{{count}}秒"
       less_than_x_minutes:
-        one:   "less than a minute"
-        other: "less than {{count}} minutes"
+        one:   "少于1分钟"
+        other: "少于{{count}}分钟"
       x_minutes:
-        one:   "1 minute"
-        other: "{{count}} minutes"
+        one:   "1分钟"
+        other: "{{count}}分钟"
       about_x_hours:
-        one:   "about 1 hour"
-        other: "about {{count}} hours"
+        one:   "大约1小时"
+        other: "大约{{count}}小时"
       x_days:
-        one:   "1 day"
-        other: "{{count}} days"
+        one:   "1天"
+        other: "{{count}}天"
       about_x_months:
-        one:   "about 1 month"
-        other: "about {{count}} months"
+        one:   "大约1个月"
+        other: "大约{{count}}个月"
       x_months:
-        one:   "1 month"
-        other: "{{count}} months"
+        one:   "1个月"
+        other: "{{count}}个月"
       about_x_years:
-        one:   "about 1 year"
-        other: "about {{count}} years"
+        one:   "大约1年"
+        other: "大约{{count}}年"
       over_x_years:
-        one:   "over 1 year"
-        other: "over {{count}} years"
+        one:   "超过1年"
+        other: "超过{{count}}年"
     prompts:
       year:   "年"
       month:  "月"
@@ -883,7 +883,7 @@ zh:
       task_list: 任务列表
       task: 任务
       comment: 评论
-      conversation: 讨论
+      conversation: 话题
       page: 页面
       divider: Divider
       note: 备注
@@ -977,22 +977,22 @@ zh:
     yesterday: 昨天
     formats:
       default: "%Y-%m-%d"
-      short: "%b %d"
-      long: "%B %d, %Y"
+      short: "%m-%d"
+      long: "%Y-%m-%d"
     order: [ :day, :month, :year ]
 
     day_names: [周日, 周一, 周二, 周三, 周四, 周五, 周六]
     abbr_day_names: [日, 一, 二, 三, 四, 五, 六]
 
-    month_names: [~, January, February, March, April, May, June, July, August, September, October, November, December]
-    abbr_month_names: [~, Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec]
+    month_names: [~, 一月, 二月, 三月, 四月, 五月, 六月, 七月, 八月, 九月, 十月, 十一月, 十二月]
+    abbr_month_names: [~, 一, 二, 三, 四, 五, 六, 七, 八, 九, 十, 十一, 十二]
     order: [ :year, :month, :day ]
 
   time:
     formats:
-      default: "%a, %d %b %Y %H:%M:%S %z"
-      short: "%d %b %H:%M"
-      long: "%B %d, %Y %H:%M"
+      default: "%A, %Y-%m-%d %H:%M:%S %z"
+      short: "%m-%d %H:%M"
+      long: "%Y-%m-%d %H:%M"
     am: "上午"
     pm: "下午"
 
