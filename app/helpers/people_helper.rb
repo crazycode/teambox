@@ -55,7 +55,7 @@ module PeopleHelper
   def people_form_for(project,person,&proc)
     raise ArgumentError, "Missing block" unless block_given?
     action = person.new_record? ? 'new' : 'edit'
-      
+    
     remote_form_for([project,person],
       :loading => person_form_loading(action,project,person),
       :html => {
@@ -91,6 +91,14 @@ module PeopleHelper
   
   def person_role(project,person)
     person.owner? ? t('.owner') : t(".#{person.role_name}")
+  end
+  
+  def people_role_options
+    Person::ROLES.map {|k,v| [ t("people.fields.#{k}"), v ] }.sort{|a,b| a[1] <=> b[1]}
+  end
+  
+  def person_project_select_options(project)
+    {:id => 'people_project_select', :people_url => project_contacts_path(project)}
   end
   
   def delete_person_link(project,person)

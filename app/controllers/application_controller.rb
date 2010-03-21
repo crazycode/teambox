@@ -35,7 +35,7 @@ class ApplicationController < ActionController::Base
     
     def confirmed_user?
       if current_user and not current_user.is_active?
-        flash[:error] = "You need to activate your account first"
+        flash[:error] = t('sessions.new.activation')
         redirect_to unconfirmed_email_user_path(current_user)
       end
     end
@@ -50,8 +50,27 @@ class ApplicationController < ActionController::Base
     def belongs_to_project?
       if @current_project && current_user
         unless Person.exists?(:project_id => @current_project.id, :user_id => current_user.id)
-          current_user.remove_recent_project(@current_project)
-          render :text => "You don't have permission to view this project", :status => :forbidden
+          if Invitation.exists?(:project_id => @current_project.id, :invited_user_id => current_user.id)
+            redirect_to project_invitations_path(@current_project)
+          else 
+            current_user.remove_recent_project(@current_project)
+            render :text => "You don't have permission to view this project", :status => :forbidden
+          end
+        end
+      end
+    end
+    
+    def load_group
+      group_id ||= params[:group_id]
+      
+      if group_id
+        @current_group = Group.find_by_permalink(group_id)
+        
+        if @current_group
+          # ...
+        else
+          flash[:error] = t('not_found.group', :id => h(group_id))
+          redirect_to groups_path, :status => 301
         end
       end
     end
@@ -68,7 +87,7 @@ class ApplicationController < ActionController::Base
             current_user.add_recent_project(@current_project)
           end
         else        
-          flash[:error] = "The project <i>#{h(project_id)}</i> doesn't exist."
+          flash[:error] = t('not_found.project', :id => h(project_id))
           redirect_to projects_path, :status => 301
         end
       end
@@ -220,6 +239,10 @@ class ApplicationController < ActionController::Base
     
     def signups_enabled?
       APP_CONFIG['allow_signups'] || User.count == 0
+    end
+    
+    def groups_enabled?
+      APP_CONFIG['allow_groups'] || false
     end
 
 end

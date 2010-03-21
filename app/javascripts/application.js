@@ -1,4 +1,4 @@
-//= require <prototype>
+  //= require <prototype>
 //= require <builder>
 //= require <effects>
 //= require <controls>
@@ -148,7 +148,7 @@ Element.addMethods({
     var currentText = element.innerHTML;
     var nextIndex = (texts.indexOf(currentText) + 1) % texts.length;
     return texts[nextIndex];
-  },
+  }
 });
 
 Ajax.PeriodicalFormUpdater = Class.create(Ajax.PeriodicalUpdater, {
@@ -166,6 +166,20 @@ Ajax.PeriodicalFormUpdater = Class.create(Ajax.PeriodicalUpdater, {
 Project = {
   valid_url: function(){
     var title = $F('project_permalink');
+    var class_name = '';
+    if(title.match(/^[a-z0-9_\-\.]{5,}$/))
+      class_name = 'good'
+    else
+      class_name = 'bad'
+
+    $('handle').className = class_name;
+    Element.update('handle',title)
+  }
+}
+
+Group = {
+  valid_url: function(){
+    var title = $F('group_permalink');
     var class_name = '';
     if(title.match(/^[a-z0-9_\-\.]{5,}$/))
       class_name = 'good'

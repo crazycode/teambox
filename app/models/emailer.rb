@@ -33,12 +33,27 @@ class Emailer < ActionMailer::Base
     subject       "#{invitation.user.name} shared [#{invitation.project.name}] with you"
     body          :referral => invitation.user, :project => invitation.project, :invitation => invitation
   end
+  
+  def group_invitation(invitation)
+    defaults
+    recipients    invitation.email
+    from          invitation.user.email
+    subject       "#{invitation.user.name} shared [#{invitation.group.name}] with you"
+    body          :referral => invitation.user, :group => invitation.group, :invitation => invitation
+  end
 
   def signup_invitation(invitation)
     defaults
     recipients    invitation.email
     subject       "#{invitation.user.name} shared [#{invitation.project.name}] with you"
     body          :referral => invitation.user, :project => invitation.project, :invitation => invitation
+  end
+
+  def signup_group_invitation(invitation)
+    defaults
+    recipients    invitation.email
+    subject       "#{invitation.user.name} shared [#{invitation.group.name}] with you"
+    body          :referral => invitation.user, :group => invitation.group, :invitation => invitation
   end
 
   def notify_comment(user, project, comment)
@@ -55,7 +70,7 @@ class Emailer < ActionMailer::Base
   def notify_conversation(user, project, conversation)
     defaults
     recipients    user.email
-    from          conversation.comments.last.user.email
+    from          conversation.comments.first.user.email
     if APP_CONFIG['allow_incoming_email']
       reply_to      from_address("#{project.permalink}+conversation+#{conversation.id}")
     end
@@ -66,7 +81,7 @@ class Emailer < ActionMailer::Base
   def notify_task(user, project, task)
     defaults
     recipients    user.email
-    from          task.comments.last.user.email
+    from          task.comments.first.user.email
     if APP_CONFIG['allow_incoming_email']
       reply_to      from_address("#{project.permalink}+task+#{task.id}")
     end
@@ -77,7 +92,7 @@ class Emailer < ActionMailer::Base
   def notify_task_list(user, project, task_list)
     defaults
     recipients    user.email
-    from          task_list.comments.last.user.email
+    from          task_list.comments.first.user.email
     if APP_CONFIG['allow_incoming_email']
       reply_to      from_address("#{project.permalink}+task_list+#{task_list.id}")
     end
@@ -103,7 +118,11 @@ class Emailer < ActionMailer::Base
   private
 
     def from_address(recipient = "no-reply", name = "Teambox")
-      "#{name} <#{recipient}@#{APP_CONFIG['outgoing']['from']}>"
+      if APP_CONFIG['outgoing']['safe_from']
+        "#{recipient}@#{APP_CONFIG['outgoing']['from']}"
+      else
+        "#{name} <#{recipient}@#{APP_CONFIG['outgoing']['from']}>"
+      end
     end
 
     def defaults

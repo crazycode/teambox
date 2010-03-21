@@ -15,12 +15,50 @@ class Comment < ActiveRecord::Base
   named_scope :with_hours, :conditions => 'hours > 0'
 
   attr_accessible :status, :previous_status, :assigned, :previous_assigned
+  validate :check_body
 
   attr_accessor :mentioned # used by format_usernames to set who's being mentioned
   attr_accessor :activity
   
+  def check_body
+    if body and body.strip.empty?
+      if target.is_a? Task
+        @errors.add :body, :no_body_task
+      else
+        @errors.add :body, :no_body_generic
+      end
+    end
+  end
+  
   def user
     User.find_with_deleted(user_id)
+  end
+  
+  def can_edit?(current_user)
+    # Only the owner can edit their comment
+    if self.user_id != current_user.id
+      return false
+    end
+    
+    # We can only edit / delete up to 15 minutes after creation
+    if Time.now < (self.created_at + 15.minutes)
+      true
+    else
+      false
+    end
+  end
+  
+  def can_destroy?(current_user)
+    if self.user_id != current_user.id
+      return false unless self.project.admin?(current_user)
+    end
+    
+    # 15 minutes restriction
+    if Time.now < (self.created_at + 15.minutes)
+      true
+    else
+      false
+    end
   end
   
   def to_s
@@ -36,9 +74,11 @@ class Comment < ActiveRecord::Base
       xml.tag! 'body-html', body_html
       xml.tag! 'created-at', created_at.to_s(:db)
       xml.tag! 'user-id', user_id
-      xml.tag! 'project-id', project_id
-      xml.tag! 'target-id', target.id
-      xml.tag! 'target-type', target.class
+      unless Array(options[:include]).include? :comments
+        xml.tag! 'project-id', project_id
+        xml.tag! 'target-id', target.id
+        xml.tag! 'target-type', target.class
+      end
       if target.is_a? Task
         xml.tag! 'assigned-id', assigned_id
         xml.tag! 'previous-assigned-id', previous_assigned_id
@@ -48,7 +88,7 @@ class Comment < ActiveRecord::Base
       if uploads.any?
         xml.files :count => uploads.size do
           for upload in uploads
-            upload.to_xml(options.merge({ :skip_instruct => true, :root => :files }))
+            upload.to_xml(options.merge({ :skip_instruct => true }))
           end
         end
       end

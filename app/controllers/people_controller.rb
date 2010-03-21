@@ -5,10 +5,6 @@ class PeopleController < ApplicationController
   def index
     @people = @current_project.people
     @invitations = @current_project.invitations
-    @contacts = @current_user.contacts_not_in_project(@current_project)
-    
-    invited_user_ids = @invitations.collect { |i| i.invited_user_id }
-    @contacts.reject! { |c| invited_user_ids.include?(c.id) }
   end
   
   def create
@@ -20,7 +16,7 @@ class PeopleController < ApplicationController
 
       redirect_to project_people_path
     else
-      flash[:error] = "User not found. Enter his username or email."
+      flash[:error] = t('people.errors.user_or_email')
       redirect_to project_people_path
     end
   end
@@ -47,8 +43,31 @@ class PeopleController < ApplicationController
         f.js
       end
     else
-      flash[:error] = "You are not allowed to do that!"
+      flash[:error] = t('common.not_allowed')
       redirect_to project_people_path(@current_project)
+    end
+  end
+  
+  def contacts
+    begin
+      @other_project = Project.find_by_id(params[:pid])
+    rescue
+      @other_project = nil
+    end
+    
+    if current_user.in_project(@other_project)
+      # Strip invited people
+      if @other_project
+        invited_ids = @current_project.invitations.find(:all, :select => 'invited_user_id').map(&:invited_user_id).compact
+        conds = invited_ids.empty? ? [] : ['users.id NOT IN (?)', invited_ids]
+        @contacts = @other_project.users.find(:all, :conditions => conds) - @current_project.users
+      end
+    end
+    
+    @contacts ||= []
+    
+    respond_to do |f|
+      f.js {}
     end
   end
   

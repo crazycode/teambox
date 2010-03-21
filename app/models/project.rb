@@ -13,7 +13,7 @@ class Project < ActiveRecord::Base
                  :archival,
                  :permalink
 
-  attr_accessible :name, :permalink, :archived
+  attr_accessible :name, :permalink, :archived, :group_id
 
   def log_activity(target, action, creator_id=nil)
     creator_id ||= target.user_id
@@ -31,6 +31,10 @@ class Project < ActiveRecord::Base
       person.destroy
     end
   end
+  
+  def has_member?(user)
+    Person.exists?(:project_id => self.id, :user_id => user.id)
+  end
 
   def task_lists_assigned_to(user)
     task_lists.unarchived.inject([]) do |t, task_list|
@@ -42,7 +46,7 @@ class Project < ActiveRecord::Base
 
   def notify_new_comment(comment)
     users.each do |user|
-      if user != comment.user and user.notify_mentions and " #{comment.body} ".match(/\s@#{user.login}\W/i)
+      if user.notify_of_project_comment?(comment)
         Emailer.send_with_language(:notify_comment, user.language, user, self, comment) # deliver_notify_comment
       end
     end
@@ -100,29 +104,35 @@ class Project < ActiveRecord::Base
   end
 
   def to_ical
-    ical = Icalendar::Calendar.new
-    ical.product_id = "-//Teambox//iCal 2.0//EN"
-    ical.custom_property("X-WR-CALNAME;VALUE=TEXT", "Teambox - All Projects")
-    ical.custom_property("METHOD","PUBLISH")
-    tasks.each do |task|
-      if event = task.to_ical_event
-        ical.add_event(event)
-      end
-    end
-    ical.to_ical
+    Project.calendar_for_tasks(tasks)
   end
 
   def self.to_ical(projects)
-    ical = Icalendar::Calendar.new
-    ical.product_id = "-//Teambox//iCal 2.0//EN"
-    ical.custom_property("X-WR-CALNAME;VALUE=TEXT", "Teambox - All Projects")
-    ical.custom_property("METHOD","PUBLISH")
-    projects.collect { |p| p.tasks }.flatten.each do |task|
-      if event = task.to_ical_event
-        ical.add_event(event)
-      end
-    end
-    ical.to_ical
+    tasks = projects.collect{ |p| p.tasks }.flatten
+    self.calendar_for_tasks(tasks)
   end
+  
+  protected
+
+    def self.calendar_for_tasks(tasks)
+      ical = Icalendar::Calendar.new
+      ical.product_id = "-//Teambox//iCal 2.0//EN"
+      ical.custom_property("X-WR-CALNAME;VALUE=TEXT", "Teambox - All Projects")
+      ical.custom_property("METHOD","PUBLISH")
+      tasks.each do |task|
+        next unless task.due_on
+        date = task.due_on.to_date
+        ical.event do
+          dtstart       Date.new(date.year, date.month, date.day)
+          dtend         Date.new(date.year, date.month, date.day) + 1.day
+          summary       task.name
+          klass         task.project.name
+          dtstamp       task.created_at
+          #url           project_task_list_task_url(task.project, task.task_list, task)
+          uid           "task-#{id}"
+        end
+      end
+      ical.to_ical
+    end
 
 end

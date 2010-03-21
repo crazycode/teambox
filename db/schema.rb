@@ -82,7 +82,7 @@ ActiveRecord::Schema.define(:version => 20100125103357) do
     t.integer  "user_id"
     t.string   "name"
     t.integer  "last_comment_id"
-    t.integer  "comments_count",  :default => 0
+    t.integer  "comments_count", :default => 0, :null => false
     t.text     "watchers_ids"
     t.datetime "deleted_at"
     t.datetime "created_at"
@@ -126,6 +126,8 @@ ActiveRecord::Schema.define(:version => 20100125103357) do
   create_table "invitations", :force => true do |t|
     t.integer  "user_id"
     t.integer  "project_id"
+    t.integer  "role",           :default => 2
+    t.integer  "group_id"
     t.string   "email"
     t.integer  "invited_user_id"
     t.string   "token"
@@ -191,11 +193,12 @@ ActiveRecord::Schema.define(:version => 20100125103357) do
   end
 
   create_table "projects", :force => true do |t|
+    t.integer  "group_id", :default => nil
     t.integer  "user_id"
     t.string   "name"
     t.string   "permalink"
     t.integer  "last_comment_id"
-    t.integer  "comments_count",  :default => 0
+    t.integer  "comments_count",  :default => 0, :null => false
     t.boolean  "archived",        :default => false
     t.datetime "deleted_at"
     t.datetime "created_at"
@@ -237,12 +240,12 @@ ActiveRecord::Schema.define(:version => 20100125103357) do
     t.string   "name"
     t.integer  "position"
     t.integer  "last_comment_id"
-    t.integer  "comments_count",       :default => 0
+    t.integer  "comments_count",       :default => 0, :null => false
     t.text     "watchers_ids"
     t.boolean  "archived",             :default => false
     t.datetime "deleted_at"
-    t.integer  "archived_tasks_count", :default => 0
-    t.integer  "tasks_count",          :default => 0
+    t.integer  "archived_tasks_count", :default => 0, :null => false
+    t.integer  "tasks_count",          :default => 0, :null => false
     t.datetime "completed_at"
     t.date     "start_on"
     t.date     "finish_on"
@@ -260,7 +263,7 @@ ActiveRecord::Schema.define(:version => 20100125103357) do
     t.integer  "user_id"
     t.string   "name"
     t.integer  "position"
-    t.integer  "comments_count",  :default => 0
+    t.integer  "comments_count",  :default => 0, :null => false
     t.integer  "last_comment_id"
     t.text     "watchers_ids"
     t.integer  "assigned_id"
@@ -307,7 +310,7 @@ ActiveRecord::Schema.define(:version => 20100125103357) do
     t.string   "language",                                   :default => "en"
     t.boolean  "conversations_first_comment",                :default => true
     t.string   "first_day_of_week",                          :default => "sunday"
-    t.integer  "invitations_count",                          :default => 0
+    t.integer  "invitations_count",                          :default => 0,   :null => false
     t.float    "profile_score",                              :default => 0.0
     t.float    "profile_percent",                            :default => 0.0
     t.string   "profile_grade"
@@ -319,7 +322,7 @@ ActiveRecord::Schema.define(:version => 20100125103357) do
     t.datetime "deleted_at"
     t.string   "rss_token",                   :limit => 40
     t.boolean  "admin",                                      :default => false
-    t.integer  "comments_count",                             :default => 0
+    t.integer  "comments_count",                             :default => 0,     :null => false
     t.boolean  "notify_mentions",                            :default => true
     t.boolean  "notify_conversations",                       :default => true
     t.boolean  "notify_task_lists",                          :default => true
@@ -328,11 +331,13 @@ ActiveRecord::Schema.define(:version => 20100125103357) do
     t.string   "avatar_content_type"
     t.integer  "avatar_file_size"
     t.integer  "invited_by_id"
-    t.integer  "invited_count",                              :default => 0
+    t.integer  "invited_count",                              :default => 0,     :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "wants_task_reminder",                        :default => true
     t.text     "recent_projects_ids"
+    t.string   "feature_level",                              :default => ""
+    t.string   "spreedly_token",                             :default => ""
   end
 
   add_index "users", ["deleted_at"], :name => "index_users_on_deleted_at"
@@ -342,6 +347,28 @@ ActiveRecord::Schema.define(:version => 20100125103357) do
     t.integer "card_id"
     t.string  "name"
     t.integer "account_type", :default => 0
+  end
+  
+  create_table "groups", :force => true do |t|
+    t.string   "name",                      :limit => 40
+    t.text     "description"
+    t.string   "permalink",                 :limit => 40
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.datetime "deleted_at"
+    t.string   "logo_file_name"
+    t.string   "logo_content_type"
+    t.integer  "logo_file_size"
+  end
+  
+  create_table "groups_users", :id => false, :force => true do |t|
+    t.integer "group_id"
+    t.integer "user_id"
+  end
+  
+  create_table "schema_migrations", :force => true do |t|
+    t.string  "version"
   end
 
 end
