@@ -327,7 +327,7 @@ zh:
         description: "{{name}}项目的话题"
     primer:
       empty: 当前项目还没有任何话题。
-      create_first: Create the first conversation in this project!
+      create_first: 在这个项目中创建第一个话题！
       define: "Use conversations to <b>discuss decisions</b> and <b>update your team</b> in a centralized way.<br/>Each conversation is a thread of comments, which replace messy emails."
       item1: "<b>Share files</b>. Comments can have attached files, too."
       item2: "<b>Subscribe</b> to a conversation to be notified about future replies by email or RSS."
@@ -426,8 +426,8 @@ zh:
         title: 页面
         description: "{{name}}项目的页面"
     primer:
-      empty: This project doesn't have any pages yet.
-      create_first: Create the first page in this project!
+      empty: 这个项目还没有任何页面。
+      create_first: 在这个项目中创建第一个页面！
       define1: "Here you can <b>share useful information</b> for your team: A roadmap, interesting links, instructions, email templates..."
       define2: "编辑ing a page is easy and fun, with drag-and-drop elements you can edit in place."
       item1: "<b>Share</b>. All your teammates can view and edit the project's pages."
