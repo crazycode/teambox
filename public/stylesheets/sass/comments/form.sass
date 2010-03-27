@@ -1,9 +1,8 @@
 form#new_comment
   :padding-bottom 3px
   :margin-bottom 30px
-  :border-bottom solid 1px rgb(220,220,220)
   .body
-    :margin-bottom 5px  
+    :margin-bottom 5px
     textarea
       :width 626px
       :margin-bottom 0px
@@ -50,18 +49,21 @@ form#new_comment
       select
         :margin 0px
         :padding 0px
+    .new:hover
+      :background #9da3a7
+      :border solid 1px #7d8387
     .open:hover
-      :background rgb(50,50,250)
-      :border solid 1px rgb(50,50,250)
+      :background #ffc947
+      :border solid 1px #dfa927
     .hold:hover
-      :background rgb(130,0,193)
-      :border solid 1px rgb(130,0,193)
+      :background #be3cff
+      :border solid 1px #9e1cdf
     .resolved:hover
-      :background rgb(0,200,0)
-      :border solid 1px rgb(0,200,0)
+      :background #afd142
+      :border solid 1px #8fb122
     .rejected:hover
-      :background rgb(200,0,0)
-      :border solid 1px rgb(200,0,0)
+      :background #e97063
+      :border solid 1px #c95043
   .submit
     :padding
       :top 3px
@@ -69,10 +71,41 @@ form#new_comment
     :float right
     :width 200px
   .loading
-    :float right  
+    :float right
+  p.error
+    :color red
+    :font-weight bold
+
+form.edit_comment
+  :padding-bottom 3px
+  .body
+    :margin-bottom 5px
+    textarea
+      :width 626px
+      :margin-bottom 0px
+    .previewBox
+      :margin 4px
+      :padding 4px
+      :border solid 2px rgb(235,235,235)
+  .comment_body
+    :height 4em
+    :color rgb(0,0,0)
+  .submit
+    :padding
+      :top 3px
+    :text-align right
+    :float right
+    :width 200px
+  .loading
+    :float right
+  p.error
+    :color red
+    :font-weight bold
+
+
 form.reopen
   :background rgb(255,255,200)
-  :border 1px rgb(220,220,150) solid  
+  :border 1px rgb(220,220,150) solid
   :-moz-border-radius 5px
   :-webkit-border-radius 5px
   :padding 10px
@@ -82,8 +115,9 @@ form.reopen
       :bottom 5px
     :font-size 13px
     :color rgb(33,33,27)
+    :border none
   .reopen_body
-    :margin-bottom 5px  
+    :margin-bottom 5px
     textarea
       :width 606px
       :margin-bottom 0px

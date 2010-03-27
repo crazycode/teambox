@@ -1,9 +1,10 @@
-RAILS_GEM_VERSION = '2.3.4' unless defined? RAILS_GEM_VERSION
+RAILS_GEM_VERSION = '2.3.5' unless defined? RAILS_GEM_VERSION
 require File.join(File.dirname(__FILE__), 'boot')
 
 APP_CONFIG = YAML.load_file("#{RAILS_ROOT}/config/teambox.yml")[RAILS_ENV]
 
 Rails::Initializer.run do |config|
+  config.load_paths += %W( #{Rails.root}/app/sweepers )
   config.action_controller.session_store = :active_record_store
   config.gem 'haml'
   config.gem 'sprockets'
@@ -29,7 +30,9 @@ Rails::Initializer.run do |config|
      :authentication        => APP_CONFIG['outgoing']['auth'].to_sym
     }
   end
-  
+
+  config.active_record.observers = :task_list_panel_sweeper
+
   require 'RedCloth'
   require 'mime/types'
 end

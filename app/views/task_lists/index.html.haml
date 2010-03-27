@@ -1,0 +1,21 @@
+- if @current_project
+  = banner(@events,@chart)
+
+  - if @task_lists.any?
+    = tabular_task_lists(@current_project,@task_lists,@sub_action)
+  - else
+    = task_list_primer(@current_project)
+  
+  - content_for :column do
+    = task_list_column(@current_project,@task_lists,@sub_action,@task_list)
+
+- else
+  %h2= t('.tasks_for_all_projects')
+
+  = tasks_for_all_projects(@tasks)
+
+  %div{ :style => 'padding-left: 20px; padding-bottom: 10px' }
+    = subscribe_to_calendars_link
+
+  %div{ :style => 'padding-left: 20px; padding-bottom: 40px' }
+    = content_tag(:div, link_to(t('common.print'), task_lists_path(:format => :print)), :class => :print)

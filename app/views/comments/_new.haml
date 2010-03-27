@@ -3,12 +3,14 @@
   .body.text_area
     = comment_text_area(f, target)
     = autoresize :comment_body
+    #comment_body_list.autocomplete{:style => 'display:none'}
     .previewBox.textilized{:style => 'display:none'}
   .extra
     - if comment.project
       = the_comment_upload_link(comment)
       = upload_area(comment)
     - if target
+      = last_comment_input
       - if target.is_a?(Task)
         .statuses
           = f.label :status
@@ -44,3 +46,4 @@
     .clear
 
 = javascript_tag "$('new_comment').auto_focus()"
+= make_autocompletable('comment_body')

@@ -28,7 +28,8 @@ class User < ActiveRecord::Base
                ['Deutsche', 'de'],
                ['Català',   'ca'],
                ['Italiano', 'it'],
-	       ['Chinese', 'zh']]
+	       ['Chinese', 'zh'],
+               ['Русский',  'ru']]
 
   has_many :projects_owned, :class_name => 'Project', :foreign_key => 'user_id'
   has_many :comments
@@ -37,6 +38,8 @@ class User < ActiveRecord::Base
   has_many :invitations, :foreign_key => 'invited_user_id'
   has_many :activities
   has_many :uploads
+  has_one :group
+  has_and_belongs_to_many :groups
 
   belongs_to :invited_by, :class_name => 'User'
 
@@ -86,8 +89,7 @@ class User < ActiveRecord::Base
 
     if invitations = Invitation.find_all_by_email(email)
       for invitation in invitations
-        person = invitation.project.people.new(:user => self, :source_user_id => invitation.user)
-        person.save
+        invitation.accept(self)
         invitation.destroy
       end
     end
@@ -112,6 +114,10 @@ class User < ActiveRecord::Base
 
   def projects_shared_with(user)
     self.projects & user.projects
+  end
+
+  def shares_invited_projects_with?(user)
+    Invitation.count(:conditions => {:project_id => user.project_ids, :invited_user_id => self.id}) > 0
   end
 
   def activities_visible_to_user(user)
@@ -183,26 +189,8 @@ class User < ActiveRecord::Base
   def self.send_daily_task_reminders
     tzs = time_zones_to_send_daily_task_reminders_to
     in_time_zone(tzs.map(&:name)).wants_task_reminder_email.each do |user|
-      assigned_tasks = user.assigned_tasks(:all)
-      tasks_without_due_date, tasks_with_due_date  = assigned_tasks.partition { |task| task.due_on.nil? }
-      tasks_by_dueness = tasks_with_due_date.inject({}) do |tasks, task|
-        if Date.today == task.due_on
-          tasks[:today] ||= []
-          tasks[:today].push(task)
-        elsif Date.today + 1 == task.due_on
-          tasks[:tomorrow] ||= []
-          tasks[:tomorrow].push(task)
-        elsif task.due_on > Date.today and task.due_on < Date.today + 15
-          tasks[:for_next_two_weeks] ||= []
-          tasks[:for_next_two_weeks].push(task)
-        elsif Date.today > task.due_on
-          tasks[:late] ||= []
-          tasks[:late].push(task)
-        end
-        tasks
-      end
-      tasks_by_dueness[:no_due_date] = tasks_without_due_date if [1, 4].include?(Date.today.wday)
-      Emailer.deliver_daily_task_reminder(user, tasks_by_dueness) unless tasks_by_dueness.values.flatten.empty?
+      tasks = user.tasks_for_daily_reminder_email
+      Emailer.deliver_daily_task_reminder(user, tasks) unless tasks.values.flatten.empty?
     end
   end
 
@@ -218,6 +206,32 @@ class User < ActiveRecord::Base
       sort { |a,b| (a.due_on || 1.year.from_now.to_date) <=> (b.due_on || 1.year.from_now.to_date) }
   end
 
+  def tasks_for_daily_reminder_email
+    return {} if [0, 6].include?(Date.today.wday)
+    assigned_tasks = assigned_tasks(:all)
+    tasks_without_due_date, tasks_with_due_date  = assigned_tasks.partition { |task| task.due_on.nil? }
+    tasks_by_dueness = tasks_with_due_date.inject({}) do |tasks, task|
+      if Date.today == task.due_on
+        tasks[:today] ||= []
+        tasks[:today].push(task)
+      elsif Date.today + 1 == task.due_on
+        tasks[:tomorrow] ||= []
+        tasks[:tomorrow].push(task)
+      elsif task.due_on > Date.today and task.due_on < Date.today + 15
+        tasks[:for_next_two_weeks] ||= []
+        tasks[:for_next_two_weeks].push(task)
+      elsif Date.today > task.due_on
+        tasks[:late] ||= []
+        tasks[:late].push(task)
+      end
+      tasks
+    end
+    if !tasks_by_dueness.values.flatten.empty? || [1, 4].include?(Date.today.wday)
+      tasks_by_dueness[:no_due_date] = tasks_without_due_date
+    end
+    tasks_by_dueness
+  end
+
   def in_project(project)
     project.people.select { |person| person.user_id == self.id }.first
   end
@@ -225,9 +239,15 @@ class User < ActiveRecord::Base
   def active_projects_count
     projects.unarchived.count
   end
-  
+
   def can_create_project?
     true
+  end
+
+  def notify_of_project_comment?(comment)
+    self.notify_mentions &&
+      comment.user != self &&
+      !!( comment.body =~ /@all/i || comment.body =~ /@#{self.login}[^a-z0-9_]/i )
   end
 
 end

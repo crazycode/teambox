@@ -18,11 +18,20 @@ es:
     comment:
       one: "{{count}} comentario"
       other: "{{count}} comentarios"
+    not_allowed: No tienes permiso para hacer eso
   confirm:
     delete_task_list: ¿Seguro que quieres borrar esta lista de tareas?
     delete_task: ¿Seguro que quieres borrar esta tarea?
     delete_page: ¿Seguro que quieres borrar esta página?
     delete_upload: ¿Seguro que quieres borrar este archivo?
+  not_found:
+    user: El usuario no existe
+    conversation: "Conversation {{id}} not found in this project."
+    project: "The project {{id}} doesn't exist."
+    group: "The group {{id}} doesn't exist."
+    page: "Page {{id}} not found in this project."
+    task_list: "Task list {{id}} not found in this project."
+    task: "Task {{id}} not found in this project."
   deleted:
     conversation: "Se ha borrado la conversación <b>{{name}}</b>"
     task: "Se ha borrado la tarea <b>{{name}}</b>"
@@ -127,8 +136,10 @@ es:
     new:
       title: Crear una cuenta
       submit: Crear cuenta
+      no_public_signup: No están permitido crear cuentas sin invitación
       you_are_logged_in: "Ya tienes una cuenta de Teambox. Si quieres entrar como otro usuario, cierra la sesión e inténtalo de nuevo."
       existing_user: "Si ya tienes una cuenta, <a href='{{login_url}}'>identifícate</a> o <a href='{{forgot_url}}'>restablece tu contraseña</a>."
+      you_already_have_an_account: "Ya tienes una cuenta de Teambox en {{email}}. <a href='{{login_link}}'>Accede a tu cuenta</a> o <a href='{{reset_password_link}}'>recupera tu contraseña</a> si la has olvidado."
     create:
       thanks: ¡Gracias por registrarte!
       error: "No hemos podido registrar esa cuenta, ¡lo sentimos! Inténtalo de nuevo."
@@ -152,6 +163,7 @@ es:
       profile: Perfil
       projects: Proyectos
       recent_activity_for: "Actividad reciente de {{user_name}}"
+      pending_invite: "{{name}} currently has a pending invitation to one of your projects. You will not be able to access any more information until this invitation has been accepted."
     user:
       formatted_address: "{{street}}, {{city}} ({{country}})"
       remove_from_project: Borrar del proyecto
@@ -196,6 +208,50 @@ es:
       tasks_without_a_due_date: "Sin fecha fija"
       you_receive_this_message: "Puedes desactivar estas notificaciones en {{link}}"
       settings_page: "tu página de usuario"
+  groups:
+    index:
+      title: Grupos
+      groups_in: Grupos a los que perteneces
+      your_group: Tu grupo propio
+      no_groups: No perteneces a ningun grupo.
+      description: "Usa los grupos para compartir recursos con otros, y agrupar tus proyectos en un grupo!"
+      submit_project: Añadir
+      remove_project: Borrar
+    primer:
+      no_group_create: "No has creado tu propio grupo. {{link}}."
+      create_group: "Crear un grupo"
+    header:
+      leave: Abandonar
+      remove: Borrar
+    logo_fields:
+      current: Logotipo actual
+      delete: Borrar
+      description: Este logo aparecerá para todos los proyectos de este grupo
+      upload: Enviar
+    search:
+      username_or_email: Usuario o email
+      invite: Invitar
+      invite_people: Invitar a usuarios a este grupo
+    fields:
+      name: Nombre
+      description: Descripción
+      permalink: Permalink
+      permalink_description: El dominio desde el que se puede acceder a tu grupo.
+    new:
+      submit: Crear
+      explain: Solo puedes tener un grupo.
+      title: Crear grupo
+      created: El grupo ha sido creado.
+    edit:
+      submit: Actualizar
+    show:
+      edit: Editar
+      add_project: Añadir un proyecto
+    errors:
+      already_own: "Ya tienes un grupo!"
+      not_enabled: "Los grupos no están activados para esta versión de Teambox"
+      not_admin: "No puedes administrar este grupo"
+      no_edit: "No puedes editar este grupo"
   projects:
     index:
       title: Actividad en todos tus proyectos
@@ -262,6 +318,7 @@ es:
       created: Se ha creado el proyecto!
       invalid_project: "Proyecto no válido, corrige los errores e inténtalo de nuevo."
       create_an_example_project: "¿Es tu primera vez en Teambox? <a href='{{link}}'>Crea un proyecto de ejemplo</a> para experimentar y aprender."
+      not_allowed: "No puedes crear proyectos con tu tipo de cuenta."
     edit:
       title_settings: Preferencias Generales
       title_picture: Logotipo del Proyecto
@@ -281,11 +338,16 @@ es:
       resend: Reenviar email de invitación
       pending: "Se ha enviado un email a este usuario, pero aún no ha confirmado"
       discard: Descartar invitación
+    group_invitation:
+      invited_user: "{{inviter}} ha invitado a <b>{{invitee}}</b> para unirse al grupo."
+      invited_email: "{{inviter}} ha invitado a <b>{{email}}</b> para unirse al grupo."
     sent:
       email_sent: "<b>Hemos enviado un email avisando al usuario para que acepte tu invitación</b>. Si no pueden encontrar el email, asegúrate de que no se ha clasificado como spam. Si el problema persiste, escríbenos un email."
     pending:
       to_access_or: para acceder al proyecto o
+      to_access_or_group: para acceder al grupo o
       invited_to_join: "{{by}} te ha invitado a unirte al proyecto {{project}}."
+      invited_to_join_group: "{{by}} te ha invitado a unirte al grupo {{group}}."
     resend:
       resent: "Hemos reenviado la invitación a {{recipient}}. Si no pueden encontrar el email, asegúrate de que no se ha clasificado como spam."
       return: Volver atrás
@@ -297,8 +359,13 @@ es:
       invite_people: Invitar usuarios al proyecto
       invite: Buscar e invitar
       submit: Enviar
+      role: Escoge un rol
+      invite_from_project: "Invitar a alguien desde otro proyecto"
     recent:
       invite: Invitar a {{username}}
+    errors:
+      invalid: Invitación inválida
+      invalid_code: Código de invitación inválido
   conversations:
     actions:
       confirm_delete: Estar seguro de querer borrar esta conversación?
@@ -437,7 +504,7 @@ es:
       footer1: "Usa Teambox como una <b>pizarra compartida</b> para información de uso frecuente."
       footer2: "También puedes adjuntar archivos a cualquier página del proyecto. Disfruta!"
     buttons:
-      new_note: Nota
+      new_note: Texto
       new_divider: Separador
       new_upload: Archivo
       new_task_list: Lista de Tareas
@@ -529,6 +596,8 @@ es:
       transfer: Transferir el proyecto
       leave_project: Dejar el Proyecto
       confirm_delete: Seguro que quieres borrar a esta persona del proyecto?
+    errors:
+      user_or_email: "No se ha encontrado al usuario. Introduce su email o nombre de usuario."
   comments:
     comment:
       commented_on: "-"
@@ -544,6 +613,10 @@ es:
       task: "Define qué debe hacerse en un comentario. Asigna un responsable. Publica actualizaciones. Adjunta resultados."
     edit:
       submit: Guardar
+    errors:
+      cannot_update: No tienes permiso para editar este comentario.
+    actions:
+      confirm_delete: Seguro que quieres borrar este comentario?
   example_projects:
     new:
       learn: Proyecto Tutorial
@@ -552,6 +625,8 @@ es:
       line3: "No olvides <b>leer las instrucciones</b> y <b>experimentar</b> creando, editando y borrando elementos!"
       create: Crear el proyecto tutorial
       line4: "En este proyecto no podrás invitar a otros usuarios, pero sí puedes hacer todo lo demás."
+      error: "No se ha podido crear el proyecto de ejemplo."
+      error_list: "No se ha podido crear el proyecto de ejemplo. Estos proyectos no son válidos: {{list}}."
   uploads:
     comment_upload_link: Adjunto
     new:
@@ -589,6 +664,8 @@ es:
       title: Entrar
       video: Breve introducción a Teambox
       submit: Entrar
+      activation: "Debes activar tu cuenta primero"
+      login_failed: "Los datos de acceso para {{login}} no son correctos"
 
   email:
     user:
@@ -629,6 +706,7 @@ es:
       signup: Crear cuenta
       files: Archivos
       invitations: Invitaciones
+      groups: Grupos de Proyectos
     global_navigation:
       project_invitations: Invitaciones
       home: Home
@@ -693,6 +771,8 @@ es:
       teambox_is_a_pm_platform: "Teambox es una plataforma de gestión de proyectos pensada para el mundo real."
       plan_share_and_collaborate: "Planifica, comparte y manténte al día de lo que se ha hecho. Tan fácil como debería ser."
       report_abuse: "Este email se te ha enviado por petición de tu amigo. Si ha habido un intento de abuso, contáctanos."
+    invitation_group:
+      you_have_been_invited_to: "Has sido invitado al grupo <b>{{group}}</b>"
     confirm:
       hey: "Hola, {{user_name}}!"
       follow_the_link: "Para <b>completar tu registro</b> en Teambox sólo tienes que seguir este enlace:"
@@ -886,7 +966,7 @@ es:
       conversation: Conversación
       page: Página
       divider: Separador
-      note: Nota
+      note: Texto
       invitation: Invitación
       upload: Archivo
     attributes:
@@ -972,6 +1052,18 @@ es:
         odd: "debe ser impar"
         even: "debe ser par"
         record_invalid: "La validación falló: {{errors}}"
+      models:
+        comment:
+          attributes:
+            body:
+              no_body_generic: "Escribe lo que has hecho en la caja de texto."
+              no_body_task: "Escribe qué has hecho sobre esta tarea."
+        conversation:
+          attributes:
+            body:
+              no_body_generic: "Escribe texto para comenzar la conversación."
+            name:
+              no_title: "Esta conversación necesita un título"
 
   date:
     yesterday: Ayer
@@ -991,7 +1083,7 @@ es:
   time:
     formats:
       default: "%a, %d %b %Y %H:%M:%S %z"
-      short: "%d %b %H:%M"
+      short: "%I:%M %p"
       long: "%B %d, %Y %H:%M"
     am: "am"
     pm: "pm"

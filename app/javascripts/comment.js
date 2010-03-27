@@ -1,16 +1,4 @@
 Event.addBehavior({
-  ".comment:mouseover": function(e){
-    $(this).className = 'comment comment_hover'
-  },
-  ".comment:mouseout": function(e){
-    $$("div.comment").each(function(e){ e.className = 'comment'; });
-  },
-  ".activity:mouseover": function(e){
-    $(this).className = 'activity activity_hover'
-  },
-  ".activity:mouseout": function(e){
-    $$("div.activity").each(function(e){ e.className = 'activity'; });
-  },
   "#sort_uploads:click": function(e){
     Comment.update();
   },
@@ -88,5 +76,8 @@ Comment = {
       else
         e.selected = false
     })
+  },
+  make_autocomplete: function(element_id, items){
+    new Autocompleter.Local(element_id, element_id + '_list', items, {tokens:[' ']});
   }
 };

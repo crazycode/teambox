@@ -1,8 +1,10 @@
 class TasksController < ApplicationController
-  before_filter :find_task_list, :only => [:show,:destroy,:create,:update,:reorder,:archive,:unarchive,:reopen, :show_in_main_content]
+  before_filter :find_task_list, :only => [:new,:show,:destroy,:create,:update,:reorder,:archive,:unarchive,:reopen, :show_in_main_content]
   before_filter :find_task, :only => [:show,:destroy,:update,:archive,:unarchive,:watch,:unwatch,:reopen,:show_in_main_content]
   before_filter :set_page_title
-  
+
+  cache_sweeper :task_list_panel_sweeper, :only => [:create, :update, :reorder]
+
   def show
     if @task.archived?
       @sub_action = 'archived'
@@ -15,6 +17,15 @@ class TasksController < ApplicationController
 
     @comments = @task.comments
     @comment = @current_project.new_task_comment(@task)
+
+    respond_to do |f|
+      f.html
+      f.m
+      f.xml  { render :xml     => @task.to_xml }
+      f.json { render :as_json => @task.to_xml }
+      f.yaml { render :as_yaml => @task.to_xml }
+    end
+
     #   Use this snippet to test the notification emails that we send:
     #@project = @current_project
     #render :file => 'emailer/notify_task', :layout => false
@@ -22,6 +33,9 @@ class TasksController < ApplicationController
 
   def new
     @task = @task_list.tasks.new
+    respond_to do |f|
+      f.m
+    end
   end
 
   def create
@@ -29,6 +43,7 @@ class TasksController < ApplicationController
       @comment = @current_project.new_task_comment(@task)
     end
     respond_to do |format|
+      format.m { redirect_to project_task_lists_path(@current_project) }
       format.js do
         if @task.valid?
           render :partial => 'tasks/task',
@@ -66,7 +81,7 @@ class TasksController < ApplicationController
       end
     else
       respond_to do |f|
-        flash[:error] = "You are not allowed to do that!"
+        flash[:error] = t('common.not_allowed')
         f.html { redirect_to project_task_lists_path(@current_project) }
       end
     end
@@ -133,7 +148,7 @@ class TasksController < ApplicationController
       begin
         @task_list = @current_project.task_lists.find(params[:task_list_id])
       rescue
-        flash[:error] = "Task list #{params[:task_list_id]} not found in this project"
+        flash[:error] = t('not_found.task_list', :id => h(params[:task_list_id]))
         redirect_to project_task_lists_path(@current_project)
       end
     end
@@ -142,7 +157,7 @@ class TasksController < ApplicationController
       begin
         @task = @current_project.tasks.find(params[:id])
       rescue
-        flash[:error] = "Task #{params[:id]} not found in this project"
+        flash[:error] = t('not_found.task', :id => h(params[:id]))
         redirect_to project_task_lists_path(@current_project)
       end
     end

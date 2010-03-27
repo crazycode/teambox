@@ -24,7 +24,11 @@ defaults: &DEFAULTS
     auth: plain                 # choose: plain, login, cram_md5    
     port: 25
     enable_starttls_auto: false # Set to true for gmail smtp server
-      
+    # Rails has sometimes a problem when sending email from "Name <address@host.com>".
+    # If you are having problems sending email and your host is correctly configured,
+    # try setting safe_from to true. You may need to create a user account for no-reply@yourapp.com
+    safe_from: false            # Set to true if you have Net::SMTPSyntaxError errors when sending email
+
   # Set allow to true to allow the "reply to" feature for notifications.
   # This will allow users to post answers and comments by email.
   # When set to true, "reply above this line" notice will be displayed where relevant and accept emails.
@@ -55,6 +59,9 @@ defaults: &DEFAULTS
   #   by another user. If there are no users in the system, you will be asked to
   #   create the first one.
   allow_signups: true
+  
+  # Enable user groups
+  allow_groups: true
   
   # Address where your users should write to ask for help. Accepts an email or website.
   support: http://help.teambox.com

@@ -19,9 +19,19 @@ class ConversationsController < ApplicationController
       end
       @conversation.notify_new_comment(@conversation.comments.first)
       
-      redirect_to project_conversation_path(@current_project,@conversation)
+      respond_to do |f|
+        f.html { redirect_to project_conversation_path(@current_project,@conversation) }
+        f.xml  { redirect_to project_conversation_path(@current_project,@conversation) }
+        f.json { redirect_to project_conversation_path(@current_project,@conversation) }
+        f.yaml { redirect_to project_conversation_path(@current_project,@conversation) }
+      end
     else
-      render :new
+      respond_to do |f|
+        f.html  { render :action => :new }
+        f.xml   { render :xml => @conversation.errors.to_xml }
+        f.json  { render :as_json => @conversation.errors.to_xml }
+        f.yaml  { render :as_yaml => @conversation.errors.to_xml }
+      end
     end
   end
 
@@ -31,13 +41,24 @@ class ConversationsController < ApplicationController
     respond_to do |f|
       f.html
       f.m
-      f.rss { render :layout => false }
+      f.rss   { render :layout => false }
+      f.xml   { render :xml     => @conversations.to_xml }
+      f.json  { render :as_json => @conversations.to_xml }
+      f.yaml  { render :as_yaml => @conversations.to_xml }
     end
   end
 
   def show
     @comments = @conversation.comments
     @conversations = @current_project.conversations
+
+    respond_to do |f|
+      f.html
+      f.m
+      f.xml   { render :xml     => @conversation.to_xml(:include => :comments) }
+      f.json  { render :as_json => @conversation.to_xml(:include => :comments) }
+      f.yaml  { render :as_yaml => @conversation.to_xml(:include => :comments) }
+    end
 
 #   Use this snippet to test the notification emails that we send:
 #    @project = @current_project
@@ -67,7 +88,7 @@ class ConversationsController < ApplicationController
       end
     else
       respond_to do |f|
-        flash[:error] = "You are not allowed to do that!"
+        flash[:error] = t('common.not_allowed')
         f.html { redirect_to project_conversation_path(@current_project, @conversation) }
         f.m    { redirect_to project_conversation_path(@current_project, @conversation) }
       end
@@ -97,7 +118,7 @@ class ConversationsController < ApplicationController
       begin
         @conversation = @current_project.conversations.find(params[:id])
       rescue
-        flash[:error] = "Conversation #{params[:id]} not found in this project"
+        flash[:error] = t('not_found.conversation', :id => h(params[:id]))
       end
       
       redirect_to project_path(@current_project) unless @conversation

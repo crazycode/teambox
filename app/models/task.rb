@@ -60,7 +60,7 @@ class Task < RoleRecord
   end
 
   def assigned_to?(u)
-    assigned.user.id == u.id if assigned?
+    assigned.try(:user_id) == u.id
   end
 
   def assign_to(u)
@@ -111,26 +111,32 @@ class Task < RoleRecord
   def to_s
     name
   end
-  
-  def to_ical_event
-    if due_on
-      event = Icalendar::Event.new
-      date = due_on.to_date
-      event.klass       project.name
-      event.dtstart     Date.new(date.year, date.month, date.day)
-      event.summary     name
-      event.description ""
-      event.location    ""
-      event.dtstamp     created_at
-      #event.url         project_task_list_task_url(project, task_list, self)
-      event.uid         "task-#{id}"
-      event
-    end
-  end
-  
 
   def user
     User.find_with_deleted(user_id)
   end
 
+  def to_xml(options = {})
+    options[:indent] ||= 2
+    xml = options[:builder] ||= Builder::XmlMarkup.new(:indent => options[:indent])
+    xml.instruct! unless options[:skip_instruct]
+    xml.task :id => id do
+      xml.tag! 'project-id',      project_id
+      xml.tag! 'user-id',         user_id
+      xml.tag! 'name',            name
+      xml.tag! 'position',        position
+      xml.tag! 'comments-count',  comments_count
+      xml.tag! 'assigned-id',     assigned_id
+      xml.tag! 'status',          status
+      xml.tag! 'archived',        archived
+      xml.tag! 'due-on',          due_on.to_s(:db) if due_on
+      xml.tag! 'created-at',      created_at.to_s(:db)
+      xml.tag! 'updated-at',      updated_at.to_s(:db)
+      xml.tag! 'completed-at',    completed_at.to_s(:db) if completed_at
+      xml.tag! 'watchers',        watchers_ids.join(',')
+      unless Array(options[:include]).include? :tasks
+        task_list.to_xml(options.merge({ :skip_instruct => true }))
+      end
+    end
+  end
 end

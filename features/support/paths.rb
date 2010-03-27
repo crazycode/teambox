@@ -27,6 +27,9 @@ module NavigationHelpers
       new_project_conversation_path(@current_project)
     when /the task lists page$/
       project_task_lists_path(@current_project)
+    when /the page of the "([^\"]*)" conversation/
+      conv = Conversation.find_by_name($1)
+      project_conversation_path(conv.project, conv)
     when /the uploads page$/
       project_uploads_path(@current_project)
     when /the people page of the "([^\"]*)" project$/
@@ -53,8 +56,15 @@ module NavigationHelpers
     when /the profile of "([^\"]*)"/
       user = User.find_by_login($1)
       user_path(user)
+    when /the groups page/
+      groups_path
+    when /the page of the "([^\"]*)" group/
+      group = Group.find_by_name($1)
+      group_path(group)
     when /my settings page/
       account_settings_path
+    when /the signup page/
+      signup_path
     #when /the index page for (.+)/
     #  polymorphic_path(model($1))
     else

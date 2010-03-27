@@ -1,22 +1,33 @@
 .comment
-  :margin 0px
-    :top 15px
-    :bottom 15px
+  :padding 15px 0
+  :border
+    :top 1px solid white
+    :bottom 1px solid white
   &:hover
+    :border
+      :top 1px solid #dfe0e2
+      :bottom 1px solid #dfe0e2
+    :background-color #f6f6f6
     p.actions
       :visibility visible
+    .block
+      .date
+        :color rgb(0,0,0)
   p.actions
     :visibility hidden
     :position relative
     :margin 0px
+    :float right
     span
+      :margin-left -44px
       :overflow auto
       :position absolute
-      :display block
-      :width 16px
+      :width 38px
       :height 40px
-  .info  
-    :width 80px
+      :text-align right
+  .info
+    :width 70px
+    :padding-right 10px
     :float left
     .thumb_avatar
       :float right
@@ -25,7 +36,7 @@
       img
         :overflow auto
         :position absolute
-        :display block      
+        :display block
     .unread
       :float left
       :position relative
@@ -43,7 +54,7 @@
   span.author, span.project
     :color rgb(120,120,120)
     a
-      :color rgb(80,80,80)
+      :color #5f7c94
       :font-weight normal
   span.arr
     :color rgb(140,140,140)
@@ -52,7 +63,6 @@
     :float right
     .name
       :font-size 12px
-      :border-bottom solid 1px rgb(235,235,235)      
       a
         :font-size 12px
         :font-weight bold
@@ -62,14 +72,7 @@
     .date
       :float right
       :font-size 10px
-      :color rgb(180,180,180)
+      :color #9da3a7
     .body
       :margin-top 5px
     .clear
-.comment_hover
-  .block
-    .name
-      :border-bottom solid 1px rgb(200,200,200)
-    .date
-      :color rgb(0,0,0)
-      

@@ -18,11 +18,20 @@ zh:
     comment:
       one: "{{count}}条评论"
       other: "{{count}}条评价"
+    not_allowed: 您不允许操作此操作！
   confirm:
     delete_task_list: 您确信要删除这个任务列表？
     delete_task: 您确信要删除此任务？
     delete_page: 您确信要删除此页面？
     delete_upload: 您确信要删除此文件？
+  not_found:
+    user: "用户不存在。"
+    conversation: "在这个项目中找不到话题{{id}}。"
+    project: "项目{{id}}不存在。"
+    group: "小组{{id}}不存在。"
+    page: "在这个项目中找不到页面{{id}}。"
+    task_list: "在这个项目中找不到任务列表{{id}}。"
+    task: "在这个项目中找不到任务{{id}}。"
   deleted:
     conversation: "已删除<b>{{name}}</b>话题"
     task: "已删除<b>{{name}}</b>任务"
@@ -127,8 +136,11 @@ zh:
     new:
       title: 创建新帐号
       submit: 创建帐号
+      ####
+      no_public_signup: "此系统不允许公共注册。"
       you_are_logged_in: "您已经有一个帐号。请先注销，并使用另一个帐号登录。"
       existing_user: "如果您已经有一个帐号，请<a href='{{login_url}}'>登录</a>或者<a href='{{forgot_url}}'>找回密码</a>。"
+      you_already_have_an_account: "您已经有一个使用了地址{{email}}的Teambox帐号。<a href='{{login_link}}'>使用此邮箱登录</a>或<a href='{{reset_password_link}}'>重置密码</a>，如果您已经忘记密码。"
     create:
       thanks: 谢谢注册！
       error: "对不起，我们不能创建此帐号。请重新尝试，或者联系管理员（链接如下）。"
@@ -152,6 +164,7 @@ zh:
       profile: 个性设置
       projects: 项目
       recent_activity_for: "{{user_name}}的近期活动"
+      pending_invite: "{{name}}当前已经有一个您的项目的未受理邀请。在此邀请被接受前，您不允许操作任何信息。"
     user:
       formatted_address: "{{city}} {{street}}({{country}})"
       remove_from_project: 从项目中移除
@@ -189,13 +202,57 @@ zh:
     daily_task_reminder_email:
       daily_task_reminder: "每日任务提醒"
       daily_task_reminder_from_teambox: "这是来自Teambox的每日任务提醒邮件。"
-      late_tasks: "近期任务"
+      late_tasks: "延迟任务"
       tasks_for_today: "今日任务"
       tasks_for_tomorrow: "明日任务"
       tasks_for_next_two_weeks: "下两周任务"
       tasks_without_a_due_date: "无截止日期任务"
       you_receive_this_message: "您收到此邮件是因为您设置了提醒选项。您可以通过{{link}}不再收到这些邮件"
       settings_page: "设置页"
+  groups:
+    index:
+      title: 小组
+      groups_in: "您所在的小组"
+      your_group: "您的小组"
+      no_groups: "您不属于任何小组。"
+      description: "用户小组用于分享资源，并且可以通过一个小组名字快捷的绑定到项目！"
+      submit_project: 添加
+      remove_project: 移除
+    primer:
+      no_group_create: "您没有拥有任何小组。{{link}}."
+      create_group: "创建小组"
+    header:
+      leave: 离开
+      remove: 删除
+    logo_fields:
+      current: 当前Logo
+      delete: 删除
+      description: 这个Logo将出现在所有属于此小组的项目上
+      upload: 上传
+    search:
+      username_or_email: 用户名或Email
+      invite: 邀请
+      invite_people: 邀请其他人加入此小组
+    fields:
+      name: 名称
+      description: 说明
+      permalink: Permalink
+      permalink_description: 您的小组被访问的来源域名
+    new:
+      submit: 创建
+      explain: 您只能拥有一个小组。
+      title: 创建小组
+      created: 您的小组已经被创建
+    edit:
+      submit: 更新
+    show:
+      edit: 修改
+      add_project: 添加一个项目
+    errors:
+      already_own: "您已经拥有一个小组！"
+      not_enabled: "这个系统不支持小组功能"
+      not_admin: "您不能管理这个小组"
+      no_edit: "您不能编辑这个小组"
   projects:
     index:
       title: 我的所有项目动态
@@ -281,11 +338,16 @@ zh:
       resend: 重新发送邀请邮件
       pending: "已经向此用户发送邀请邮件，但对方还没有确认邀请。"
       discard: 放弃邀请
+    group_invitation:
+      invited_user: "{{inviter}} invited <b>{{invitee}}</b> to join the group."
+      invited_email: "{{inviter}} invited <b>{{email}}</b> to join the group."
     sent:
       email_sent: "<b>We just sent a notification email to this user with a link to accept your project invitation</b>. If they can't find the email, make sure it was not classified as spam or try a different email address. If problems persist, please contact our staff."
     pending:
       to_access_or: to access the project or
+      to_access_or_group: to access the group or
       invited_to_join: "{{by}} has invited you to join the project {{project}}."
+      invited_to_join_group: "{{by}} has invited you to join the group {{group}}."
     resend:
       resent: "The invitation has been resent to {{recipient}}. If the email is not received make sure to check the spam folder."
       return: 返回
@@ -296,9 +358,14 @@ zh:
       username_or_email: "请输入您的团队成员的用户名或email"
       invite_people: 邀请其他人加入此项目
       invite: 邀请
+      role: "选择一个角色"
       submit: 发布
+      invite_from_project: "邀请来自项目"
     recent:
       invite: 邀请 {{username}}
+    errors:
+      invalid: "无效的邀请"
+      invalid_code: "无效的邀请码"
   conversations:
     actions:
       confirm_delete: 您确信要删除此评论？
@@ -426,8 +493,8 @@ zh:
         title: 页面
         description: "{{name}}项目的页面"
     primer:
-      empty: This project doesn't have any pages yet.
-      create_first: Create the first page in this project!
+      empty: 这个项目还没有任何页面。
+      create_first: 在这个项目中创建第一个页面！
       define1: "Here you can <b>share useful information</b> for your team: A roadmap, interesting links, instructions, email templates..."
       define2: "编辑ing a page is easy and fun, with drag-and-drop elements you can edit in place."
       item1: "<b>Share</b>. All your teammates can view and edit the project's pages."
@@ -529,6 +596,8 @@ zh:
       transfer: 改变所有者
       leave_project: 离开项目
       confirm_delete: 您确信要把此人从项目中移除？
+    errors:
+      user_or_email: "用户没有找到。请输入他的用户名或Email。"
   comments:
     comment:
       commented_on: "-"
@@ -544,6 +613,10 @@ zh:
       task: "通过注释定义需要做什么，分配此任务给某人，发布更新，附加结果。"
     edit:
       submit: 保存
+    errors:
+      cannot_update: 您没有权限更新此评论
+    actions:
+      confirm_delete: 您确认要删除此评论？
   example_projects:
     new:
       learn: 通过例子学习！
@@ -552,6 +625,8 @@ zh:
       line3: "Make sure you <b>read the instructions</b> and <b>experiment</b> creating, editing and deleting elements!"
       create: 创建一个样例项目
       line4: "In this project you won't be able to invite other users, but you can do all the rest."
+      error: "不能创建样例项目。"
+      error_list: "不能创建样例项目。以下项目是无效的：{{list}}。"
   uploads:
     comment_upload_link: 附件
     new:
@@ -589,6 +664,8 @@ zh:
       title: 登录
       video: 什么是Teambox?
       submit: 登录
+      activation: "您需要首先激活您的帐号"
+      login_failed: "不能作为{{login}}登录"
 
   email:
     user:
@@ -629,6 +706,7 @@ zh:
       signup: 注册
       files: 文件
       invitations: 邀请
+      groups: 项目小组
     global_navigation:
       project_invitations: 项目邀请
       home: 主页
@@ -693,6 +771,8 @@ zh:
       teambox_is_a_pm_platform: "Teambox is a project management platform made for real-world collaboration."
       plan_share_and_collaborate: "Plan, share and keep track of what's been done. Simple as it should be."
       report_abuse: "This email was sent to you by your contact's request. Please report any abuse."
+    invitation_group:
+      you_have_been_invited_to: "You have been invited to the group <b>{{group}}</b>"
     confirm:
       hey: "Hey, {{user_name}}!"
       follow_the_link: "In order to <b>complete your signup</b> for Teambox, we need you to log in by clicking here:"
@@ -972,6 +1052,19 @@ zh:
         odd: "must be odd"
         even: "must be even"
         record_invalid: "Validation failed: {{errors}}"
+      ####
+      models:
+        comment:
+          attributes:
+            body:
+              no_body_generic: "请在下面的输入框写下您完成的工作。"
+              no_body_task: "请在下面的输入框写下这个任务中您完成的工作。"
+        conversation:
+          attributes:
+            body:
+              no_body_generic: "请写一个评论以开始这个话题。"
+            name:
+              no_title: "请为这个话题指定一个标题。"
 
   date:
     yesterday: 昨天

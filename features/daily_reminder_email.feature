@@ -7,7 +7,7 @@ Feature: Daily reminder for tasks email
     Given a confirmed user exists with login: "mislav", time_zone: "Amsterdam"
     And a project exists with name: "Aquaculture"
     And the task list called "ASAP" belongs to the project called "Aquaculture"
-    And the following tasks with associations exist:
+    And the following task with associations exist:
       | name                                   | task_list | project        |
       | Give water to the flowers              | ASAP      | Aquaculture    |
     And I am currently "mislav"
@@ -44,6 +44,18 @@ Feature: Daily reminder for tasks email
     And the task called "Give water to the flowers" is due today
     When the daily task reminders go out at "09:00"
     Then I should receive no emails
+
+  Scenario Outline: User with a task due some time in the next two weeks - today is a weekend day
+    Given today is "<date>"
+    And the task called "Give water to the flowers" is assigned to me
+    And the task called "Give water to the flowers" is due in 3 days
+    When the daily task reminders go out at "05:00"
+    Then I should receive no emails
+
+    Examples:
+      | date        |
+      | 2010/02/13  |
+      | 2010/02/14  |
 
   Scenario: User with the task reminders turned off
     Given I have the daily task reminders turned off
@@ -95,6 +107,23 @@ Feature: Daily reminder for tasks email
       | 2010/02/16  |
       | 2010/02/17  |
       | 2010/02/20  |
+
+  Scenario: User assigned a story due today and another one without a due date - today is NOT Monday or Thursday
+    Given the following task with associations exist:
+      | name                                   | task_list | project        |
+      | Flood the trees                        | ASAP      | Aquaculture    |
+    And today is "2010/02/16"
+    And the task called "Give water to the flowers" is assigned to me
+    And the task called "Flood the trees" is assigned to me
+    And the task called "Give water to the flowers" is due today
+    And the task called "Flood the trees" does not have a due date
+    When the daily task reminders go out at "05:00"
+    Then I should receive an email
+    When I open the email with subject "Daily task reminder"
+    Then I should see "Tasks for today" in the email body
+    And I should see "Give water to the flowers" in the email body
+    Then I should see "Tasks without a due date" in the email body
+    And I should see "Flood the trees" in the email body
 
   Scenario: User in a project that has a task due today but not assigned that task
     Given a user exists with login: "balint"

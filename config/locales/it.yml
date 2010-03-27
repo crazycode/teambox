@@ -18,11 +18,22 @@ it:
     comment:
       one: "{{count}} commento"
       other: "{{count}} commenti"
+    ####
+    not_allowed: You are not allowed to do that!
   confirm:
     delete_task_list: Sicuro di voler cancellare questa lista di compiti?
     delete_task: Sicuro di voler cancellare questo compito?
     delete_page: Sicuro di voler cancellare questa pagina?
     delete_upload: Sicuro di voler cancellare questo file?
+  ####
+  not_found:
+    user: "User does not exist."
+    conversation: "Conversation {{id}} not found in this project."
+    project: "The project {{id}} doesn't exist."
+    group: "The group {{id}} doesn't exist."
+    page: "Page {{id}} not found in this project."
+    task_list: "Task list {{id}} not found in this project."
+    task: "Task {{id}} not found in this project."
   deleted:
     conversation: "La conversazione <b>{{name}}</b> è stata cancellata"
     task: "Il compito <b>{{name}}</b> è stato cancellato"
@@ -109,7 +120,7 @@ it:
       notify_mentions: "Mandami una notifica quando mi nominano in un commento, per esempio: Ciao @{{login}}!"
       notify_conversations: Mandami una notifica delle conversazioni che seguo
       notify_task_lists: Mandami una notifica dei commenti nelle liste di compiti che seguo
-      notify_tasks: Mandami una noficia dei commenti nei compiti che seguo
+      notify_tasks: Mandami una notifica dei commenti nei compiti che seguo
       wants_task_reminder: Voglio ricevere una mail giornaliera dei miei compiti
       invalid_login: "usa solo lettere, numeri e _"
       avatar:
@@ -127,8 +138,12 @@ it:
     new:
       title: Crea un account
       submit: Crea account
+      ####
+      no_public_signup: "Public signups are not allowed in this system."
       you_are_logged_in: "Hai già un account di Teambox. Se voi entrare con un'altro utente, esci e riprova l'accesso."
       existing_user: "Se hai già un account, <a href='{{login_url}}'>entra</a> o <a href='{{forgot_url}}'>reimposta la tua password</a>."
+      #####
+      you_already_have_an_account: "You already have a Teambox account for the address {{email}}. <a href='{{login_link}}'>Log in with this email</a> or <a href='{{reset_password_link}}'>reset your password</a> if you forgot it."
     create:
       thanks: Grazie per esserti registrato!
       error: "Non è stato possible registrare l'account, siamo spiacenti! Ritenta."
@@ -152,6 +167,7 @@ it:
       profile: Profilo
       projects: Progetti
       recent_activity_for: "Attività recenti di {{user_name}}"
+      pending_invite: "{{name}} currently has a pending invitation to one of your projects. You will not be able to access any more information until this invitation has been accepted."
     user:
       formatted_address: "{{street}}, {{city}} ({{country}})"
       remove_from_project: Rimuovi dal progetto
@@ -187,15 +203,60 @@ it:
       completeness: "Completo al {{percentage}}%"
       to_get_to: per
     daily_task_reminder_email:
-      daily_task_reminder: "Daily task reminder"
-      daily_task_reminder_from_teambox: "This is the daily task reminder email from Teambox"
-      late_tasks: "Late tasks"
-      tasks_for_today: "Tasks for today"
-      tasks_for_tomorrow: "Tasks for tomorrow"
-      tasks_for_next_two_weeks: "Tasks for next two weeks"
-      tasks_without_a_due_date: "Tasks without a due date"
+      daily_task_reminder: "Promoria giornaliero dei compiti"
+      late_tasks: "Compiti passati"
+      tasks_for_today: "Compiti per oggi"
+      tasks_for_tomorrow: "Compiti per domani"
+      tasks_for_next_two_weeks: "Compiti per le prossime due settimane"
+      tasks_without_a_due_date: "Compiti senza scadenza"
       you_receive_this_message: "You receive this message because you signed up for it. You can disable it on your {{link}}"
       settings_page: "settings page"
+  ####
+  groups:
+    index:
+      title: Groups
+      groups_in: "Groups you are in"
+      your_group: "Your group"
+      no_groups: "You do not belong to any groups."
+      description: "Use groups to share resources with others, and to band together projects under a single name!"
+      submit_project: Add
+      remove_project: Remove
+    primer:
+      no_group_create: "You do not own a group. {{link}}."
+      create_group: "Create a group"
+    header:
+      leave: Leave
+      remove: Remove
+    logo_fields:
+      current: Current logo
+      delete: Remove
+      description: This logo will appear on all projects belonging to this group
+      upload: Upload
+    search:
+      username_or_email: Username or email
+      invite: Invite
+      invite_people: Invite people to the group
+    fields:
+      name: Name
+      description: Description
+      permalink: Permalink
+      permalink_description: Domain your group can be accessed from
+    new:
+      submit: Create
+      explain: You can only have one group.
+      title: Create group
+      created: Your group has been created
+    edit:
+      submit: Update
+    show:
+      edit: Edit
+      add_project: Add a project
+    ####
+    errors:
+      already_own: "You already own a group!"
+      not_enabled: "Groups are not enabled on this system"
+      not_admin: "You cannot admin this group"
+      no_edit: "You cannot edit this group"
   projects:
     index:
       title: Attività in tutti i tuoi progetti
@@ -226,7 +287,7 @@ it:
       invite_people: "Invita qualcun altro..."
       new_task_list_link: Nuova lista di compiti
       people_in_project: Persone in questo progetto
-      subscribe: Iscriviti a qusto progetto
+      subscribe: Iscriviti a questo progetto
       tip: "Se nomini l'@account di qualcuno, riceverà una mail con il tuo messaggio"
       #####
       calendar: Calendar for this project's tasks
@@ -259,11 +320,13 @@ it:
       upgrade: Acquista un account premium!
     new:
       title: Crea un progetto
-      submit: Crea un progetto ed inizia ad invitare it tuoi colleghi
+      submit: Crea un progetto ed inizia ad invitare i tuoi colleghi
       new_project: Nuovo progetto...
       created: Il progetto è stato creato!
       invalid_project: "Progetto non valido, correggi gli errori e riprova."
       create_an_example_project: "Questa è la tua prima volta in Teambox? <a href='{{link}}'>Crea un progetto di esempio</a> per sperimentare e imparare."
+      ####
+      not_allowed: "You can't create any projects with your current account."
     edit:
       title_settings: Preferenze Generali
       title_picture: Logo del Progetto
@@ -283,11 +346,19 @@ it:
       resend: Reinvia la mail d'invito
       pending: "E' stata inviata una mail a questo utente, però non ha ancora confermato"
       discard: Rifiuta l'invito
+    ####
+    group_invitation:
+      invited_user: "{{inviter}} invited <b>{{invitee}}</b> to join the group."
+      invited_email: "{{inviter}} invited <b>{{email}}</b> to join the group."
     sent:
       email_sent: "<b>Abbiamo inviato una mail avvisando l'utente di accettare il tuo invito</b>. Se non riesce a trovare la mail, assicurati che non sia stata classificata come spam. Se il problema persiste, scrivici una mail."
     pending:
       to_access_or: per accedere al progetto o
+      ####
+      to_access_or_group: to access the group or
       invited_to_join: "{{by}} ti ha invitato a unirti al progetto {{project}}."
+      ####
+      invited_to_join_group: "{{by}} has invited you to join the group {{group}}."
     resend:
       resent: "Abbiamo rimandato l'invito a {{recipient}}. Se non riesce a trovare la mail, assicurati che non sia stata classificata come spam."
       return: Indietro
@@ -299,8 +370,16 @@ it:
       invite_people: Invita utenti al progetto
       invite: Cerca e invita
       submit: Invia
+      ####
+      role: "Select a role"
+      ####
+      invite_from_project: "Invite from Project"
     recent:
       invite: Invita {{username}}
+    ####
+    errors:
+      invalid: "Invalid invitation"
+      invalid_code: "Invalid invitation code"
   conversations:
     actions:
       confirm_delete: Sei sicuro di voler cancellare questa conversazione?
@@ -439,7 +518,7 @@ it:
       footer1: "Usa Teambox come una <b>bacheca condivisa</b> per informazioni di uso frequente."
       footer2: "Puoi anche allegare files in qualsiasi pagina del progetto."
     buttons:
-      new_note: Nota
+      new_note: Testo
       new_divider: Separatore
       new_upload: File
       new_task_list: Lista di compiti
@@ -533,6 +612,9 @@ it:
       transfer: Trasferisci il progetto
       leave_project: Lascia il Progetto
       confirm_delete: Sicuro di voler rimuovere questa persona dal pogetto?
+    ####
+    errors:
+      user_or_email: "User not found. Enter his username or email."
   comments:
     comment:
       commented_on: "-"
@@ -548,6 +630,11 @@ it:
       task: "Define what needs to be done by commenting. Assign this task to somebody. Post updates. Attach results." #####
     edit:
       submit: Salva
+    ####
+    errors:
+      cannot_update: You do not have permission to update this comment
+    actions:
+      confirm_delete: Are you sure you want to delete this comment?
   example_projects:
     new:
       learn: Progetto Tutorial
@@ -556,6 +643,9 @@ it:
       line3: "Non dimenticare di <b>leggere le istruzioni</b> e <b>sperimentare</b> creando, modificando e cancellando elementi!"
       create: Crea il progetto tutorial
       line4: "In questo progetto non potrai invitare altre persone, però puoi fare tutto il resto."
+      ####
+      error: "Could not create example project."
+      error_list: "Could not create example project. The following projects are invalid: {{list}}."
   uploads:
     comment_upload_link: Allegato
     new:
@@ -593,6 +683,9 @@ it:
       title: Entra
       video: Breve introduzione a Teambox
       submit: Entra
+      ####
+      activation: "You need to activate your account first"
+      login_failed: "Couldn't log you in as {{login}}"
 
   email:
     user:
@@ -623,7 +716,7 @@ it:
       all_conversations: Tutte le conversazioni
       conversations: Conversazioni
       task_lists: Compiti
-      all_task_lists: Tutte i compiti
+      all_task_lists: Tutte le liste di compiti
       project_settings: Progetto
       all_pages: Tutte le pagine
       people: Persone
@@ -633,6 +726,8 @@ it:
       signup: Creare un account
       files: Files
       invitations: Inviti
+      ####
+      groups: Project Groups
     global_navigation:
       project_invitations: Inviti
       home: Home
@@ -651,7 +746,7 @@ it:
       terms: "Condizioni d'uso"
     user_navigation:
       account_settings: Impostazioni account
-      profile_information: Informaziioni di profilo
+      profile_information: Informazioni di profilo
       profile_picture: Immagine
       notifications: Notifiche
     task_navigation:
@@ -693,6 +788,9 @@ it:
       teambox_is_a_pm_platform: "Teambox è una piattaforma di gestione dei progetti pensata per il mondo reale."
       plan_share_and_collaborate: "Pianifica, condividi e tieniti aggiornato su quel che è stato fatto. Facile come dovrebbe essere."
       report_abuse: "Questa email ti è stata inviata su richiesta di un tuo contatto. Se c'è stato un intento di abuso, contattaci."
+    ####
+    invitation_group:
+      you_have_been_invited_to: "You have been invited to the group <b>{{group}}</b>"
     confirm:
       hey: "Ciao, {{user_name}}!"
       follow_the_link: "Per <b>completare la tua registrazione</b> in Teambox segui questo link:"
@@ -885,7 +983,7 @@ it:
       conversation: Conversazione
       page: Pagina
       divider: Separatore
-      note: Nota
+      note: Testo
       invitation: Invito
       upload: File
     attributes:
@@ -971,6 +1069,19 @@ it:
         odd: "deve essere dispari"
         even: "deve essere pari"
         record_invalid: "Validazione non valida: {{errors}}"
+      ####
+      models:
+        comment:
+          attributes:
+            body:
+              no_body_generic: "Please write about what you have done in the box above."
+              no_body_task: "Please write about what you have done for this task in the box above."
+        conversation:
+          attributes:
+            body:
+              no_body_generic: "Please write a comment to start the conversation."
+            name:
+              no_title: "Please give this conversation a title"
 
   date:
     yesterday: Ieri
@@ -990,7 +1101,7 @@ it:
   time:
     formats:
       default: "%a, %d %b %Y %H:%M:%S %z"
-      short: "%d %b %H:%M"
+      short: "%I:%M %p"
       long: "%B %d, %Y %H:%M"
     am: "am"
     pm: "pm"

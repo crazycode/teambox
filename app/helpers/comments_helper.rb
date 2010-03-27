@@ -24,9 +24,9 @@ module CommentsHelper
     end  
   end
 
-  def options_for_people(people)
-    p = [[t('.assigned_to_nobody'),nil]]
-    people.each {|person| p << [ person.name, person.id ]}
+  def options_for_people(people, include_nobody = true)
+    p = include_nobody ? [[t('.assigned_to_nobody'),nil]] : []
+    people.sort_by{|a| a.name}.each {|person| p << [ person.name, person.id ]}
     p
   end
   
@@ -112,7 +112,7 @@ module CommentsHelper
     else
       form_url = [project,target,comment]
     end
-    if project.editable?(current_user) && project.archived == false
+    if project.commentable?(current_user) && project.archived == false
       render :partial => 'comments/new',
         :locals => { :target => target,
           :message => message,
@@ -137,21 +137,78 @@ module CommentsHelper
   
   def cancel_edit_comment_link(comment)
     link_to_remote t('common.cancel'),
-      :url => comment_path(comment),
-      :method => :get
+      :url => project_comment_path(comment.project, comment),
+      :method => :get,
+      :loading => show_loading_comment_form(comment.id)
   end
 
   def edit_comment_link(comment)
+    return unless comment.user_id == current_user.id
     link_to_remote pencil_image,
-      :url => edit_comment_path(comment),
-      :method => :get
+      :url => edit_project_comment_path(comment.project, comment),
+      :loading => edit_comment_loading_action(comment),
+      :method => :get,
+      :html => {:id => "edit_comment_#{comment.id}_link"}
   end
     
   def delete_comment_link(comment)
     link_to_remote trash_image,
-      :url => comment_path(comment),
+      :url => project_comment_path(comment.project, comment),
+      :loading => delete_comment_loading_action(comment),
       :method => :delete,
-      :confirm => t('.confirm_delete')
+      :confirm => t('.confirm_delete'),
+      :html => {:id => "delete_comment_#{comment.id}_link"}
+  end
+  
+  def show_loading_comment_form(id)
+    update_page do |page|
+      page["comment_form_loading_#{id}"].show
+      page["comment_submit_#{id}"].hide
+    end
+  end
+  
+  def hide_loading_comment_form(id)
+    page.remove "comment_form_loading_#{id}"
+    page["comment_submit_#{id}"].show
+  end
+  
+  def loading_comment_form(toggle,id)
+    if toggle
+      page["note_form_loading#{"_#{id}" if id}"].show
+      page["note_submit#{"_#{id}" if id}"].hide
+    else
+      page["note_form_loading#{"_#{id}" if id}"].hide
+      page["note_submit#{"_#{id}" if id}"].show
+    end
+  end
+  
+  def edit_comment_loading_action(comment)
+    update_page do |page|
+      page.insert_html :after, "edit_comment_#{comment.id}_link", loading_action_image("edit_comment_#{comment.id}")
+      page["edit_comment_#{comment.id}_link"].hide
+    end  
+  end
+  
+  def delete_comment_loading_action(comment)
+    update_page do |page|
+      page.insert_html :after, "delete_comment_#{comment.id}_link", loading_action_image("delete_comment_#{comment.id}")
+      page["delete_comment_#{comment.id}_link"].hide
+    end  
+  end
+  
+  def last_comment_input
+    hidden_field_tag 'last_comment_id', '0'
+  end
+  
+  def comment_update_last_id
+    javascript_tag <<-EOS
+      var last = $$('#comments .comment:first');
+      if (last.length > 0)
+      {
+        var val = $(last[0]).readAttribute('id').split('_')[1];
+        $('last_comment_id').writeAttribute('value', val);
+      }
+    EOS
   end
   
   def comments_script(target)
@@ -182,6 +239,12 @@ module CommentsHelper
       raise ArgumentError, "Invalid Comment Count type, was expecting :column, :content or :header but got #{status_type}"
     end
     id = "#{js_id(target)}_#{status_type}_comments_count"
+  end
+
+  def make_autocompletable(element_id)
+    base_list = ["'@all <span class=\"informal\">#{t('conversations.watcher_fields.people_all')}</span>'"]
+    people_list = (base_list + @current_project.people.map{|m| "'@#{m.login} <span class=\"informal\">#{h(m.name)}</span>'"}).join(',')
+    javascript_tag "Comment.make_autocomplete('comment_body', [#{people_list}]);"
   end
 
   def comment_text_area(f, target)

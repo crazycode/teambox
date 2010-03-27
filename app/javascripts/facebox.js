@@ -24,10 +24,12 @@ var Facebox = Class.create({
     if (!this.container)
       return;
 
+    var url_strip = /((?:url\()|['"\)])/gi;
     var elements = this.container.select('.n, .s, .w, .e, .nw, .ne, .sw, .se, .loading, .close');
     elements.each(function(element) {
       this.preloadImages.push(new Image());
-      this.preloadImages.last().src = element.getStyle('background-image').replace(/url\((.+)\)/, '$1');
+      var match = element.getStyle('background-image').replace(url_strip, "");
+	  this.preloadImages.last().src = match;
     }.bind(this));
     if (Prototype.Browser.IE)
       this.fixPNG(this.container.select('.n, .s, .w, .e, .nw, .ne, .sw, .se'));
@@ -56,15 +58,17 @@ var Facebox = Class.create({
   },
 
   fixPNG: function(elements) {
-    return elements.each(function (el) {
+	var url_strip = /((?:url\()|['"\)])/gi;
+	var url_png = /^url\(["']?(.*\.png)["']?\)$/i;
+    elements.each(function (el) {
       var element = $(el);
       var image = element.getStyle('background-image');
 
-      if (image.match(/^url\(["']?(.*\.png)["']?\)$/i)) {
-        image = RegExp.$1;
+      if (image.match(url_png)) {
+        var match = image.replace(url_strip, "");
         element.setStyle({
           'background-image': 'none',
-          'filter': "progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true, sizingMethod=" + (element.getStyle('background-repeat') == 'no-repeat' ? 'crop' : 'scale') + ", src='" + image + "')"
+          'filter': "progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true, sizingMethod=" + (element.getStyle('background-repeat') == 'no-repeat' ? 'crop' : 'scale') + ", src=\'" + match + "\')"
         });
         var position = element.getStyle('position');
         if (position != 'absolute' && position != 'relative')
@@ -128,9 +132,18 @@ var Facebox = Class.create({
       ref.is_image = true;
       var timeoutFunc = function(){ref.centralize();};
       image.onload = function() {
-        ref.setContent('<div class="image"><img src="' + image.src + '" /></div>', className);
+        var real_width = image.width;
+        var real_height = image.height;
+        var border = 48*2;
+        var dim = document.viewport.getDimensions();
+        if (real_width+border > dim.width) {
+          var ratio = real_height / real_width;
+          real_width = Math.round(dim.width - border);
+          real_height = Math.round(real_width * ratio);
+        }
+        ref.setContent('<div class="image"><img src="' + image.src + '" style="width:'+real_width+'px;height:'+real_height+'px"/></div>', className);
+        ref.fitContent({width:real_width, height:real_height});
         ref.centralize();
-        ref.fitContent({width:image.width, height:image.height});
         setTimeout(timeoutFunc, 0);
       }.bind(this);
       image.src = anchor.href;
@@ -160,7 +173,7 @@ var Facebox = Class.create({
     var pageScroll = document.viewport.getScrollOffsets();
     var size = this.container.getDimensions();
     
-    var wl = (pageDim.width/2) - (size.width / 2);
+    var wl = Math.round((pageDim.width/2) - (size.width / 2)) + 20;
     var fh = size.height;
     
     if (pageDim.height > fh) {
@@ -182,7 +195,7 @@ var Facebox = Class.create({
       this.currentClassName = null;
     }
     
-    this.contentHolder.update('<div class="loading">Loading...</div>');
+    this.contentHolder.update('<div class="loading"></div>');
     this.centralize();
     
     return this;

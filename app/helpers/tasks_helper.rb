@@ -203,7 +203,7 @@ module TasksHelper
     out << case status_type
     when :column  then task.comments_count.to_s
     when :content then task.comments_count.to_s
-    when :header  then "#{localized_status_name(task)} &mdash #{task.comments_count}"
+    when :header  then "#{localized_status_name(task)} &mdash; #{task.comments_count}"
     end
     out << "</span>"
     out
@@ -366,7 +366,8 @@ module TasksHelper
     content_tag(:div,
       f.calendar_date_select(field, {
         :popup => :force,
-        :first_day_of_week => 1,
+        :first_day_of_week => (current_user.first_day_of_week == 'monday') ? 1 : 0,
+        :strftime => "'strftime_#{current_user.language}'",
         :footer => false,
         :year_range => 2.years.ago..10.years.from_now,
         :time => false,
