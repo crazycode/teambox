@@ -15,6 +15,8 @@ en:
     save: Save
     show_more: Show {{number}} more
     print: Print this page
+    prev: Previous
+    next: Next
     comment:
       one: "{{count}} comment"
       other: "{{count}} comments"
@@ -289,6 +291,7 @@ en:
         title: "{{name}}"
         description: "Recent activities for the project {{name}}"
     fields:
+      tracks_time: "Enable time tracking"
       archiving: "Archive this project"
       forever: "Delete this project forever"
       owner: "Owner"
@@ -416,6 +419,20 @@ en:
     short_conversation:
       comment: comment
       comments: comments
+  hours:
+    comments: Time Entries
+    filter_by: Filter by
+    report: Report
+    week_num: Week {{num}}
+    entry_hours: hrs
+    entry_total: Total
+    week_total: Total
+    all_tasks: All tasks
+    all_users: All users
+    reports:
+      user: Users
+      project: Projects
+      task: Tasks
 
   tasks:
     errors:
@@ -582,10 +599,10 @@ en:
       submit: Update Person
     fields:
       role: Role
-      observer: Observer
-      commenter: Commenter
-      participant: Participant
-      admin: Admin
+      observer: Observer. Read-only access to the project.
+      commenter: "Commenter. Can comment, but not create new elements."
+      participant: "Participant. Can do everything, but not invite users."
+      admin: Administrador. Can invite users to the project.
     header:
       owner: Project Owner
       observer: Observer
@@ -598,6 +615,14 @@ en:
       confirm_delete: Are you sure you want to remove this person from the project?
     errors:
       user_or_email: "User not found. Enter his username or email."
+    column:
+      inviting: "Inviting other users"
+      only_admins_can_invite: "Only admins can invite people to this project."
+      contact_admins: "In this project, only {{admins}} can invite new members."
+      leaving: "Leaving the project"
+      you_can_leave: "You can leave this project at any moment. If you do, you won't be able to access its data anymore, and you will not receive further notifications. Others will still be able to access the project, and no data will be lost."
+      leave_project: "Leave this project"
+      confirm_delete: Are you sure you want to leave this project?
   comments:
     comment:
       commented_on: "-"
@@ -606,7 +631,7 @@ en:
     new:
       assigned_to_nobody: 'Unassigned'
       assigned_to: "Assigned to:"
-      submit: Comment
+      submit: Save
       project: "What are you doing? Share ideas, links, updates."
       conversation: "Send a message to the rest of the group."
       task_list: "Share ideas for this task list. To create and assign tasks, use the sidebar."

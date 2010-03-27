@@ -15,6 +15,8 @@ zh:
     save: 保存
     show_more: 显示{{number}}的更多信息
     print: 打印此页
+    prev: 上一个
+    next: 下一个
     comment:
       one: "{{count}}条评论"
       other: "{{count}}条评价"
@@ -598,11 +600,22 @@ zh:
       confirm_delete: 您确信要把此人从项目中移除？
     errors:
       user_or_email: "用户没有找到。请输入他的用户名或Email。"
+    #####
+    column:
+      inviting: "邀请其它用户"
+      only_admins_can_invite: "只有管理员才可以邀请其他人加入此项目。"
+      contact_admins:
+        one: "在这个项目中，只有{{admins}}可以邀请新成员加入。"
+        other: "在这个项目中，只有{{admins}}可以邀请新成员加入。"
+      leaving: "离开项目"
+      you_can_leave: "您可以在任何时候离开这个项目。如果这样做，你将不能访问任何数据，不能收到任何提醒邮件。其他人仍然可以使用此项目，不会丢失任何数据。"
+      leave_project: 离开项目
+      confirm_delete: 您确信要把此人从项目中移除？
   comments:
     comment:
       commented_on: "-"
       commented_on_a_task_list: "-"
-      confirm_delete: 您砍要删除这条评论？
+      confirm_delete: 您确信要删除这条评论？
     new:
       assigned_to_nobody: '未分配'
       assigned_to: "分配给:"

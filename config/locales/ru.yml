@@ -15,15 +15,17 @@ ru:
     save: Сохранить
     show_more: Показать ещё {{number}}
     print: Распечатать страницу
+    prev: Previous
+    next: Next
     comment:
       one: "{{count}} комментарий"
       other: "{{count}} комментариев"
     not_allowed: Вам нельзя это делать!
   confirm:
-    delete_task_list: Вы уверены, что хотите удалить этот список задач?
-    delete_task: Вы уверены, что хотите удалить эту задачу?
-    delete_page: Вы уверены, что хотите удалить эту страницу?
-    delete_upload: Вы уверены, что хотите удалить этот файл?
+    delete_task_list: "Вы уверены, что хотите удалить этот список задач?"
+    delete_task: "Вы уверены, что хотите удалить эту задачу?"
+    delete_page: "Вы уверены, что хотите удалить эту страницу?"
+    delete_upload: "Вы уверены, что хотите удалить этот файл?"
   not_found:
     user: "Пользователь не существует."
     conversation: "Обсуждение {{id}} не найдено в этом проекте."
@@ -236,7 +238,7 @@ ru:
       name: Название
       description: Описание
       permalink: Адрес
-      permalink_description: Адрес, по которому группа будет доступна
+      permalink_description: "Адрес, по которому группа будет доступна"
     new:
       submit: Создать
       explain: Вы можете создать только одну группу.
@@ -288,6 +290,8 @@ ru:
         title: "{{name}}"
         description: "Последние действия по проекту {{name}}"
     fields:
+      ####
+      tracks_time: "Enable time tracking"
       archiving: "Архивировать этот проект"
       forever: "Удалить этот проект навсегда"
       owner: "Владелец"
@@ -299,14 +303,14 @@ ru:
       archived: Архивировать этот проект
       confirm_delete: "Вы уверены, что хотите навсегда удалить этот проект? ВОССТАНОВИТЬ ЕГО БУДЕТ НЕЛЬЗЯ. Если вы хотите просто скрыть или отложить его, используйте архивирование."
     new_primer:
-      define1: Проект — это группа, разделённая с вашими колегами.
+      define1: "Проект — это группа, разделённая с вашими колегами."
       define2: "Внутри проекта каждый участник может:"
       feature1: Посылать обновления статуса.
       feature2: Начинать обсуждение и писать ответы.
       feature3: Загружать файлы.
       feature4: Назначать и просматривать задачи.
       feature5: Комментировать задачи.
-      feature6: Следить за временем, проведённым за задачами.
+      feature6: "Следить за временем, проведённым за задачами."
       feature7: "Создавать, редактировать, просматривать страницы."
       footer: Этот проект будет принадлежать вам. Вы можете передать этот проект другим участникам в любое время.
       limited: "У вас бесплатный аккаунт, вы можете загрузить только до 50 МБ файлов в этот проект."
@@ -415,6 +419,21 @@ ru:
     short_conversation:
       comment: комментарий
       comments: комментариев
+  ####
+  hours:
+    comments: Time Entries
+    filter_by: Filter by
+    report: Report
+    week_num: Week {{num}}
+    entry_hours: hrs
+    entry_total: Total
+    week_total: Total
+    all_tasks: All tasks
+    all_users: All users
+    reports:
+      user: Users
+      project: Projects
+      task: Tasks
 
   tasks:
     errors:
@@ -581,10 +600,11 @@ ru:
       submit: Обновить данные
     fields:
       role: Роль
-      observer: Наблюдатель
-      commenter: Комментатор
-      participant: Участник
-      admin: Администратор
+      #####
+      observer: Observer. Read-only access to the project.
+      commenter: "Commenter. Can comment, but not create new elements."
+      participant: "Participant. Can do everything, but not invite users."
+      admin: Administrador. Can invite users to the project.
     header:
       owner: Владелец проекта
       observer: Наблюдатель
@@ -597,6 +617,17 @@ ru:
       confirm_delete: Вы уверены, что хотите выгнать этого милого человека из проекта?
     errors:
       user_or_email: "Пользователь не найден. Введине его логин или электронный адрес."
+    #####
+    column:
+      inviting: "Inviting other users"
+      only_admins_can_invite: "Only admins can invite people to this project."
+      contact_admins:
+        one: "In this project, only {{admins}} can invite new members."
+        other: "In this project, only {{admins}} can invite new members."
+      leaving: "Leaving the project"
+      you_can_leave: "You can leave this project at any moment. If you do, you won't be able to access its data anymore, and you will not receive further notifications. Others will still be able to access the project, and no data will be lost."
+      leave_project: "Leave this project"
+      confirm_delete: Are you sure you want to leave this project?
   comments:
     comment:
       commented_on: "-"

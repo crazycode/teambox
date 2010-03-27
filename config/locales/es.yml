@@ -15,6 +15,8 @@ es:
     save: Guardar
     show_more: Ver {{number}} más
     print: Imprimir esta página
+    prev: Anterior
+    next: Siguiente
     comment:
       one: "{{count}} comentario"
       other: "{{count}} comentarios"
@@ -288,6 +290,7 @@ es:
         title: "{{name}}"
         description: "Actividad reciente para {{name}}"
     fields:
+      tracks_time: "Activar time tracking (registro de horas)"
       archiving: Archivar este proyecto
       forever: Borrar permanentemente este proyecto
       owner: Propietario
@@ -415,6 +418,20 @@ es:
     short_conversation:
       comment: respuesta
       comments: respuestas
+  hours:
+    comments: Entradas
+    filter_by: Filtrar por
+    report: Informe
+    week_num: Semana {{num}}
+    entry_hours: hrs
+    entry_total: Total
+    week_total: Total
+    all_tasks: Todas las tareas
+    all_users: Todos los usuarios
+    reports:
+      user: Usuarios
+      project: Proyectos
+      task: Tareas
 
   tasks:
     errors:
@@ -582,10 +599,10 @@ es:
       submit: Modificar
     fields:
       role: Rol
-      observer: Observador
-      commenter: Comentador
-      participant: Participante
-      admin: Administrador
+      observer: Observador. Acceso de sólo lectura al proyecto.
+      commenter: "Comentador. Puede publicar comentarios, pero no crear elementos nuevos."
+      participant: "Participante. Puede hacer todo, excepto invitar usuarios al proyecto."
+      admin: Administrador. Puede invitar a usuarios.
     header:
       owner: Propietario del proyecto
       observer: Observador
@@ -598,6 +615,16 @@ es:
       confirm_delete: Seguro que quieres borrar a esta persona del proyecto?
     errors:
       user_or_email: "No se ha encontrado al usuario. Introduce su email o nombre de usuario."
+    column:
+      inviting: "Invitar a otros usuarios"
+      only_admins_can_invite: "Sólo un administrador puede invitar personas al proyecto."
+      contact_admins:
+        one: "En este proyecto, sólo {{admins}} puede invitar a nuevos miembros."
+        other: "En este proyecto, sólo {{admins}} pueden invitar a nuevos miembros."        
+      leaving: "Dejar el proyecto"
+      you_can_leave: "Puedes dejar este projecto en cualquier momento. Si lo haces, no podrás acceder a él ni recibirás notificaciones de actividad. El resto del equipo podrá acceder al proyecto, y no se perderá ninguna información."
+      leave_project: "Dejar este proyecto"
+      confirm_delete: ¿Estás seguro de querer dejar este proyecto?
   comments:
     comment:
       commented_on: "-"

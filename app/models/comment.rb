@@ -14,7 +14,7 @@ class Comment < ActiveRecord::Base
 
   named_scope :with_hours, :conditions => 'hours > 0'
 
-  attr_accessible :status, :previous_status, :assigned, :previous_assigned
+  attr_accessible :status, :previous_status, :assigned, :previous_assigned, :hours
   validate :check_body
 
   attr_accessor :mentioned # used by format_usernames to set who's being mentioned
@@ -58,6 +58,14 @@ class Comment < ActiveRecord::Base
       true
     else
       false
+    end
+  end
+  
+  def day
+    if self.created_at.mday.to_s.length == 1
+      current_day = "0#{self.created_at.mday.to_s}"
+    else
+      current_day =  self.created_at.mday.to_s
     end
   end
   

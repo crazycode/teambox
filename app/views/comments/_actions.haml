@@ -1,6 +1,6 @@
-%p.actions
+%p.actions{:id => "comment_#{comment.id}_actions", :style => 'display:none'}
   %span
-    - if true#comment.can_edit?(current_user)
+    - if comment.can_edit?(current_user)
       = edit_comment_link(comment)
     - if comment.can_destroy?(current_user)
       = delete_comment_link(comment)

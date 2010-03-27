@@ -134,6 +134,8 @@ class ApplicationController < ActionController::Base
             name = @task_list ? @task_list.name : nil
           when 'show_conversations'
             name = @conversation ? @conversation.name : nil
+          when 'show_pages'
+            name = @page ? @page.name : nil
         end
         @page_title = "#{html_escape(project_name)} &rarr; #{ name ? html_escape(name) : translate_location_name }"
       else
@@ -243,6 +245,10 @@ class ApplicationController < ActionController::Base
     
     def groups_enabled?
       APP_CONFIG['allow_groups'] || false
+    end
+    
+    def time_tracking_enabled?
+      APP_CONFIG['allow_time_tracking'] || false
     end
 
 end

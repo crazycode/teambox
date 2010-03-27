@@ -15,6 +15,8 @@ ca:
     save: Guardar
     show_more: "Veure {{number}} més"
     print: Imprimir aquesta pàgina
+    prev: Previous
+    next: Next
     comment:
       one: "{{count}} comentari"
       other: "{{count}} comentaris"
@@ -296,6 +298,8 @@ ca:
         title: "{{name}}"
         description: "Activitat recent per a {{name}}"
     fields:
+      ####
+      tracks_time: "Enable time tracking"
       archiving: Arxivar aquest projecte
       forever: Borrar permanentment aquest projecte
       owner: Propietari
@@ -430,6 +434,21 @@ ca:
     short_conversation:
       comment: resposta
       comments: respostes
+  ####
+  hours:
+    comments: Time Entries
+    filter_by: Filter by
+    report: Report
+    week_num: Week {{num}}
+    entry_hours: hrs
+    entry_total: Total
+    week_total: Total
+    all_tasks: All tasks
+    all_users: All users
+    reports:
+      user: Users
+      project: Projects
+      task: Tasks
 
   tasks:
     errors:
@@ -598,10 +617,11 @@ ca:
       submit: Modificar
     fields:
       role: Rol
-      observer: Observador
-      commenter: Comentarista
-      participant: Participant
-      admin: Administrador
+      #####
+      observer: Observer. Read-only access to the project.
+      commenter: "Commenter. Can comment, but not create new elements."
+      participant: "Participant. Can do everything, but not invite users."
+      admin: Administrador. Can invite users to the project.
     header:
       owner: Propietari del projecte
       observer: Observador
@@ -615,6 +635,16 @@ ca:
     ####
     errors:
       user_or_email: "User not found. Enter his username or email."
+    column:
+      inviting: "Inviting other users"
+      only_admins_can_invite: "Only admins can invite people to this project."
+      contact_admins:
+        one: "In this project, only {{admins}} can invite new members."
+        other: "In this project, only {{admins}} can invite new members."
+      leaving: "Leaving the project"
+      you_can_leave: "You can leave this project at any moment. If you do, you won't be able to access its data anymore, and you will not receive further notifications. Others will still be able to access the project, and no data will be lost."
+      leave_project: "Leave this project"
+      confirm_delete: Are you sure you want to leave this project?
   comments:
     comment:
       commented_on: "-"
