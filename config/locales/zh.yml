@@ -117,13 +117,13 @@ zh:
         presence: "您不能上传空文件"
         max_size: "文件大小不能超过{{mb}}"
         we_have_this_avatar: "当前您的头像："
-        upload_here_or_at_gravatar: "You can upload a new avatar here, or upload it to <a href='http://gravatar.com'>Gravatar</a> for a global avatar you can use with Teambox and many other websites."
+        upload_here_or_at_gravatar: "您可以在这里上传新的头像，或上传到<a href='http://gravatar.com'>Gravatar</a>作为一个通用的头像，用于Teambox或其它网站。"
       tooltips:
-        login: "You need a username to login. People will be able to find you by username. Must be all lowercase, no spaces. You can use undescores."
+        login: "您需要用户名才能登录。其他人通过用户名可以找到你。必须全为小写字母，不能有空格，可以使用下划线。"
         first_name: 最多20个字符.
         last_name: 最多20个字符.
-        email: Enter your real email so your team-mates can contact you.
-        password: "Combining letters, numbers, uppercase and lowercase is a good idea."
+        email: 请输入真实的Email地址，你的队友可以通过邮件联系您。
+        password: "组合字母，数字，大小写混合是个好注意。"
     new:
       title: 创建新帐号
       submit: 创建帐号
@@ -143,11 +143,11 @@ zh:
       updated: 用户个性设置已更新！
       error: "不能保存修改的个性设置，请修正错误并重试。"
     activation:
-      resent: "We've re-sent the activation email. Take a look at your inbox!"
-      already_done: "You had already confirmed your email! You can now use Teambox."
-      activated: "Your account has been activated! Welcome to Teambox :)"
-      invalid: "<p>Invalid or expired access link. Login with your email and password.</p><p>If you don't remember your login data, follow the Forgot your Password link.</p>"
-      invalid_user: Invalid user
+      resent: "我们已经重新发送了激活邮件。请检查您的收件箱！"
+      already_done: "您已经确认了您的email地址！现在您可以使用Teambox了。"
+      activated: "您的帐号已经激活！欢迎使用Teambox :)"
+      invalid: "<p>无效或已经过期的链接。请使用您的email和密码登录。</p><p>如果您忘记了您的登录密码，请点击下面的“忘记密码”链接。</p>"
+      invalid_user: 无效用户
     show:
       profile: 个性设置
       projects: 项目
@@ -169,14 +169,14 @@ zh:
         help: You can <b>help us</b> by telling your friends how you enjoy Teambox on
         twitter: 'Twitter,'
         facebook: Facebook
-        in_your_site: in your site!
+        in_your_site: 在您的网站！
         tell_us: "If you enjoy using Teambox, also consider <a href='mailto:{{address}}'>telling us about it</a> in an email!"
       stop_welcome: 不再显示此欢迎页签
     unconfirmed_email:
       title: 确认您的邮件
       invitation_sent_to: "An email invitation was sent to <i>{{email}}</i>, in order to verify your email address."
       follow_the_link: Please <b>open this email and follow the link inside it</b> to activate your account.
-      problems_title: Problems?
+      problems_title: 问题？
       resend: "Can't find the email? Press <a href='{{link}}'>here</a> to re-send the activation email."
       spam: "Make sure the email wasn't classified as spam by your email client."
       wrong_address: "Wrong address? If you mistyped your email address, <a href='{{link}}'>cancel the signup process</a> and re-create your account with a valid address."
@@ -185,16 +185,16 @@ zh:
       title: 完整的个人信息
       complete_your_profile: 填写完整您的个人信息，有助于您的团队可以通过您的信息与您保持联系！
       completeness: "完整程序：{{percentage}}%"
-      to_get_to: to get to
+      to_get_to: 以得到
     daily_task_reminder_email:
-      daily_task_reminder: "Daily task reminder"
-      daily_task_reminder_from_teambox: "This is the daily task reminder email from Teambox"
-      late_tasks: "Late tasks"
-      tasks_for_today: "Tasks for today"
-      tasks_for_tomorrow: "Tasks for tomorrow"
-      tasks_for_next_two_weeks: "Tasks for next two weeks"
-      tasks_without_a_due_date: "Tasks without a due date"
-      you_receive_this_message: "You receive this message because you signed up for it. You can disable it on your {{link}}"
+      daily_task_reminder: "每日任务提醒"
+      daily_task_reminder_from_teambox: "这是来自Teambox的每日任务提醒邮件。"
+      late_tasks: "近期任务"
+      tasks_for_today: "今日任务"
+      tasks_for_tomorrow: "明日任务"
+      tasks_for_next_two_weeks: "下两周任务"
+      tasks_without_a_due_date: "无截止日期任务"
+      you_receive_this_message: "您收到此邮件是因为您设置了提醒选项。您可以通过{{link}}不再收到这些邮件"
       settings_page: "设置页"
   projects:
     index:
@@ -237,11 +237,11 @@ zh:
       owner: "所有者"
       owner_description: "所有者是一个项目的主要负责人，他不能被从此项目中移除，除非先行指定另一个所有者。"
       name: 名称
-      name_description: "Choose a brief and descriptive title. For example: Taggart Transcontinental"
+      name_description: "请选择一个简短明确的标题。如：Taggart Transcontinental"
       permalink: URL
-      permalink_description: "This will be the web address for your project. Keep it as short as possible. No spaces allowed."
+      permalink_description: "这是您项目的网址。请尽量简短，不允许有空格。"
       archived: 存档此项目
-      confirm_delete: "Are you sure you'd want to delete this project forever? THERE IS NO WAY TO RECOVER IT. If you want to keep it, use Archive Project instead."
+      confirm_delete: "您确信要永久删除此项目？此操作不可恢复。如果您还想保留它，请使用存档项目操作。"
     new_primer:
       define1: 项目是一个与您的团队成员共享的群。
       define2: "在项目中，每个项目成员可以："
@@ -269,18 +269,18 @@ zh:
       title_ownership: 所有者
       submit: 保存修改
       change_owner: 修改所有者
-      transferred: "Project ownership has been transferred."
-      invalid_transferred: "Project ownership could not be transferred, correct errors and try again."
+      transferred: "项目所有者已经被移交。"
+      invalid_transferred: "项目所有者不能移交，请修正错误并重试。"
   invitations:
     fields:
-      user_or_email: "Enter your teammate's username or email:"
+      user_or_email: "请输入你队友的用户名或email："
     invitation:
-      invited_user: "{{inviter}} invited <b>{{invitee}}</b> to join the project."
-      invited_email: "{{inviter}} invited <b>{{email}}</b> to join the project."
-      time_ago: "({{time_ago_in_words}} ago)"
-      resend: Re-send invitation email
-      pending: "An email was sent to this user, but they still haven't confirmed."
-      discard: Discard invitation
+      invited_user: "{{inviter}}邀请<b>{{invitee}}</b>加入这个项目。"
+      invited_email: "{{inviter}}邀请<b>{{email}}</b>加入这个项目。"
+      time_ago: "({{time_ago_in_words}}以前)"
+      resend: 重新发送邀请邮件
+      pending: "已经向此用户发送邀请邮件，但对方还没有确认邀请。"
+      discard: 放弃邀请
     sent:
       email_sent: "<b>We just sent a notification email to this user with a link to accept your project invitation</b>. If they can't find the email, make sure it was not classified as spam or try a different email address. If problems persist, please contact our staff."
     pending:
@@ -308,16 +308,16 @@ zh:
       name: 标题
       body: 第一条评论
       tooltips:
-        name: "As short as possible, this will appear in notification email's subjects"
-        body: "Ask a question, tell your team what's new, start a discussion"
+        name: "尽量简短，这些内容将作为提醒邮件的标题"
+        body: "提出问题，告诉您的团队成员最新动态，开始一个讨论"
     new:
       title: 新的话题
       submit: 创建
     watcher_fields:
-      add_suscribers: Which people will be watching this conversation?
-      subscribe_note: These people will be notified via email of this message and any following comments.<br/>They can unsubscribe at any moment.
+      add_suscribers: 哪些人将关注这个话题？
+      subscribe_note: 这些人将通过email得到这个消息及相关评论的提醒。<br/>他们可以随时取消订阅。
       invite_users: 您是这个项目的唯一成员！
-      no_users_yet: "Conversations are more useful when shared. <a href='{{invite_link}}'>Invite some users</a> to this project now so they can access this conversation, answer and receive updates."
+      no_users_yet: "话题因分享而更有用。现在就<a href='{{invite_link}}'>邀请某人</a>加入此项目，以便他们可以读取这个话题，解答问题或收到更新提示。"
       people_all: "所有项目成员"
     edit:
       submit: '更新话题'
@@ -327,7 +327,7 @@ zh:
         description: "{{name}}项目的话题"
     primer:
       empty: 当前项目还没有任何话题。
-      create_first: Create the first conversation in this project!
+      create_first: 在这个项目中创建第一个话题！
       define: "Use conversations to <b>discuss decisions</b> and <b>update your team</b> in a centralized way.<br/>Each conversation is a thread of comments, which replace messy emails."
       item1: "<b>Share files</b>. Comments can have attached files, too."
       item2: "<b>Subscribe</b> to a conversation to be notified about future replies by email or RSS."
@@ -379,20 +379,20 @@ zh:
         other: "显示{{count}}条已存档的任务"
       hide_archived_tasks:
         one: "隐藏一条已存档的任务"
-        other: "Hide {{count}} archived tasks"
+        other: "隐藏{{count}}条已存档的任务"
     destroy_message:
-      deleted: "The Task <b>{{name}}</b> was successfully deleted!"
+      deleted: "任务 <b>{{name}}</b>已经成功删除！"
     archive_message:
-      archived: "The Task <b>{{name}}</b> was successfully archived!"
+      archived: "任务 <b>{{name}}</b>已经成功存档！"
     archive_box:
-      you_are_done: It looks like you're done with this task!
-      archive: Archive this task
-      reopen: Reopen this task
+      you_are_done: 看上去您已经完成了这个任务！
+      archive: 存档此任务
+      reopen: 重新打开任务
     unarchive_box:
-      task_is_closed: This task is closed and archived
-      unarchive: Unarchive
-      reopen: Reopen this task
-    overdue: "{{days}} days late"
+      task_is_closed: 此任务已经关闭并存档
+      unarchive: 取消存档
+      reopen: 重新打开任务
+    overdue: "{{days}}天以后"
     status:
       new: 新建
       open: 未分配
