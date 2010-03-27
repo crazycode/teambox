@@ -2,7 +2,7 @@
 # Mark missing translations by adding ##### at the end of the line
 zh:
   # if latest_announcement is less than 5 characters, it will not be displayed
-  latest_announcement: "Now with <a href='http://blog.teambox.com/whats-going-on-in-the-kitchen/'>Mobile Site, French and German locales and API</a>!"
+  latest_announcement: "现在访问<a href='http://blog.teambox.com/whats-going-on-in-the-kitchen/'>Mobile站点，法文和德文本地包及API</a>!"
   common:
     and: and
     or: 或者
@@ -114,13 +114,13 @@ zh:
       first_day_of_week: 一周开始于
       change_password: 修改密码
       confirm_password: 确认密码
-      use_this_email: "You have invitations to share projects for this email address. If you want to access these projects, don't change this email address. You can change your email address once you've completed the signup process."
-      notify_mentions: "Notify me when I'm mentioned e.g. Howdy @{{login}}! You'll receive an email!"
-      notify_conversations: Notify me when I'm watching a conversation
-      notify_task_lists: Notify me when I'm watching a task list
-      notify_tasks: Notify me when I'm watching a task
-      wants_task_reminder: "Send me a daily email of my tasks"
-      invalid_login: "use only letters, numbers and _"
+      use_this_email: "您已经被邀请使用此电子邮件地址共享使用项目。如果您希望使用这些项目，请不要修改此邮件地址。在您完成注册过程后，您可以修改您的邮件地址。"
+      notify_mentions: "在消息中提及我时通知我。例如：“你好，@{{login}}!”您将收到一封提醒的电子邮件"
+      notify_conversations: 在我关注一个话题时通知我
+      notify_task_lists: 在我关注一个任务列表时通知我
+      notify_tasks: 在我关注一个任务时通知我
+      wants_task_reminder: "发送我的任务每日情况报告"
+      invalid_login: "只能使用字母，数字和下划线_"
       avatar:
         field: 您的头像
         presence: "您不能上传空文件"
@@ -170,30 +170,30 @@ zh:
       remove_from_project: 从项目中移除
     welcome:
       get_started: 开始使用Teambox!
-      intro1: "You're our newest member! You'll soon see how Teambox can become your day's starting point."
-      intro2: "Where can you go now? Create a project to <b>collaborate</b>:" # or an agenda to <b>keep track of contacts</b>:"
+      intro1: "欢迎您成为我们的新成员！您将了解到Teambox如何成为您每日工作的起点。"
+      intro2: "接下来怎么做？创建一个项目进行<b>协作</b>：" # or an agenda to <b>keep track of contacts</b>:"
       projects:
         title: 项目
-        share_and_collaborate: "Share and collaborate with your team! Project's wall updates, conversations, tasks, pages and files."
-        create_your_first_project: "An event, a design, a product... Go ahead and <a href='{{link}}'>create your first project</a> now!"
+        share_and_collaborate: "与您的团队进行分享和协作！项目的日常更新，话题，任务，页面和文件。"
+        create_your_first_project: "事件，设计，产品... 现在开始<a href='{{link}}'>创建您的第一个项目</a>！"
       spread:
-        title: 您也喜欢我们吗？
-        reasons: "We've been working on Teambox for years, hoping it can be useful for you.<br/>We're real people, motivated developers with a mission, just like you!"
-        help: You can <b>help us</b> by telling your friends how you enjoy Teambox on
+        title: 您也喜欢我们的产品吗？
+        reasons: "我们已经在Teambox工作多年时间，希望它可以对您有所帮助。<br/>我们和您一样，是真实的人，为目标为激情工作的开发者！"
+        help: 您可以<b>帮肋我们</b>，通过告诉您的朋友您对Teambox的喜爱
         twitter: 'Twitter,'
         facebook: Facebook
         in_your_site: 在您的网站！
-        tell_us: "If you enjoy using Teambox, also consider <a href='mailto:{{address}}'>telling us about it</a> in an email!"
+        tell_us: "如果您喜欢使用Teambox，也请考虑<a href='mailto:{{address}}'>通过Email告诉我们</a>！"
       stop_welcome: 不再显示此欢迎页签
     unconfirmed_email:
       title: 确认您的邮件
-      invitation_sent_to: "An email invitation was sent to <i>{{email}}</i>, in order to verify your email address."
-      follow_the_link: Please <b>open this email and follow the link inside it</b> to activate your account.
+      invitation_sent_to: "已经向<i>{{email}}</i>发出一封邮件邀请，以确认您的邮件地址。"
+      follow_the_link: 请<b>打开此邮件并点击邮件中的链接</b>，以激活您的帐号。
       problems_title: 问题？
-      resend: "Can't find the email? Press <a href='{{link}}'>here</a> to re-send the activation email."
-      spam: "Make sure the email wasn't classified as spam by your email client."
-      wrong_address: "Wrong address? If you mistyped your email address, <a href='{{link}}'>cancel the signup process</a> and re-create your account with a valid address."
-      problems: "If you're still having problems, please contact us at {{support}}"
+      resend: "没有收到邮件？请点击<a href='{{link}}'>这里</a>重新发布激活邮件。"
+      spam: "请确保在您的邮件客户端程序中，此邮件没有被标识为垃圾邮件。"
+      wrong_address: "不正确的邮件地址？如果您的邮件地址拼写错误，<a href='{{link}}'>取消注册过程</a>并使用一个有效的邮件地址重新创建您的帐号。"
+      problems: "如果还有其它问题，请通过{{support}}联系我们"
     profile_completeness:
       title: 完整的个人信息
       complete_your_profile: 填写完整您的个人信息，有助于您的团队可以通过您的信息与您保持联系！
@@ -481,7 +481,7 @@ zh:
       text_styling: 文本样式
   dividers:
     actions:
-      delete_confirm: Are you sure you want to delete this divider?
+      delete_confirm: 您确认要删除此Divider?
     new:
       submit: 新增
     edit:
@@ -526,7 +526,7 @@ zh:
       name: 标题
       name_description: 请使用简短清晰的标题
       description: 说明
-      description_description: "Optional. Enter any information that people reading or editing this page should know."
+      description_description: "可选。可以输入任何其他人在阅读或修改此页面时需要了解的信息。"
     slots:
       insert_here: 插入在这里
     column:
@@ -819,13 +819,13 @@ zh:
     models:
       user:
         biography_presence:
-          title: 'Write your profile'
+          title: '写下您的个人信息'
         biography_length_short:
-          title: 'Expand your profile to 10 words'
+          title: '10个字以内的个人简介'
         biography_length_average:
-          title: 'Expand your profile to 20 words'
+          title: '扩展到20个字的个人简介'
         biography_length_long:
-          title: 'Expand your profile to 30 words'
+          title: '扩展到30个字的个人简介'
   form:
     cancel: 取消
 
@@ -1032,26 +1032,26 @@ zh:
         description: 说明
     errors:
       messages:
-        inclusion: "is not included in the list"
-        exclusion: "is reserved"
-        invalid: "is invalid"
-        confirmation: "doesn't match confirmation"
-        accepted: "must be accepted"
-        empty: "can't be empty"
-        blank: "can't be blank"
-        too_long: "is too long (maximum is {{count}} characters)"
-        too_short: "is too short (minimum is {{count}} characters)"
-        wrong_length: "is the wrong length (should be {{count}} characters)"
-        taken: "has already been taken"
-        not_a_number: "is not a number"
-        greater_than: "must be greater than {{count}}"
-        greater_than_or_equal_to: "must be greater than or equal to {{count}}"
-        equal_to: "must be equal to {{count}}"
-        less_than: "must be less than {{count}}"
-        less_than_or_equal_to: "must be less than or equal to {{count}}"
-        odd: "must be odd"
-        even: "must be even"
-        record_invalid: "Validation failed: {{errors}}"
+        inclusion: "不包含于列表中"
+        exclusion: "是保留关键字"
+        invalid: "是无效的"
+        confirmation: "与确认值不匹配"
+        accepted: "必须是可被接受的"
+        empty: "不能留空"
+        blank: "不能为空字符"
+        too_long: "过长（最长为 {{count}} 个字符）"
+        too_short: "过短（最短为 {{count}} 个字符）"
+        wrong_length: "长度非法（必须为 {{count}} 个字符）"
+        taken: "已经被使用"
+        not_a_number: "不是数字"
+        greater_than: "必须大于 {{count}}"
+        greater_than_or_equal_to: "必须大于或等于 {{count}}"
+        equal_to: "必须等于 {{count}}"
+        less_than: "必须小于 {{count}}"
+        less_than_or_equal_to: "必须小于或等于 {{count}}"
+        odd: "必须为单数"
+        even: "必须为双数"
+        record_invalid: "校验失败: {{errors}}"
       ####
       models:
         comment:
