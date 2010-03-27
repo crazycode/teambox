@@ -270,14 +270,14 @@ zh:
     primer:
       empty: 您还不能拥有或属于任何项目。
       create_first: 创建您第一个项目!
-      define1: "Use projects to <b>collaborate</b> with groups of people: A website, organizing a party, client work..."
-      define2: "You can create <b>as many projects as you wish</b> to share with different users online."
-      item1: "<b>Create a project</b>, name it and <b>invite some contacts</b> to it."
-      item2: "<b>Comment</b> about what you're doing at each moment in the general timeline."
-      item3: "<b>Discuss</b> about important decisions with Conversations."
-      item4: "<b>Plan</b> what needs to be done and post updates with Tasks."
-      item5: "<b>Share information</b> by easily editable Pages for each project."
-      footer: "Projects are a centralized way of collaborating, so you'll never need to email your team again."
+      define1: "项目用户与一组人进行<b>协作</b>：建立网站，组织一次聚会，客户工作..."
+      define2: "您可以创建<b>您需要多少就多少个项目</b>，以便和不同的在线用户分享。"
+      item1: "<b>创建一个项目</b>，命名它，然后<b>邀请一些相关人士</b>使用它。"
+      item2: "<b>评论</b>您所做的每一件事，在任何时候都可以。"
+      item3: "<b>讨论</b>关于任何重要的决定（话题）"
+      item4: "<b>计划</b>需要完成的任何及发布对任务的更新。"
+      item5: "<b>分享信息</b>于多个项目，通过易于修改的页面。"
+      footer: "项目是一个集中化协作的通用方式，所以您不再需要发送电子邮件给您的团队。"
     show:
       update_your_status: "更新您的状态..."
       text_styling: 文本样式
@@ -343,21 +343,21 @@ zh:
       pending: "已经向此用户发送邀请邮件，但对方还没有确认邀请。"
       discard: 放弃邀请
     group_invitation:
-      invited_user: "{{inviter}} invited <b>{{invitee}}</b> to join the group."
-      invited_email: "{{inviter}} invited <b>{{email}}</b> to join the group."
+      invited_user: "{{inviter}}邀请<b>{{invitee}}</b>加入这个小组。"
+      invited_email: "{{inviter}}邀请<b>{{email}}</b>加入这个小组。"
     sent:
-      email_sent: "<b>We just sent a notification email to this user with a link to accept your project invitation</b>. If they can't find the email, make sure it was not classified as spam or try a different email address. If problems persist, please contact our staff."
+      email_sent: "<b>我们刚刚发布了一个提醒邮件给此用户，邮件中包含了一个接受您项目邀请的链接。</b>. 如果他们不能收到此邮件，请确保此邮件不会作为垃圾邮件处理，或者尝试换一个邮件地址。如果还有问题，请联系我们。"
     pending:
-      to_access_or: to access the project or
-      to_access_or_group: to access the group or
-      invited_to_join: "{{by}} has invited you to join the project {{project}}."
-      invited_to_join_group: "{{by}} has invited you to join the group {{group}}."
+      to_access_or: 访问项目或者
+      to_access_or_group: 访问小组或者
+      invited_to_join: "{{by}}已邀请您加入项目{{project}}."
+      invited_to_join_group: "{{by}}已邀请您加入小组{{group}}."
     resend:
-      resent: "The invitation has been resent to {{recipient}}. If the email is not received make sure to check the spam folder."
+      resent: "邀请已经重新发送给{{recipient}}。如果没有收到邮件，请先查看一下垃圾邮件目录。"
       return: 返回
     index_user:
       title: 待确认的邀请
-      no_invitations: "You have no pending project invitations."
+      no_invitations: "您没有未处理的项目邀请。"
     search:
       username_or_email: "请输入您的团队成员的用户名或email"
       invite_people: 邀请其他人加入此项目
@@ -399,18 +399,18 @@ zh:
     primer:
       empty: 当前项目还没有任何话题。
       create_first: 在这个项目中创建第一个话题！
-      define: "Use conversations to <b>discuss decisions</b> and <b>update your team</b> in a centralized way.<br/>Each conversation is a thread of comments, which replace messy emails."
-      item1: "<b>Share files</b>. Comments can have attached files, too."
-      item2: "<b>Subscribe</b> to a conversation to be notified about future replies by email or RSS."
-      item3: "<b>Impress</b>. Any comment can be formatted with text styles."
-      item4: "<b>Inbox-driven?</b> You can answer to a conversation from your email to post a reply."
-      footer1: "Conversations are great to <b>share a design</b>, <b>decide a date</b> for meeting or <b>report</b> some news."
-      footer2: "Since they're threaded, it's easy to go back in time and see which files were sent and what did each teammate said. In Teambox, <b>collaborating is also reporting</b>."
+      define: "使用话题作为一个集中的方式<b>讨论决定</b>和<b>同步您的团队</b>。<br/>每个话题是一系列的评论，用于代替成堆的邮件。"
+      item1: "<b>分享文件</b>. 评论也可以包含附件。"
+      item2: "<b>订阅</b>一个话题可以通过Email或RSS得到将来回复的通知。"
+      item3: "<b>加深印象</b>. 任何评论都可以使用文本样式进行格式化。"
+      item4: "<b>收件箱驱动?</b> 您可以通过回复您的邮件的方式，向一个话题发表回复。"
+      footer1: "话题是一个很好的方式，用于<b>分享设计</b>, <b>决定会议日期</b>或者<b>报告新闻动态</b>。"
+      footer2: "因为话题是线程式的，它很容易回溯了解到某个文件已经发布，每个成员说过的内容。在Teambox中，<b>协作也是汇报的过程</b>."
     column:
       new_conversation: 新的话题
       subscribe: 订阅动态反馈
     conversation_with_extract:
-      posted_by: Posted by
+      posted_by: 发表者：
     show:
       started_by: 开始于
       edit: 修改标题
@@ -513,14 +513,14 @@ zh:
     primer:
       empty: 这个项目还没有任何页面。
       create_first: 在这个项目中创建第一个页面！
-      define1: "Here you can <b>share useful information</b> for your team: A roadmap, interesting links, instructions, email templates..."
-      define2: "编辑ing a page is easy and fun, with drag-and-drop elements you can edit in place."
-      item1: "<b>Share</b>. All your teammates can view and edit the project's pages."
-      item2: "<b>Publish</b>. Instant web publishing with shared pages. Show the world."
-      item3: "<b>Print</b>. Pages are printer-friendly. Try printing or exporting a PDF!"
-      item4: "<b>Wiki</b>. Pages acts like a wiki, giving quick access to the project's information."
-      footer1: "Use Teambox as your <b>shared whiteboard</b> for frequently used stuff."
-      footer2: "You can also attach files to any page inside each note. Enjoy!"
+      define1: "这里您可以和您的团队<b>分享有用的信息</b>：路线图，有意思的链接，规定，邮件模板等等..."
+      define2: "修改一个项目是相当容易和有趣的事，通过拖曳元素您可以即时修改页面。"
+      item1: "<b>分享</b>. 所有您的团队成员都可以查看和修改项目的页面。"
+      item2: "<b>发布</b>. 通过共享页面进行即时网络发布，全世界都可以看到。"
+      item3: "<b>打印</b>. 页面是打印友好的，请尝试一下打印或导出为PDF！"
+      item4: "<b>Wiki</b>. 页面就象是wiki，提供了一种快速访问项目信息的方式。"
+      footer1: "使用Teambox作为您的频繁使用的<b>共享白板</b>。"
+      footer2: "您也可以添加附件到任何页面。使用愉快！"
     buttons:
       new_note: 备注
       new_divider: Divider
@@ -528,15 +528,15 @@ zh:
       new_task_list: 任务列表
     new:
       title: 新增页面
-      define1: "Here you can <b>share useful information</b> for your team: A roadmap, interesting links, instructions, email templates..."
-      define2: "Editing a page is easy and fun, with drag-and-drop elements you can edit in place."
-      feature1: "<b>Share</b>. All your teammates can view and edit the project's pages."
-      feature2: "<b>Publish</b>. Instant web publishing with shared pages. Show the world."
-      feature3: "<b>Print</b>. Pages are printer-friendly. Try printing or exporting a PDF!"
-      feature4: "<b>Wiki</b>. Pages acts like a wiki, giving quick access to the project's information."
-      footer1: "Use Teambox as your <b>shared whiteboard</b> for frequently used stuff."
-      footer2: "You can also attach files to any page inside each note. Enjoy!"
-      submit: Create
+      define1: "这里您可以和您的团队<b>分享有用的信息</b>：路线图，有意思的链接，规定，邮件模板等等..."
+      define2: "修改一个项目是相当容易和有趣的事，通过拖曳元素您可以即时修改页面。"
+      item1: "<b>分享</b>. 所有您的团队成员都可以查看和修改项目的页面。"
+      item2: "<b>发布</b>. 通过共享页面进行即时网络发布，全世界都可以看到。"
+      item3: "<b>打印</b>. 页面是打印友好的，请尝试一下打印或导出为PDF！"
+      item4: "<b>Wiki</b>. 页面就象是wiki，提供了一种快速访问项目信息的方式。"
+      footer1: "使用Teambox作为您的频繁使用的<b>共享白板</b>。"
+      footer2: "您也可以添加附件到任何页面。使用愉快！"
+      submit: 创建
     edit:
       title: 修改页面
       submit: 更新
@@ -573,13 +573,13 @@ zh:
     primer:
       empty: 这个项目还没有任何话题。
       create_first: 在这个项目中创建第一个任务列表！
-      define: "Use tasks to <b>plan ahead</b>, <b>keep track of progress</b> and <b>review what's been done</b>.<br/><i>What? Who? When?</i> Tasks can have a status, an assigned person and due dates."
-      item1: "<b>Plan</b>. Create tasks inside each list and assign them to your teammates."
-      item2: "<b>Report</b>. Post comments for each task. Attach files. Ask for feedback."
-      item3: "<b>Follow</b>. Receive notifications for tasks related to you."
-      item4: "<b>Review</b>. A completed task is not deleted, so you can later access its messages and files."
-      footer1: "Tasks are a simple and agile way to <b>get things done</b> and let others now."
-      footer2: "It's time to forget about excel planning sheets and complex GANTT charts!"
+      define: "使用任务进行<b>事前计划</b>, <b>跟踪进程</b>和<b>了解已经完成的工作</b>。<br/><i>何事？何人？何时？</i> 任务可以有状态，执行者和截止日期。"
+      item1: "<b>计划</b>. 在列表中创建任务并分配给您的团队成员。"
+      item2: "<b>报告</b>. 发表评论到每个任务，添加附件，回复反馈信息。"
+      item3: "<b>跟进</b>. 得到与您相关任务的提醒。"
+      item4: "<b>预览</b>. 已经完成的任务不会被删除，您可以在将来继续读取到这些消息和文件。"
+      footer1: "任务是一个简单而敏捷的方式去<b>完成事情</b>，所以，马上使用它吧。"
+      footer2: "是时候忘记Excel计划表和复杂的甘特图了！"
     new:
       title: 创建任务列表
       submit: 创建任务列表
@@ -645,11 +645,11 @@ zh:
   example_projects:
     new:
       learn: 通过例子学习！
-      line1: "If it's your first time using Teambox, you can create an example project with some contents."
-      line2: "Navigating through the pages will teach you how to use each part of Teambox."
-      line3: "Make sure you <b>read the instructions</b> and <b>experiment</b> creating, editing and deleting elements!"
+      line1: "如果您是第一次使用Teambox，您可以创建一个包含一些内容的样例项目。"
+      line2: "浏览这些页面将引导您使用Teambox的各个部分。"
+      line3: "确保您<b>阅读介绍</b>和<b>试验</b>如何创建、修改和删除元素！"
       create: 创建一个样例项目
-      line4: "In this project you won't be able to invite other users, but you can do all the rest."
+      line4: "在这个项目您不能邀请其它用户，但您可以做其它任何事。"
       error: "不能创建样例项目。"
       error_list: "不能创建样例项目。以下项目是无效的：{{list}}。"
   uploads:
