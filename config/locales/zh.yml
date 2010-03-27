@@ -291,6 +291,7 @@ zh:
         title: "{{name}}"
         description: "项目{{name}}的近期活动"
     fields:
+      tracks_time: "启用时间跟踪"
       archiving: "存档此项目"
       forever: "永久删除此项目"
       owner: "所有者"
@@ -321,6 +322,7 @@ zh:
       created: 您的项目已经创建成功！
       invalid_project: "无效的项目，请修正错误并重试"
       create_an_example_project: "第一次使用Teambox？可以先<a href='{{link}}'>创建一个样例项目</a>以尝试并熟悉Teambox。"
+      not_allowed: "您的当前帐号不能创建任何项目。"
     edit:
       title_settings: 一般设置
       title_picture: 项目Logo
@@ -417,6 +419,20 @@ zh:
     short_conversation:
       comment: 评论
       comments: 评论
+  hours:
+    comments: 时间输入
+    filter_by: 过滤于
+    report: 报告
+    week_num: 第{{num}}周
+    entry_hours: 小时
+    entry_total: 合计
+    week_total: 周合计
+    all_tasks: 全部任务
+    all_users: 所有用户
+    reports:
+      user: 用户
+      project: 项目
+      task: 任务
 
   tasks:
     errors:
@@ -567,7 +583,6 @@ zh:
     new:
       title: 创建任务列表
       submit: 创建任务列表
-      submit: 创建任务列表
     edit:
       submit: 更新任务列表
     column:
@@ -584,10 +599,10 @@ zh:
       submit: 更新人员
     fields:
       role: 角色
-      observer: 观察者
-      commenter: 评论者
-      participant: 参与者
-      admin: 管理员
+      observer: 观察者。对项目只有只读权限。
+      commenter: "评论者。可以评论，但不能创建新的元素。"
+      participant: "参与者。可以做任何事，但不能邀请用户。"
+      admin: "管理员。可以邀请新用户加入此项目。"
     header:
       owner: 项目所有者
       observer: 观察者
@@ -600,13 +615,10 @@ zh:
       confirm_delete: 您确信要把此人从项目中移除？
     errors:
       user_or_email: "用户没有找到。请输入他的用户名或Email。"
-    #####
     column:
       inviting: "邀请其它用户"
       only_admins_can_invite: "只有管理员才可以邀请其他人加入此项目。"
-      contact_admins:
-        one: "在这个项目中，只有{{admins}}可以邀请新成员加入。"
-        other: "在这个项目中，只有{{admins}}可以邀请新成员加入。"
+      contact_admins: "在这个项目中，只有{{admins}}可以邀请新成员加入。"
       leaving: "离开项目"
       you_can_leave: "您可以在任何时候离开这个项目。如果这样做，你将不能访问任何数据，不能收到任何提醒邮件。其他人仍然可以使用此项目，不会丢失任何数据。"
       leave_project: 离开项目
@@ -619,7 +631,7 @@ zh:
     new:
       assigned_to_nobody: '未分配'
       assigned_to: "分配给:"
-      submit: 评论
+      submit: 保存
       project: "您在做什么？分享想法，链接，更新。"
       conversation: "发送消息给群里其他成员。"
       task_list: "分享这个任务列表的想法。需要创建和分配任务，请使用侧务条。"
