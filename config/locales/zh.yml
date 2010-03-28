@@ -4,7 +4,7 @@ zh:
   # if latest_announcement is less than 5 characters, it will not be displayed
   latest_announcement: "现在访问<a href='http://blog.teambox.com/whats-going-on-in-the-kitchen/'>Mobile站点，法文和德文本地包及API</a>!"
   common:
-    and: and
+    and: 和
     or: 或者
     delete: 删除
     edit: 编辑
@@ -118,9 +118,9 @@ zh:
       confirm_password: 确认密码
       use_this_email: "您已经被邀请使用此电子邮件地址共享使用项目。如果您希望使用这些项目，请不要修改此邮件地址。在您完成注册过程后，您可以修改您的邮件地址。"
       notify_mentions: "在消息中提及我时通知我。例如：“你好，@{{login}}!”您将收到一封提醒的电子邮件"
-      notify_conversations: 在我关注一个话题时通知我
-      notify_task_lists: 在我关注一个任务列表时通知我
-      notify_tasks: 在我关注一个任务时通知我
+      notify_conversations: 在我关注的话题变化时通知我
+      notify_task_lists: 在我关注的任务列表变化时通知我
+      notify_tasks: 在我关注的任务变化时通知我
       wants_task_reminder: "发送我的任务每日情况报告"
       invalid_login: "只能使用字母，数字和下划线_"
       avatar:
@@ -668,11 +668,11 @@ zh:
     primer:
       empty: 这个项目还没有任何文件。
       create_first: 在这个项目中上传第一个文件！
-      define1: "Ever had problems sharing a file with your team? Teambox makes sharing easy again."
-      define2: "You can upload files here or attach documents to conversations, tasks or pages. "
-      item1: "<b>Bigger files</b>. Upload files of any size and forget about email limitations."
-      item2: "<b>Versioning</b>. Upload new versions of a file and keep track of changes."
-      item3: "<b>Always available</b>. Files stay in context in the project for future reference."
+      define1: "还有与您的团队分享文件的问题？Teambox再次让分享更容易。"
+      define2: "您可以在这里上传文件，或者附加文件到话题，任务或页面。"
+      item1: "<b>更大的文件</b>. 上传任意大小的文件，忘记电子邮件附件大小的限制吧。"
+      item2: "<b>版本</b>. 上传新版本的文件，同时保留旧版本的变更记录。"
+      item3: "<b>永远可用</b>. 文件保存在项目上下文相关的地方，将来查找引用更方便。"
     upload:
       uploaded_the_file: "已上传文件"
       download: 下载
@@ -746,8 +746,8 @@ zh:
       services: 服务
       community: 社区
       help: 帮助和支持
-      privacy: Privacy
-      terms: Terms of use
+      privacy: 隐私
+      terms: 使用条款
     user_navigation:
       account_settings: 帐号设置
       profile_information: 个人信息
@@ -761,9 +761,9 @@ zh:
         other: "我的{{count}}个任务"
       everybodys_tasks: "所有人的任务"
       show_archived_tasks:
-        one: "Show 1 Archived Task"
-        other: "Show {{count}} Archived Tasks"
-      hide_archived_tasks: "Hide Archived Tasks"
+        one: "显示一条已归档的任务"
+        other: "显示{{count}}条已归档的任务"
+      hide_archived_tasks: "隐藏归档任务"
     footer:
       support: 反馈和缺陷
       mobile: 移动版
@@ -785,41 +785,41 @@ zh:
 
   emailer:
     common:
-      do_not_answer: "Do not answer to this email."
-      answer_above_this_line: "REPLY ABOVE THIS LINE TO POST AN ANSWER"
+      do_not_answer: "请不要回复此邮件。"
+      answer_above_this_line: "回复此行以发表回复"
     invitation:
-      collaborate_with: "{{name}} wants to collaborate with you on Teambox:"
-      you_have_been_invited_to: "You have been invited to the project <b>{{project}}</b>"
-      accept_the_invitation: Accept the invitation to start collaborating
-      current_users: "Current users in this project:"
-      plaintext_link: "If the above link doesn't work, copy and paste the following code into your browser bar: "
-      teambox_is_a_pm_platform: "Teambox is a project management platform made for real-world collaboration."
-      plan_share_and_collaborate: "Plan, share and keep track of what's been done. Simple as it should be."
-      report_abuse: "This email was sent to you by your contact's request. Please report any abuse."
+      collaborate_with: "{{name}}希望通过Teambox与您协作："
+      you_have_been_invited_to: "您已经被邀请加入项目<b>{{project}}</b>"
+      accept_the_invitation: 接受邀请开始协作
+      current_users: "此项目中的当前用户列表："
+      plaintext_link: "如果以上链接不能工作，复制并粘贴以下代码到您的浏览器地址栏："
+      teambox_is_a_pm_platform: "Teambox是一个用于真实世界协作的项目管理平台。"
+      plan_share_and_collaborate: "计划，分享和跟踪需要做的工作。足够简单。"
+      report_abuse: "此邮件应您的朋友要求而发送给您。如有滥用请及时报告。"
     invitation_group:
-      you_have_been_invited_to: "You have been invited to the group <b>{{group}}</b>"
+      you_have_been_invited_to: "您已被邀请加入小组<b>{{group}}</b>"
     confirm:
-      hey: "Hey, {{user_name}}!"
-      follow_the_link: "In order to <b>complete your signup</b> for Teambox, we need you to log in by clicking here:"
-      log_in: "Log into Teambox now!"
-      plaintext_link: "If this doesn't work, copy and paste the following link in your browser's bar:"
-      report_abuse: "You receive this message because you signed up for a Teambox account with {{email}}"
-      problems: "If you have any problems, please contact us at {{support}}"
+      hey: "您好, {{user_name}}!"
+      follow_the_link: "为了<b>完成您的Teambox注册</b>，我们需要您通过点击这里登录："
+      log_in: "现在就登录Teambox！"
+      plaintext_link: "如果出现问题，复制并粘贴以下链接到您的浏览器地址栏："
+      report_abuse: "您收到此邮件是因为您使用了{{email}}注册了一个Teambox帐号"
+      problems: "如果您有任何问题，请通过{{support}}联系我们"
     reset_password:
-      hey: "Hey, {{user_name}}!"
-      follow_the_link: "In order to <b>set a new password</b> for Teambox, we need you to log in with the following link:"
-      log_in: "Log into Teambox now!"
-      plaintext_link: "If this doesn't work, copy and paste the following link in your browser's bar:"
-      report_abuse: "You receive this message because you signed up for a Teambox account with {{email}}"
-      problems: "If you have any problems, please contact us at {{support}}"
+      hey: "您好, {{user_name}}!"
+      follow_the_link: "为了<b>设置新的Teambox密码</b>，我们需要您通过以下链接进行登录："
+      log_in: "现在就登录Teambox！"
+      plaintext_link: "如果出现问题，复制并粘贴以下链接到您的浏览器地址栏："
+      report_abuse: "您收到此邮件是因为您使用了{{email}}注册了一个Teambox帐号"
+      problems: "如果您有任何问题，请通过{{support}}联系我们"
     notify:
       project: "Teambox项目:"
-      view_online: "You can <a href='{{link}}'>view this conversation online</a> to answer and attach files."
-      reply: "You can also answer to this email to post a reply in the conversation."
-      are_watching: " are suscribed to this conversation, and will be notified of future replies."
-      stop_watching: "<a href='{{stop_watching_url}}'>Stop watching</a> this thread to stop receiving email notifications."
-      notification_settings: "You can change your <a href='{{url}}'>notification settings</a> for further emails."
-      comment: "Comment on project's wall: "
+      view_online: "您可以<a href='{{link}}'>在线查看这个话题</a>，进行答复，也可以附加文件。"
+      reply: "您也可以通过回复此邮件来发表您对这个话题的答复。"
+      are_watching: "已经订阅了此话题，将能够收到回复的提醒。"
+      stop_watching: "<a href='{{stop_watching_url}}'>停止订阅</a>这一话题将中止收到邮件提醒。"
+      notification_settings: "您可以通过<a href='{{url}}'>提醒设置</a>修改更多邮件相关设置。"
+      comment: "在项目公告板上评论："
       conversation: "话题:"
       task: "任务:"
       task_list: "任务列表:"
