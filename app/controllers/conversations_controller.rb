@@ -1,46 +1,48 @@
 class ConversationsController < ApplicationController
-  before_filter :load_conversation, :only => [:show,:edit,:update,:destroy,:update_comments,:watch,:unwatch]
-  before_filter :check_permissions, :only => [:new,:create,:edit,:update,:destroy]
+  before_filter :load_conversation, :except => [:index, :new, :create]
   before_filter :set_page_title
 
   def new
+    authorize! :converse, @current_project
     @conversation = @current_project.conversations.new
   end
 
   def create
-    @conversation = @current_project.new_conversation(current_user,params[:conversation])
-    @conversation.body = params[:conversation][:body]
+    authorize! :converse, @current_project
+    @conversation = @current_project.conversations.new_by_user(current_user, params[:conversation])
 
     if @conversation.save
-      if (params[:user_all] || 0).to_i == 1
-        @conversation.add_watchers @current_project.users
-      else
-        add_watchers params[:user]
-      end
-      @conversation.notify_new_comment(@conversation.comments.first)
-      
       respond_to do |f|
-        f.html { redirect_to project_conversation_path(@current_project,@conversation) }
-        f.xml  { redirect_to project_conversation_path(@current_project,@conversation) }
-        f.json { redirect_to project_conversation_path(@current_project,@conversation) }
-        f.yaml { redirect_to project_conversation_path(@current_project,@conversation) }
+        f.html {
+          if request.xhr? or iframe?
+            render :partial => 'activities/thread', :locals => {:thread => @conversation}
+          else
+            redirect_to current_conversation
+          end
+        }
+        handle_api_success(f, @conversation, true)
       end
     else
       respond_to do |f|
-        f.html  { render :action => :new }
-        f.xml   { render :xml => @conversation.errors.to_xml }
-        f.json  { render :as_json => @conversation.errors.to_xml }
-        f.yaml  { render :as_yaml => @conversation.errors.to_xml }
+        f.html {
+          if request.xhr? or iframe?
+            output_errors_json(@conversation)
+          else
+            # TODO: display inline instead of flash
+            flash.now[:error] = @conversation.errors.to_a.first[1]
+            render :action => :new
+          end
+        }
+        handle_api_error(f, @conversation)
       end
     end
   end
 
   def index
-    @conversations = @current_project.conversations
+    @conversations = @current_project.conversations.not_simple
 
     respond_to do |f|
       f.html
-      f.m
       f.rss   { render :layout => false }
       f.xml   { render :xml     => @conversations.to_xml }
       f.json  { render :as_json => @conversations.to_xml }
@@ -49,87 +51,71 @@ class ConversationsController < ApplicationController
   end
 
   def show
-    @comments = @conversation.comments
-    @conversations = @current_project.conversations
+    @conversations = @current_project.conversations.not_simple
 
     respond_to do |f|
       f.html
-      f.m
       f.xml   { render :xml     => @conversation.to_xml(:include => :comments) }
       f.json  { render :as_json => @conversation.to_xml(:include => :comments) }
       f.yaml  { render :as_yaml => @conversation.to_xml(:include => :comments) }
     end
-
-#   Use this snippet to test the notification emails that we send:
-#    @project = @current_project
-#    render :file => 'emailer/notify_conversation', :layout => false
   end
 
   def update
-    @conversation.update_attributes(params[:conversation])
+    authorize! :update, @conversation
+    success = @conversation.update_attributes(params[:conversation])
+    
     respond_to do |f|
-      f.js
-      f.m    { redirect_to project_conversation_path(@current_project, @conversation) }
-      f.html { redirect_to project_conversation_path(@current_project, @conversation) }
+      f.js   { head :ok }
+      f.html { redirect_to current_conversation }
+      
+      if success
+        handle_api_success(f, @conversation)
+      else
+        handle_api_error(f, @conversation)
+      end
     end
   end
 
   def destroy
-    if @conversation.editable?(current_user)
-      @conversation.try(:destroy)
-
-      respond_to do |f|
-        f.html do
-          flash[:success] = t('deleted.conversation', :name => @conversation.to_s)
-          redirect_to project_conversations_path(@current_project)
-        end
-        f.m { redirect_to project_conversations_path(@current_project) }
-        f.js
+    authorize! :destroy, @conversation
+    @conversation.destroy
+    
+    respond_to do |f|
+      f.html do
+        flash[:success] = t('deleted.conversation', :name => @conversation.to_s)
+        redirect_to project_conversations_path(@current_project)
       end
-    else
-      respond_to do |f|
-        flash[:error] = t('common.not_allowed')
-        f.html { redirect_to project_conversation_path(@current_project, @conversation) }
-        f.m    { redirect_to project_conversation_path(@current_project, @conversation) }
-      end
+      f.js { head :ok }
+      handle_api_success(f, @conversation)
     end
   end
 
   def watch
     @conversation.add_watcher(current_user)
+    
     respond_to do |f|
       f.js
-      f.m    { redirect_to project_conversation_path(@current_project, @conversation) }
-      f.html { redirect_to project_conversation_path(@current_project, @conversation) }
+      f.html { redirect_to current_conversation }
     end
   end
 
   def unwatch
     @conversation.remove_watcher(current_user)
+    
     respond_to do |f|
       f.js
-      f.m    { redirect_to project_conversation_path(@current_project, @conversation) }
-      f.html { redirect_to project_conversation_path(@current_project, @conversation) }
+      f.html { redirect_to current_conversation }
     end
   end
 
-  private
+  protected
+  
     def load_conversation
-      begin
-        @conversation = @current_project.conversations.find(params[:id])
-      rescue
-        flash[:error] = t('not_found.conversation', :id => h(params[:id]))
-      end
-      
-      redirect_to project_path(@current_project) unless @conversation
+      @conversation = @current_project.conversations.find params[:id]
     end
-
-    def add_watchers(hash)
-      hash.if_defined.each do |user_id, should_notify|
-        if should_notify == "1" and Person.exists? :project_id => @conversation.project_id, :user_id => user_id
-          user = User.find user_id
-          @conversation.add_watcher user# if user
-        end
-      end
+    
+    def current_conversation
+      [@current_project, @conversation]
     end
 end

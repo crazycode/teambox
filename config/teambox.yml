@@ -1,101 +1,159 @@
 #
-# This file takes care of some key strings for the interface and app.
-# You will also need to edit environment.rb with your own email settings.
-# 
+# Main configuration file for functionality of a Teambox app instance.
+#
 
-# This block defines defaults, shared for all environments.
-# You can override them individually under development, test or production.
-defaults: &DEFAULTS
-  # The domain from where your app is served.
-  app_domain: app.teambox.com
+# Configuration shared between all environments:
+defaults: &defaults
+  # The domain from where your app is served
+  app_domain: localhost
 
   # How many activities should activity feeds display?
   activities_per_page: 25
-  autorefresh_interval: 60 # seconds
+  autorefresh_interval: 60 # in seconds
+
+  # Hour of the day at which daily reminders will be sent
+  daily_task_reminder_email_time: 6
   
-  # Configuration for outgoing mail
-  # By default, will send emails in production mode but not in development.
+  # Gravatar fallback type in case a user doesn't have an avatar
+  # One of: wavatar, monsterid, identicon
+  gravatar_default: identicon
+
+  # Set to true to use S3 storage instead of local filesystem storage.
+  # Automatically true on Heroku.
+  # See "config/amazon_s3.yml" for info about credentials.
+  amazon_s3: false
+
+  asset_max_file_size: 50 # in megabytes
+
+  # Enable secure signup and logins over HTTPS.
+  # Make sure your domain has a valid SSL certificate
+  secure_logins: false
+
+  # Enable time tracking
+  allow_time_tracking: true
+  
+  # Enable search (you must have thinking_sphinx installed and configured)
+  # See http://wiki.github.com/teambox/teambox/configuring-search for more 
+  # information on configuring search
+  allow_search: false
+
+  # Default timezone
+  time_zone: UTC
+
+  # Default language in which the app is displayed.
+  # See translations in "config/locales/"
+  default_locale: :en
+
+  # By default, emails are sent in production but not in development
   allow_outgoing_email: true
-  outgoing:
-    from: yourapp.com           # the domain your emails will come from, as in no_reply@app.teambox.com
-    host: localhost             # the actual SMTP server used to deliver emails. can be a local or remote server
-    user: username
-    pass: password
-    auth: plain                 # choose: plain, login, cram_md5    
-    port: 25
-    enable_starttls_auto: false # Set to true for gmail smtp server
+
+  # Configuration for outgoing mail
+  # With Heroku and the Sendgrid add-on, no configuration is needed here.
+  #   $ heroku addons:add sendgrid:free
+  smtp_settings:
+    :domain:         domain.com         # the domain your emails will come from
+    :address:        smtp.sendgrid.net  # SMTP server used to send emails
+    :port:           25
+    :authentication: :plain
+    :user_name:      USER
+    :password:       PASSWORD
+
+    # Set to true when using Gmail
+    :enable_starttls_auto: false
+
+    # Set to true if you have Net::SMTPSyntaxError errors when sending email.
     # Rails has sometimes a problem when sending email from "Name <address@host.com>".
     # If you are having problems sending email and your host is correctly configured,
     # try setting safe_from to true. You may need to create a user account for no-reply@yourapp.com
-    safe_from: false            # Set to true if you have Net::SMTPSyntaxError errors when sending email
+    :safe_from: false
 
   # Set allow to true to allow the "reply to" feature for notifications.
   # This will allow users to post answers and comments by email.
   # When set to true, "reply above this line" notice will be displayed where relevant and accept emails.
+  allow_incoming_email: false
+
   # You will need to:
   # * Setup catch-all address for email received for any username of the incoming mail server.
-  # * Run './script/inbox' periodically from cron to process incoming emails.
-  allow_incoming_email: false
-  incoming:
-    type: pop
-    server: 
-    username: 
-    password: 
+  # * Run `rake mail:inbox` periodically from cron to process incoming emails.
+  # Important: Email should be received in the same domain it's being sent from.
+  incoming_email_settings:
+    :type:      POP
+    :address:   mail.example.com
+    :user_name: USER
+    :password:  PASSWORD
 
-  # This links are used for the login page. Delete the line to remove it from the interface.
-  home_url: http://www.teambox.com
-  tour_url: http://www.teambox.com/tour
-  users_url: http://www.teambox.com/testimonials
-  services_url: http://www.teambox.com/services
-  community_url: http://www.teambox.com/community
-  blog_url: http://blog.teambox.com
-  help_url: http://help.teambox.com/faqs/using-teambox
-  support_url: http://help.teambox.com
-  privacy_url: http://www.teambox.com/privacy
-  terms_url: http://www.teambox.com/terms
+  # Allow teambox.com to gather statistics about this installation
+  tracking_enabled: true
 
-  # To disable signups, set allow_signups: false.
-  #   If signups are disabled, the only way to create an account will be being invited
-  #   by another user. If there are no users in the system, you will be asked to
-  #   create the first one.
-  allow_signups: true
-  
-  # Enable user groups
-  allow_groups: true
-  
-  # Enable time tracking
-  allow_time_tracking: true
-  
-  # Address where your users should write to ask for help. Accepts an email or website.
+  # Destination where your users could write to ask for help. Accepts an email or website.
   support: http://help.teambox.com
-  
-  # Server's timezone
-  time_zone: UTC
 
-  asset_max_file_size: 50 # Mb
-  
-  # Set enabled: true to use S3 storage instead of local filesystem storage.
-  # If enabled, configure your access keys in amazon_s3.yml
-  amazon_s3:
-    enabled: false
-    bucket_development: teambox_dev_assets
-    bucket_test: teambox_test_assets
-    bucket_production: teambox_assets
+  help_url: http://help.teambox.com/faqs/using-teambox
+  support_url: http://teambox.com/community
 
-  daily_task_reminder_email_time: "06:00"
+  # OAuth single-click login. You can configure Teambox to log in with Github, Facebook and others.
+  #
+  # To enable this, you'll need to create developer accounts for each provider.
+  # The return URL you should use is http://your-domain.com/oauth/:provider/callback
+  #
+  # We are providing defaults that work for http://localhost:3000, for testing purposes.
+  #
+  # If signups are enabled, this will allow users to create an account at Teambox.
+  # If not, it will still allow them to link their services to existing Teambox accounts.
+
+  oauth_providers:
+    # This example is configured for http://localhost:3000. Uncomment it to test it.
+    # Register for your own domain at http://github.com/account/applications
+    # github:
+    #   version: v2
+    #   name: Github
+    #   site: https://github.com
+    #   client_id: abfe8d0a74b0344b111b
+    #   secret_key: aad82e098d2015254fc9b34550d6f93c37c17952
+    #   authorize_path: /login/oauth/authorize
+    #   access_token_path: /login/oauth/access_token
+    #   user_path: /api/v2/json/user/show
+    # This example is configured for http://localhost:3000. Uncomment it to test it.
+    # Register for your own domain at www.facebook.com/developers
+    # facebook:
+    #   version: v2
+    #   name: Facebook
+    #   site: https://graph.facebook.com
+    #   client_id: 95fcdf49f46b8c057c66a8890d0b29ac
+    #   secret_key: f5049b1d9f8da979278ac4394de54a1b
+    #   authorize_path: /oauth/authorize
+    #   access_token_path: /oauth/access_token
+    #   user_path: /me
+    # This example is configured for http://localhost:3000. Uncomment it to test it.
+    # Register for your own domain at http://dev.twitter.com/apps/new
+    # twitter:
+    #   version: v1
+    #   name: Twitter
+    #   site: https://api.twitter.com
+    #   client_id: mHhqM9ExNkeC1B2SvW5Q
+    #   secret_key: WvfddBQkw6sw2rP8XKIeKnwyfZa0rpdD2t17Nl4h9q8
+    #   # New OAuth v1.0 one-click sig in with Twitter http://apiwiki.twitter.com/Sign-in-with-Twitter
+    #   authorize_path: /oauth/authenticate
+    #   # Old OAuth v1.0 sig in.
+    #   # authorize_path: /oauth/authorize
+    #   access_token_path: /oauth/access_token
+    #   request_token_path: /oauth/request_token
+    #   user_path: /account/verify_credentials.json
+
 development:
-  <<: *DEFAULTS
+  <<: *defaults
   app_domain: localhost:3000
   allow_outgoing_email: false
+  autorefresh_interval: 20 # in seconds
 
 production:
-  <<: *DEFAULTS
-  app_domain: app.teambox.com
+  <<: *defaults
 
-test: &TEST
-  <<: *DEFAULTS
+test: &test
+  <<: *defaults
   app_domain: 127.0.0.1
   allow_outgoing_email: false
   asset_max_file_size: 1
+  amazon_s3: false
 cucumber:
-  <<: *TEST  
+  <<: *test

@@ -1,15 +1,72 @@
-  //= require <prototype>
+//= require <prototype>
+//= require <rails>
+//= require <html5>
 //= require <builder>
 //= require <effects>
 //= require <controls>
 //= require <dragdrop>
 //= require <sound>
-//= require <lowpro>
-//= require <cropper>
+//= require <screenflash>
+
+Function.prototype.throttle = function(t) {
+  var timeout, scope, args, fn = this, tick = function() {
+    fn.apply(scope, args)
+    timeout = null
+  }
+  return function() {
+    scope = this
+    args = arguments
+    if (!timeout) timeout = setTimeout(tick, t)
+  }
+}
+
+Function.prototype.debounce = function(t) {
+  var timeout, fn = this
+  return function() {
+    var scope = this, args = arguments
+    timeout && clearTimeout(timeout)
+    timeout = setTimeout(function() { fn.apply(scope, args) }, t)
+  }
+}
+
+Event.onReady = function(fn) {
+  if (document.body) fn()
+  else document.on('dom:loaded', fn)
+}
+
+Event.addBehavior = function(hash) {
+  var behaviors = $H(hash)
+  behaviors.each(function(pair) {
+    var selector = pair.key.split(':'), fn = pair.value
+    document.on(selector[1], selector[0], function(e, el) { fn.call(el, e) })
+  })
+}
+Event.addBehavior.reload = Prototype.emptyFunction
+
+function hideBySelector(selector) {
+  insertCss(selector + ' {display:none}')
+}
+
+function insertCss(css) {
+  var head = document.getElementsByTagName('head')[0],
+      style = document.createElement('style')
+  
+  style.setAttribute("type", "text/css")
+  
+  if (style.styleSheet) { // IE
+    style.styleSheet.cssText = css;
+  } else { // w3c
+    var cssText = document.createTextNode(css);
+    style.appendChild(cssText);
+  }
+  head.appendChild(style)
+}
+
 //= require <weakling>
 //= require <fyi>
 //= require <calendar_date_select>
 //= require <facebox>
+//= require <showdown>
 
 replace_ids = function(s){
   var new_id = new Date().getTime();
@@ -17,38 +74,6 @@ replace_ids = function(s){
 }
 
 Event.addBehavior({
-  ".remove:mouseover": function(e){
-    image_source = $(this).src
-    $(this).src = image_source.sub(/remove.*\.png/,'remove_hover.png')
-  },
-  ".remove:mouseout": function(e){
-    image_source = $(this).src
-    $(this).src = image_source.sub(/remove.*\.png/,'remove.png')
-  },
-  ".drag:mouseover": function(e){
-    image_source = $(this).src
-    $(this).src = image_source.sub(/drag.*\.png/,'drag_hover.png')
-  },
-  ".drag:mouseout": function(e){
-    image_source = $(this).src
-    $(this).src = image_source.sub(/drag.*\.png/,'drag.png')
-  },
-  ".pencil:mouseover": function(e){
-    image_source = $(this).src
-    $(this).src = image_source.sub(/pencil.*\.jpg/,'pencil_hover.jpg')
-  },
-  ".pencil:mouseout": function(e){
-    image_source = $(this).src
-    $(this).src = image_source.sub(/pencil.*\.jpg/,'pencil.jpg')
-  },
-  ".trash:mouseover": function(e){
-    image_source = $(this).src
-    $(this).src = image_source.sub(/trash.*\.jpg/,'trash_hover.jpg')
-  },
-  ".trash:mouseout": function(e){
-    image_source = $(this).src
-    $(this).src = image_source.sub(/trash.*\.jpg/,'trash.jpg')
-  },
   ".add_nested_item:click": function(e){
     link = $(this);
     template = eval(link.href.replace(/.*#/, ''))
@@ -64,104 +89,10 @@ Event.addBehavior({
 });
 
 Element.addMethods({
-  auto_focus: function(element){
-    element = $(element);
-    var field;
-    if (field = element.down(".focus")) { (function() { try { field.focus() } catch (e) { } }).defer(); }
-    return element;
-  },
-  auto_select: function(element){
-    element = $(element);
-    var field;
-    if (field = element.down(".focus")) { (function() { try { field.select() } catch (e) { } }).defer(); }
-    return element;
-  },
-  showPreview: function(element) {
-    var form = $(element);
-    var block = form.down('.showPreview');
-    if (block.readAttribute('showing') == '1')
-      return false;
-
-    var button = block.down('button');
-    var cancel = block.down('a');
-
-    // Set showing, cancel any removals
-    block.writeAttribute('showing', '1');
-    button.disabled = true;
-    button.down('.default').hide();
-    button.down('.showing').show();
-    if (block.readAttribute('removing') == '1') {
-      block.writeAttribute('removing', '0');
-      return element;
-    }
-
-    // New updater needed!
-    var previewBox = form.down('.previewBox');
-    var updater = null;
-    var updaterCallback = function(transport) {
-      if (block.readAttribute('removing') == '1') {
-        block.writeAttribute('removing', '0');
-        updater.stop();
-      } else {
-        previewBox.innerHTML = transport.responseText;
-        if (!previewBox.visible()) {
-          previewBox.blindDown({duration: 0.3});
-          button.hide();
-          cancel.show();
-        }
-      }
-    }
-
-    updater = new Ajax.PeriodicalFormUpdater(previewBox, form, form.readAttribute('preview'), {
-      method: 'post',
-      frequency: 2,
-      decay: 2,
-      onSuccess: updaterCallback,
-      onFailure: updaterCallback
-    });
-
-    return element;
-  },
-  closePreview: function(element) {
-    var form = $(element);
-    var block = form.down('.showPreview');
-    if (block.readAttribute('showing') == '0')
-      return element;
-
-    var button = block.down('button');
-    var cancel = block.down('a');
-    var previewBox = block.up('form').down('.previewBox');
-
-    cancel.hide();
-    button.down('.default').show();
-    button.down('.showing').hide();
-    button.show().disabled = false;
-
-    block.writeAttribute('showing', '0');
-    block.writeAttribute('removing', '1');
-    if (previewBox.visible())
-      previewBox.blindUp({duration: 0.15});
-    return element;
-  },
-  nextText: function(element, texts) {
-    element = $(element);
-    var currentText = element.innerHTML;
-    var nextIndex = (texts.indexOf(currentText) + 1) % texts.length;
-    return texts[nextIndex];
+  forceShow: function(element) {
+    return $(element).setStyle({ display: 'block' })
   }
-});
-
-Ajax.PeriodicalFormUpdater = Class.create(Ajax.PeriodicalUpdater, {
-  initialize: function($super, container, form, url, options) {
-    this.form = form;
-    $super(container, url, options);
-  },
-
-  onTimerEvent: function() {
-    this.options.parameters = Form.serialize(this.form);
-    this.updater = new Ajax.Updater(this.container, this.url, this.options);
-  }
-});
+})
 
 Project = {
   valid_url: function(){
@@ -177,17 +108,24 @@ Project = {
   }
 }
 
-Group = {
-  valid_url: function(){
-    var title = $F('group_permalink');
-    var class_name = '';
-    if(title.match(/^[a-z0-9_\-\.]{5,}$/))
-      class_name = 'good'
-    else
-      class_name = 'bad'
+document.on('click', 'a.closeThis', function(e, link) {
+  e.preventDefault()
+  $(link.parentNode).hide()
+})
 
-    $('handle').className = class_name;
-    Element.update('handle',title)
-  }
+if (Prototype.Browser.Gecko) {
+  document.on('dom:loaded', function() {
+    var searchForm = $$('.search_bar form:has(input[name=search])').first()
+    if (searchForm) {
+      // search opens in another window/tab when Alt+Return is pressed
+      searchForm.on('keydown', function(e) {
+        if (e.keyCode == Event.KEY_RETURN) {
+          if (e.altKey) this.writeAttribute('target', '_blank')
+          else this.removeAttribute('target')
+        }
+      })
+      searchForm.down('input[name=search]').
+        writeAttribute('title', 'Search with Alt + Enter to open up results in a new window')
+    }
+  })
 }
-

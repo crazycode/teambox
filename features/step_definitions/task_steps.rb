@@ -2,6 +2,20 @@ Given /^there is a task called "([^\"]*)"$/ do |name|
   Task.find_by_name(name) || Factory(:task, :name => name)
 end
 
+Given /^I have a task called "([^\"]*)"$/ do |name|
+  task_list = @task_list || Factory(:task_list)
+  project = @current_project || Factory(:project)
+  @task = project.create_task(@current_user, task_list, {:name => name})
+end
+
+## FIXME: it's better for 'givens' to set tasks up directly in the db:
+
+Given /^I have a task on (open|hold|resolved|rejected)$/ do |status|
+  When %(I select "#{status}" from "Status")
+  When 'I press "Save"'
+  When 'I wait for 0.3 seconds'
+end
+
 Given /^the following tasks? with associations exists?:?$/ do |table|
   table.hashes.each do |hash|
     Factory(:task,
@@ -9,6 +23,17 @@ Given /^the following tasks? with associations exists?:?$/ do |table|
       :task_list => TaskList.find_by_name(hash[:task_list]),
       :project => Project.find_by_name(hash[:project])
     )
+  end
+end
+
+Given /^the following tasks? with hours exists?:?$/ do |table|
+  table.hashes.each do |hash|
+    Factory(:task,
+      :name => hash[:name],
+      :task_list => TaskList.find_by_name(hash[:task_list]),
+      :project => Project.find_by_name(hash[:project]),
+      :user => @current_user
+      ).comments.create :body => hash[:comment], :human_hours => hash[:hours]
   end
 end
 
@@ -55,7 +80,7 @@ Given /^the task called "([^\"]*)" is assigned to me$/ do |name|
   Given %(there is a task called "#{name}")
   task = Task.find_by_name(name)
   task.project.add_user(@current_user)
-  task.assign_to(@user)
+  task.assign_to(@current_user)
 end
 
 Given /^the task called "([^\"]*)" is assigned to "([^\"]*)"$/ do |task_name, login|
@@ -67,61 +92,27 @@ Given /^the task called "([^\"]*)" is assigned to "([^\"]*)"$/ do |task_name, lo
 end
 
 Given /^I have no tasks assigned to me$/ do
-  @current_user.assigned_tasks(:all).each { |task| task.destroy }
+  @current_user.assigned_tasks.destroy_all
 end
 
 Given /^the task called "([^\"]*)" is (new|hold|open|resolved|rejected)$/ do |name, status|
   Task.find_by_name(name).update_attribute(:status, Task::STATUSES[status.to_sym])
 end
 
-Given /^the task called "([^\"]*)" is not archived$/ do |name|
-  Task.find_by_name(name).update_attribute(:archived, false)
-end
-
-Given /^the task called "([^\"]*)" is archived$/ do |name|
-  Task.find_by_name(name).update_attribute(:archived, true)
-end
-
-Then /^I should see the task called "([^\"]*)" in the "([^\"]*)" task list panel$/ do |task_name, task_list_name|
-  task = Task.find_by_name(task_name)
-  task_list = TaskList.find_by_name(task_list_name)
+Then /^I should( not)? see the task called "([^\"]*)" in the "([^\"]*)" task list$/ do |negative, task_name, task_list_name|
+  task_list = TaskList.find_by_name!(task_list_name)
   project = task_list.project
-  sleep(1)
-  page.should have_xpath(%(//*[@id = "project_#{project.id}_task_list_#{task_list.id}_task_#{task.id}_item"][not(contains(@style,'display: none'))]))
-end
-
-Then /^the task called "([^\"]*)" in the "([^\"]*)" task list panel should be hidden$/ do |task_name, task_list_name|
-  task = Task.find_by_name(task_name)
-  task_list = TaskList.find_by_name(task_list_name)
-  project = task_list.project
-  sleep(1)
-  page.should have_xpath(%(//*[@id = "project_#{project.id}_task_list_#{task_list.id}_task_#{task.id}_item"][contains(@style,'display: none')]))
-end
-
-Then /^I should not see the task called "([^\"]*)" in the "([^\"]*)" task list panel$/ do |task_name, task_list_name|
-  task = Task.find_by_name(task_name)
-  task_list = TaskList.find_by_name(task_list_name)
-  project = task_list.project
-  sleep(1)
-  page.should have_xpath(%(//*[@id = "project_#{project.id}_task_list_#{task_list.id}_task_#{task.id}_item"][contains(@style,'display: none')]))
+  Then %(I should#{negative} see "#{task_name}" within "#project_#{project.id}_task_list_#{task_list.id}")
 end
 
 Then /^I should see the following tasks:$/ do |table|
   table.hashes.each do |hash|
-    Then %(I should see the task called "#{hash['task_name']}" in the "#{hash['task_list_name']}" task list panel)
-  end
-end
-
-Then /^the following tasks should be hidden:$/ do |table|
-  table.hashes.each do |hash|
-    Then %(the task called "#{hash['task_name']}" in the "#{hash['task_list_name']}" task list panel should be hidden)
+    Then %(I should see the task called "#{hash['task_name']}" in the "#{hash['task_list_name']}" task list)
   end
 end
 
 Then /^I should not see the following tasks:$/ do |table|
   table.hashes.each do |hash|
-    Then %(I should not see the task called "#{hash['task_name']}" in the "#{hash['task_list_name']}" task list panel)
+    Then %(I should not see the task called "#{hash['task_name']}" in the "#{hash['task_list_name']}" task list)
   end
 end
-
-## daily task reminder email steps

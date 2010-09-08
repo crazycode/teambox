@@ -1,110 +1,19 @@
-Given /^I have a task list called "([^\"]*)"$/ do |name|
-  @task_list = (@current_project || Factory(:project)).create_task_list(@current_user,{:name => name})
-end
-
-Given /^I have a task called "([^\"]*)"$/ do |name|
-  task_list = @task_list || Factory(:task_list)
-  project = @current_project || Factory(:project)
-  @task = project.create_task(@current_user, task_list, {:name => name})
-end
-
-Given /^I have a task on open$/ do
-  When  "I fill in \"comment_body\" with \"I fused the dino eggs to the engine\""
-  And  "I select \"Mislav Marohnić\" from \"comment_target_attributes_assigned_id\""
-  And  "I press \"Comment\""
-  Then "I should see \"new\" within \".task_status_new\""
-  And  "I should see \"→\" within \".comment .status_arr\""
-  And  "I should see \"M. Marohnić\" within \".task_status_open\""
-  And  "I should see \"I fused the dino eggs to the engine\" within \".body\""
-  And  "I should see \"open\" within \".task_header h2\""
-  And  "I should see \"Mislav Marohnić\" within \".assignment\""
-  And  "I should see \"1\" within \".active_open\""
-end
-
-Given /^I have a task on hold$/ do
-  When "I fill in \"comment_body\" with \"I need to wait till the engine cools down\""
-   And "I click the element \"status_hold\""
-   And "I press \"Comment\""
-  Then "I should see \"new\" within \".task_status_new\""
-   And "I should see \"→\" within \".comment .status_arr\""
-   And "I should see \"hold\" within \".task_status_hold\""
-   And "I should see \"I need to wait till the engine cools down\" within \".body\""
-   And "I should see \"hold\" within \".task_header h2\""
-   And "I should see \"1\" within \".active_hold\""
-end
-
-
-Given /^I have a task on resolved$/ do
-  When "I fill in \"comment_body\" with \"I need to wait till the engine cools down\""
-   And "I click the element \"status_resolved\""
-   And "I press \"Comment\""
-  Then "I should see \"new\" within \".task_status_new\""
-   And "I should see \"→\" within \".comment .status_arr\""
-   And "I should see \"resolved\" within \".task_status_resolved\""
-   And "I should see \"I need to wait till the engine cools down\" within \".body\""
-   And "I should see \"resolved\" within \".task_header h2\""
-   And "I should see \"1\" within \".active_resolved\""
-end
-
-Given /^I have a task on rejected$/ do
-  When "I fill in \"comment_body\" with \"I need to wait till the engine cools down\""
-   And "I click the element \"status_rejected\""
-   And "I press \"Comment\""
-  Then "I should see \"new\" within \".task_status_new\""
-   And "I should see \"→\" within \".comment .status_arr\""
-   And "I should see \"rejected\" within \".task_status_rejected\""
-   And "I should see \"I need to wait till the engine cools down\" within \".body\""
-   And "I should see \"rejected\" within \".task_header h2\""
-   And "I should see \"1\" within \".active_rejected\""
-end
-
-Then /^I should see for task status tag with (.*) and (.*)$/ do |current_status,status|
-
-  current_status_text = current_status == "open" ? "M. Marohnić" : current_status
-  status_text = status == "open" ? "M. Marohnić" : status
-
-  unless current_status == status
-    Then "I should see \"#{current_status_text}\" within \".task_status_#{current_status}\""
-    And "I should see \"→\" within \".comment .status_arr\""
-  end
-  Then "I should see \"#{status_text}\" within \".task_status_#{status}\""
-end
-
-#TODO: I think this should go once we have the CI server is set up,
-# it is more straightforward to pass the login
-# when creating users (see Given I am "..." step) than to create a factory
-# for each username, in my opinion.
 Given /^I am currently "([^\"]*)"$/ do |login|
-  @current_user ||= User.find_by_login(login) || Factory(login.to_sym)
+  @current_user = User.find_by_login(login) ||
+                    (login == "mislav" ?
+                      Factory(:mislav) : # Mislav has a first and last name, is not a generic user
+                      Factory(:confirmed_user, :login => login, :email => "#{login}@example.com"))
   @user = @current_user
 end
 
-#TODO: I think this should go once we have the CI server is set up,
-# it is more straightforward to pass the login
-# when creating users (see Given I am "..." step) than to create a factory
-# for each username, in my opinion.
 Given /^I am logged in as ([^\"]*)$/ do |login|
   Given %(I am currently "#{login}")
-    And "I go to the login page"
-    And "I fill in \"Email or Username\" with \"#{@current_user.email}\""
-    And "I fill in \"Password\" with \"#{@current_user.password}\""
-    And "I press \"Login\""
-end
-
-Given /^I am "([^\"]*)"$/ do |login|
-  @current_user = User.find_by_login(login) || Factory(:user, :login => login, :email => "#{login}@example.com")
-  @user = @current_user
-end
-
-Given /^I am logged in as "([^\"]*)"$/ do |login|
-  Given %(I am "#{login}")
-  Given %(I have confirmed my email)
+    And %(I have confirmed my email)
     And "I go to the login page"
     And "I fill in \"Email or Username\" with \"#{login}\""
     And "I fill in \"Password\" with \"dragons\""
     And "I press \"Login\""
 end
-
 
 Given /^I log out$/ do
   visit(logout_path)
@@ -143,26 +52,6 @@ Given /^"([^\"]*)" is not in the project called "([^\"]*)"$/ do |username,name|
   Given %(there is a project called "#{name}")
   project = Project.find_by_name(name)
   project.remove_user User.find_by_login(username)
-end
-
-Given /^"([^\"]*)" is watching the conversation "([^\"]*)"$/ do |username,name|
-  conversation = Conversation.find_by_name(name)
-  conversation.add_watcher User.find_by_login(username)
-end
-
-Then /^"([^\"]*)" should be watching the conversation "([^\"]*)"$/ do |username,name|
-  conversation = Conversation.find_by_name(name)
-  conversation.watching?(User.find_by_login(username))
-end
-
-Given /^"([^\"]*)" stops watching the conversation "([^\"]*)"$/ do |username,name|
-  conversation = Conversation.find_by_name(name)
-  conversation.remove_watcher User.find_by_login(username)
-end
-
-Then /^"([^\"]*)" should not be watching the conversation "([^\"]*)"$/ do |username,name|
-  conversation = Conversation.find_by_name(name)
-  !conversation.watching?(User.find_by_login(username))
 end
 
 Given /^all the users are in the project with name: "([^\"]*)"$/ do |name|

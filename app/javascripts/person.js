@@ -1,36 +1,41 @@
-Event.addBehavior({
-  "#people_project_select:change": function(e){
-	var el = $(this);
-    var value = el.getValue();
-    if (value == 0)
-    {
-      $('sidebar_people').update('');
-      $('people_project_load').hide();
-    }
-    else
-    {
-      new Ajax.Request(el.readAttribute('people_url'), {
-	    asynchronous: true,
-	    evalScripts: true,
-	    method: 'get',
-	    parameters:'pid='+value,
-	    onComplete:function(e){
-	      $('people_project_load').hide();
-	    } 
-	  });
-	  $('people_project_load').show();
-    }
-  },
-  "a.invite_user:click": function(e){
-    var el = $(this);
-    var form = $('new_invitation');
-    var role = $('invitation_role').getValue();
-    new Ajax.Request(form.readAttribute('action'), {
-      asynchronous: true,
-      evalScripts: true,
-      method: 'post',
-      parameters:{'invitation[user_or_email]':el.readAttribute('login') , 'invitation[role]':role} 
-    });
-	Effect.DropOut(el.up('.invite_user_link'));
+hideBySelector('#people .edit_person')
+
+document.on('click', '#people a[href="#edit"]', function(e, link) {
+  e.preventDefault()
+  var parent = link.up('.person')
+  parent.down('.edit_person').forceShow()
+  parent.down('.person_header').hide()
+})
+
+document.on('click', '#people form a[href="#cancel"]', function(e, link) {
+  e.preventDefault()
+  var parent = link.up('.person')
+  parent.down('.edit_person').hide()
+  parent.down('.person_header').show()
+})
+
+document.on('ajax:success', '#people form', function(e, form) {
+  form.up('.person').replace(e.memo.responseText)
+})
+
+document.on('change', '#other_projects select', function(e, selectbox) {
+  var value = selectbox.getValue(), loading = $('people_project_load')
+  if (value) {
+    selectbox.up('form').request({
+      onComplete: function(e) {
+        loading.hide()
+        $('sidebar_people').update(e.responseText)
+      }
+    })
+    loading.show()
+  } else {
+    $('sidebar_people').update('')
+    loading.hide()
   }
-});
+})
+
+document.on('click', '#sidebar_people a[href]', function(e, link) {
+  e.preventDefault()
+  var login = link.readAttribute('href').split('/').last()
+  $('invitation_user_or_email').setValue(login).focus()
+})

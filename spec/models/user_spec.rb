@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/../spec_helper'
+require 'spec_helper'
 
 describe User do
   it { should have_many(:projects_owned) }
@@ -21,14 +21,11 @@ describe User do
   it { should validate_length_of(:email, :within => 6..100) }
   it { should validate_uniqueness_of(:email) }
 
-# it { should validate_associated :projects }
-
   describe "invited count" do
     before do
       @project = Factory(:project)
       @user = @project.user
-      invitation = Invitation.new(:user => @user, :project => @project, :user_or_email => "invited@user.com")
-      invitation.save!
+      @project.create_invitation(@user, :user_or_email => "invited@user.com")
       @new_user = Factory(:user, :email => "invited@user.com")
       @user.reload
     end
@@ -74,7 +71,7 @@ describe User do
 
   describe "activation" do
     before do
-      @user = Factory.create(:user)
+      @user = Factory.create(:unconfirmed_user)
     end
 
     it "should not be active on creation" do
@@ -133,7 +130,7 @@ describe User do
         projects << project
         @user.add_recent_project(project)
       end
-      @user.recent_projects.should == projects
+      @user.recent_projects.should == projects.reverse
       @user.remove_recent_project(projects.second)
       @user.recent_projects.should include(projects.first, projects.third)
       @user.recent_projects.should_not include(projects.second)
@@ -162,7 +159,7 @@ describe User do
 
       it "should return all projects of the user" do
         [@user, @invited].each do |user|
-          user.recent_projects.should == @projects
+          user.recent_projects.should == @projects.reverse
         end
       end
 
@@ -193,12 +190,12 @@ describe User do
 
   describe "validation" do
     before do
-      @user = Factory.create(:user, :first_name => " holden ", :last_name => "  m. caulfield   ",
+      @user = Factory.create(:user, :first_name => " holden ", :last_name => "  m.  caulfield   ",
                                     :login => "Holden", :email => "HoldeN.Caulfield@pencey.edu")
     end
 
-    it "should capitalize first and last name on create" do
-      @user.name.should == "Holden M. Caulfield"
+    it "should strip excess whitespace in first and last names" do
+      @user.name.should == "holden m. caulfield"
     end
 
     it "should convert email to downcase and strip spaces" do
@@ -221,7 +218,7 @@ describe User do
     end
 
     it "should send an activation email when signing up without an invitation" do
-      @user = Factory.build(:user)
+      @user = Factory.build(:unconfirmed_user)
       Emailer.should_receive(:deliver_confirm_email).once
       @user.save
     end
@@ -233,7 +230,7 @@ describe User do
     end
 
     it "should not be active when first created" do
-      user = Factory.create(:user)
+      user = Factory.create(:unconfirmed_user)
       user.is_active?.should be_false
     end
   end
@@ -260,26 +257,26 @@ describe User do
       boring_task = Factory(:task, :project => @boring_project)
       interesting_task.assign_to(@user)
       boring_task.assign_to(@user)
-      user_tasks = @user.assigned_tasks(:all)
+      user_tasks = @user.assigned_tasks.all
       user_tasks.should include(interesting_task, boring_task)
     end
 
     it "should not return a held task" do
       held_task = Factory(:held_task, :project => @interesting_project)
       held_task.assign_to(@user)
-      @user.assigned_tasks(:all).should_not include(held_task)
+      @user.assigned_tasks.all.should_not include(held_task)
     end
 
     it "should not return a resolved task" do
       resolved_task = Factory(:resolved_task, :project => @interesting_project)
       resolved_task.assign_to(@user)
-      @user.assigned_tasks(:all).should_not include(resolved_task)
+      @user.assigned_tasks.all.should_not include(resolved_task)
     end
 
     it "should not return a rejected task" do
       rejected_task = Factory(:rejected_task, :project => @interesting_project)
       rejected_task.assign_to(@user)
-      @user.assigned_tasks(:all).should_not include(rejected_task)
+      @user.assigned_tasks.all.should_not include(rejected_task)
     end
   end
 
@@ -345,41 +342,78 @@ describe User do
     end
   end
 
-  describe "when in a project" do
+  describe "deletion" do
     before do
-      @user = Factory(:confirmed_user, :login => "balint")
-      @project = Factory(:project)
-      @project.add_user(@user)
+      @user = Factory(:confirmed_user, :login => "simon", :email => "simon@sorcerer.net")
+      @user.destroy
     end
-    describe "and a comment comes in" do
-      before do
-      end
-      it "should be notified of a comment if he is mentioned by login" do
-        comment = Factory(:comment, :project => @project, :body => "@balint Do this!")
-        @user.notify_of_project_comment?(comment).should == true
-      end
+    it "renames the login so it can be reused by new signups" do
+      @user.login.should == "deleted1__simon"
+      @user.email.should == "deleted1__simon@sorcerer.net"
+    end
+    it "renames the login so it can be reused by new signups" do
+      @user2 = Factory(:confirmed_user, :login => "simon", :email => "simon@sorcerer.net")
+      @user2.login.should == "simon"
+      @user2.email.should == "simon@sorcerer.net"
+      @user2.destroy
+      @user2.login.should == "deleted2__simon"
+      @user2.email.should == "deleted2__simon@sorcerer.net"
+    end
+    it "has a method to rename the user as the original name" do
+      @user = User.find_only_deleted(:first)
+      @user.recover!
+      @user.rename_as_active
+      @user.login.should == "simon"
+      @user.email.should == "simon@sorcerer.net"
+    end
+  end
 
-      it "should be notified of a comment if it is addressed to all" do
-        comment = Factory(:comment, :project => @project, :body => "@all Check this out!")
-        @user.notify_of_project_comment?(comment).should == true
-      end
+  describe "finding an available username" do
+    it "should return the proposed one if it's free" do
+      User.find_available_login("donnie").should == "donnie"
+    end
 
-      it "should not be notified of a comment if he is not mentioned" do
-        comment = Factory(:comment, :project => @project, :body => "@jamesu This is yours.")
-        @user.notify_of_project_comment?(comment).should == false
-      end
+    it "should propose a new one if it's taken" do
+      Factory(:user, :login => "rabbit")
+      User.find_available_login("rabbit").should == "rabbit2"
+    end
 
-      it "should not be notified of a comment if he is the author" do
-        comment = Factory(:comment, :user => @user, :project => @project, :body => "@balint Note to self.")
-        @user.notify_of_project_comment?(comment).should == false
-      end
+    it "should keep looking for a free one until it's possible" do
+      Factory(:user, :login => "timetravel")
+      Factory(:user, :login => "timetravel2")
+      Factory(:user, :login => "timetravel3")
+      User.find_available_login("timetravel").should == "timetravel4"
+    end
 
-      it "should not be notified of a comment if he turned mention notifications off" do
-        @user.update_attribute(:notify_mentions, false)
-        comment = Factory(:comment, :project => @project, :body => "@balint This is urgent!")
-        @user.notify_of_project_comment?(comment).should == false
-      end
+    it "should not take a deleted user's login" do
+      that_girl = Factory(:user, :login => "the_girl_who_dies").destroy
+      User.find_available_login(that_girl.login).should == "#{that_girl.login}2"
+    end
+  end
+  
+  describe "#locale" do
+    it "should set a valid locale" do
+      user = Factory.create(:user, :locale => 'es')
+      user.locale.should == 'es'
+    end
+    
+    it "should fall back to default locale when setting not in list of available locales" do
+      user = Factory.create(:user, :locale => 'xy')
+      user.locale.should == 'en'
+    end
+  end
 
+  context 'attributes' do
+    subject {
+      Factory(:user, :card_attributes => { :phone_numbers_attributes => [{:name => '+123456789'}] })
+    }
+    
+    it { should_not be_new_record }
+    
+    it "should allow setting of work phone number" do
+      phone = subject.card.phone_numbers.first
+      phone.name == '+123456789'
+      phone.get_type.should == 'Work'
     end
   end
 

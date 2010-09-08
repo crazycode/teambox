@@ -2,36 +2,27 @@
 %html{ :xmlns => "http://www.w3.org/1999/xhtml", 'xml:lang'=>"en", :lang=>"en" }
   %head
     %meta{ 'http-equiv' => "content-type", :content => "text/html;charset=utf-8" }
-    %link{ :rel => "shortcut icon", :href => "/images/favicon.ico" }
-    %title
-      Teambox
-    = stylesheet_link_tag 'http://teambox.com/css/basic.css', :media => :all
+    = csrf_meta_tag
+    %link{ :rel => "shortcut icon", :href => "/favicon.ico" }
+    %title Teambox
     = stylesheet_link_tag 'sessions'
     = sprockets_include_tag
 
-  %body{ :class => "#{location_name} #{I18n.locale} #{ENV['RAILS_ENV']}"}
+  %body{ :class => "#{location_name} #{I18n.locale} #{Rails.env}"}
+    = javascript_include_tag 'modernizr'
     .container
       .navigation_wrap
         .navigation
           %ul
-            %li= link_to_public_page 'home'
-            %li= link_to_public_page 'tour'
-            %li= link_to_public_page 'users'
-            %li= link_to_public_page 'services'
-            %li= link_to_public_page 'community'
-            %li= link_to_public_page 'help'
+            %li= link_to 'Home', root_path
       .wrapper
         .content
-          = hot_flashes(flash)
+          - show_flash
           = yield
         .column
           #sidebar
-            %img{ :src => "http://s3.amazonaws.com/site_production/assets/4/logo_original.gif"}
+            = image_tag 'teambox-logo.gif', :alt => 'Teambox logo'
             = yield :column
       .footer
         %p.copyright Copyright &copy; 2010 Teambox. All rights reserved
-        %p.footer_nav
-          = link_to_public_page 'privacy'
-          &#183;
-          = link_to_public_page 'terms'
-      = javascripts
+    = javascripts

@@ -3,7 +3,7 @@ module NavigationHelpers
   #
   #   When /^I go to (.+)$/ do |page_name|
   #
-  # step definition in webrat_steps.rb
+  # step definition in web_steps.rb
   #
   def path_to(page_name)
     case page_name
@@ -17,6 +17,10 @@ module NavigationHelpers
       login_path
     when /the forgot password page/
       "/forgot"
+    when /the pages of the "([^\"]*)" project/
+      project_pages_path(Project.find_by_name($1))
+    when /the page named "([^\"]*)"/
+        project_page_path(@current_project, Page.find_by_name($1))
     when /the project page/
       project_path(@current_project)
     when /the page of the "([^\"]*)" project/
@@ -41,9 +45,9 @@ module NavigationHelpers
       project_task_list_path(@current_project,@task_list)
     when /its task page/
       project_task_list_task_path(@current_project,@task_list,@task)
-    when /project settings path/
+    when /project settings page/
       project_settings_path(@current_project)
-    when /the list of tasks page of the project called "(.+)"/
+    when /the "(.+)" tasks page/
       project = Project.find_by_name($1)
       project_task_lists_path(project)
     when /the "([^\"]*)" task list page of the "([^\"]*)" project/
@@ -56,20 +60,32 @@ module NavigationHelpers
     when /the profile of "([^\"]*)"/
       user = User.find_by_login($1)
       user_path(user)
-    when /the groups page/
-      groups_path
-    when /the page of the "([^\"]*)" group/
-      group = Group.find_by_name($1)
-      group_path(group)
     when /my settings page/
       account_settings_path
     when /the signup page/
       signup_path
-    #when /the index page for (.+)/
-    #  polymorphic_path(model($1))
+    when /the public projects page/
+      public_projects_path
+    when /the organizations page/
+      organizations_path
+    when /the new organization page/
+      new_organization_path
+    when /the public site for "([^\"]*)" organization/
+      organization = Organization.find_by_name($1)
+      site_path(organization)
+    when /the apidocs page/
+      '/api'
+    when /time tracking/
+      time_path
     else
-      raise "Can't find mapping from \"#{page_name}\" to a path.\n" +
-        "Now, go and add a mapping in #{__FILE__}"
+      begin
+        page_name =~ /the (.*) page/
+        path_components = $1.split(/\s+/)
+        self.send(path_components.push('path').join('_').to_sym)
+      rescue Object => e
+        raise "Can't find mapping from \"#{page_name}\" to a path.\n" +
+          "Now, go and add a mapping in #{__FILE__}"
+      end
     end
   end
 end

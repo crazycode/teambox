@@ -5,36 +5,6 @@ module UsersHelper
       [user.name,
       content_tag(:span,"@#{user.login}", :class => 'login')].join('')
   end
-    
-  def user_navigation
-    render :partial => 'shared/user_navigation'
-  end
-
-  def profile_completeness
-    if logged_in?
-      unless current_user.profile_complete?
-        render :partial => 'users/profile_completeness'
-      end  
-    end  
-  end
-
-  def user_fields(f,user,options={})
-    sub_action ||= options[:sub_action]
-    invite ||= options[:invite]
-    render :partial => 'users/fields', 
-      :locals => { 
-        :f => f,
-        :user => user,
-        :invite => invite,
-        :sub_action => sub_action }
-  end
-
-  def edit_avatar(f,user)
-    render :partial => 'edit_avatar',
-      :locals => { 
-        :f => f,
-        :user => user }
-  end
 
   def user_link(user)
     if user.name.blank?
@@ -42,18 +12,6 @@ module UsersHelper
     else
       link_to h(user.name), user_path(user)
     end
-  end
-  
-  def all_users_checkbox
-    text =  check_box_tag("user_all", "1", false, :name => "user_all")
-    text << ' '
-    text << label_tag("user_all", t('conversations.watcher_fields.people_all'))
-  end
-
-  def user_checkbox(user)
-    text =  check_box_tag("user_#{user.id}", "1", true, :name => "user[#{user.id}]") 
-    text << ' '
-    text << label_tag("user_#{user.id}", user.name)
   end
 
   def show_user_password_fields
@@ -64,18 +22,25 @@ module UsersHelper
     end
   end
   
-  def clear_password_if_not_updated
-    update_page_tag do |page|
-      page['edit_user'].observe('submit') do |page|
-        page << "if ($('change_password_link').visible()) {"
-          page['user_password'].setValue('')
-          page['user_password_confirmation'].setValue('')
-        page << "}"
+  def user_rss_token(url, filter = nil)
+    filter_param = filter.present? ? "&filter=#{filter}" : ""
+    url + "?rss_token=#{current_user.rss_token}#{current_user.id}#{filter_param}"
+  end
+  
+  def avatar_or_gravatar(user, size)
+    user.avatar_or_gravatar_path(size, request.ssl?).tap do |url|
+      unless url.starts_with? 'http'
+        url.replace(root_url.chomp('/') + url)
       end
     end
   end
   
-  def user_rss_token(url)
-    url + "?rss_token=#{current_user.rss_token}#{current_user.id}"
+  def gravatar_url
+    "<a href='http://gravatar.com'>Gravatar</a>"
+  end
+  
+  def build_user_phone_number(user)
+    card = user.card || user.build_card
+    card.phone_numbers.build unless card.phone_numbers.any?
   end
 end

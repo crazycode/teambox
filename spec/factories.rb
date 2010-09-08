@@ -1,3 +1,5 @@
+require 'factory_girl'
+
 Factory.sequence :login do |n|
   "gandhi_#{n}"
 end
@@ -21,16 +23,27 @@ Factory.define :user do |user|
   user.last_name 'Wiggin'
   user.password 'dragons'
   user.password_confirmation 'dragons'
+  user.confirmed_user true
 end
 
-Factory.define :confirmed_user, :class => User do |user|
-  user.login { Factory.next(:login) }
-  user.email { Factory.next(:email) }
-  user.first_name 'Andrew'
-  user.last_name 'Wiggin'
-  user.password 'dragons'
-  user.password_confirmation 'dragons'
-  user.confirmed_user true
+# compatibility with older specs/cukes
+Factory.define :confirmed_user, :parent => :user do |user|
+end
+
+Factory.define :unconfirmed_user, :parent => :user do |user|
+  user.confirmed_user false
+end
+
+Factory.define :mislav, :parent => :user do |user|
+  user.login 'mislav'
+  user.email 'mislav@fuckingawesome.com'
+  user.first_name 'Mislav'
+  user.last_name 'Marohnić'
+end
+
+Factory.define :organization do |organization|
+  organization.name { Factory.next(:name) }
+  organization.permalink { Factory.next(:permalink )}
 end
 
 Factory.define :person do |person|
@@ -41,19 +54,33 @@ end
 Factory.define :project do |project|
   project.name { Factory.next(:name) }
   project.association(:user)
+  project.association(:organization)
 end
 
-Factory.define :group do |group|
-  group.name { Factory.next(:name) }
-  group.permalink { Factory.next(:permalink) }
-  group.association(:user)
+Factory.define :ruby_rockstars, :class => 'Project' do |project|
+  project.name "Ruby Rockstars"
+  project.permalink "ruby_rockstars"
+  project.user_id do
+    (User.find_by_login('mislav') || Factory(:mislav)).id
+  end
+  project.association(:organization, :name => "ACME")
+end
+
+Factory.define :archived_project, :parent => :project do |project|
+  project.archived true
 end
 
 Factory.define :conversation do |conversation|
   conversation.name 'The Master Plan'
-  conversation.body 'I left it somewhere round here!'
+  conversation.body 'Shorter than a New York minute'
+  conversation.simple false
   conversation.association(:user)
   conversation.association(:project)
+end
+
+Factory.define :simple_conversation, :parent => :conversation do |conversation|
+  conversation.name nil
+  conversation.simple true
 end
 
 Factory.define :task_list do |task_list|
@@ -104,41 +131,20 @@ end
 Factory.define :comment do |comment|
   comment.association(:user)
   comment.association(:project)
+  comment.target { |comment| comment.project }
   comment.body 'Just finished posting this comment'
+end
+
+Factory.define :upload do |upload|
+  upload.asset_file_name 'pic.png'
+  upload.asset_file_size 42
+  upload.asset_content_type 'image/png'
 end
 
 Factory.define :page do |page|
   page.association(:user)
   page.association(:project)
   page.name 'Keys to the Castle'
-end
-
-Factory.define :mislav, :class => 'User' do |user|
-  user.login 'mislav'
-  user.email 'mislav@fuckingawesome.com'
-  user.first_name 'Mislav'
-  user.last_name 'Marohnić'
-  user.password 'makeabarrier'
-  user.password_confirmation 'makeabarrier'
-  user.confirmed_user true
-end
-
-Factory.define :geoffrey, :class => 'User' do |user|
-  user.login 'geoffrey'
-  user.email 'geoffrey@peepcode.com'
-  user.first_name 'Geoffrey'
-  user.last_name 'Grosenbach'
-  user.password 'smoothlistening'
-  user.password_confirmation 'smoothlistening'
-  user.confirmed_user true
-end
-
-Factory.define :ruby_rockstars, :class => 'Project' do |project|
-  project.name "Ruby Rockstars"
-  project.permalink "ruby_rockstars"
-  project.user_id do
-    (User.find_by_login('mislav') || Factory(:mislav)).id
-  end
 end
 
 Factory.define :reset_password do |reset_pw|
@@ -148,7 +154,7 @@ Factory.define :reset_password do |reset_pw|
 end
 
 Factory.define :invitation do |i|
-  i.association(:user)
   i.association(:project)
+  i.user  { |i| i.project.user }
   i.email { Factory.next(:email) }
 end

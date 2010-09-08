@@ -1,30 +1,30 @@
-= banner(@events,@chart)
-
 - if @pending_projects.any?
   .invitations
     = list_pending_invites(@pending_projects)
 
-%h2
-  = t('.update_your_status')
-  %span.help
-    = textile_documentation_link
-
-= new_comment_form(@current_project,@current_project.comments.new)
-
-#activities
-  = list_activities(@activities)
-  = show_more_button(@activities)
+- if can?(:converse, @current_project) and not @current_project.archived?
+  - form_for [@current_project, @new_conversation], :html => { :multipart => true, :class => 'new_conversation new_comment', :'data-remote' => true } do |form|
+    = form.hidden_field :simple
   
+    - form.object.comments.build
+    - form.fields_for :comments do |fields|
+      = render 'comments/fields', :f => fields, :placeholder => t('comments.new.project')
+  
+#activities
+  = list_threads(@threads)
+  = show_more_button(@activities)
+
+=# javascript_tag autorefresh(@activities, @current_project)
+
 - content_for :column do
-  .project_name= @current_project.name
-  .people_list
-    %h2= t '.people_in_project'
-    = list_users_statuses(@current_project.users)
-    .invite_people
-      = link_to "+ #{t('.invite_people')}", project_people_path(@current_project)
+  = render 'recent_conversations', :project => @current_project, :conversations => @recent_conversations
+
+  = render 'people_list', :project => @current_project, :compact => false
   - if @current_project.users.size > 1
-    .tip
-      = t('.tip')
-  = subscribe_to_project_link(@current_project)
-  = subscribe_to_calendar_link(@current_project)
-  = #print_project_link(@current_project)
+    .tip= t('.tip')
+
+  = instructions_for_feeds
+  = instructions_for_calendars
+  = instructions_for_email(@current_project)
+  = link_to t('.public_project'), public_project_path(@current_project), :class => :public_link if @current_project.public
+  = leave_project_link(@current_project)

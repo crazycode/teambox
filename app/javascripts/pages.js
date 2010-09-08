@@ -1,75 +1,27 @@
-Event.addBehavior({
-  ".note:mouseover": function(e){
-    $(this).select('p.actions').each(function(e) {
-      e.show();
-    });
-  },
-  ".note:mouseout": function(e){
-    $$(".note p.actions").each(function(e){ 
-      e.hide();
-    });
-  },
-  ".divider:mouseover": function(e){
-    $(this).select('p.actions').each(function(e) {
-      e.show();
-    });
-  },
-  ".divider:mouseout": function(e){
-    $$(".divider p.actions").each(function(e){ 
-      e.hide();
-    });
-  },
-  ".pageSlot .upload:mouseover": function(e){
-    $(this).select('p.slotActions').each(function(e) {
-      e.show();
-    });
-  },
-  ".pageSlot .upload:mouseout": function(e){
-    $$(".pageSlot .upload p.slotActions").each(function(e){ 
-      e.hide();
-    });
-  },
-  ".pageForm a.cancel:click": function(e){
-    e.element().up('.pageForm').remove();
-    return false;
-  },
-  "#pageInsert:click": function(e) {
-	if (InsertionBar.current_form) {
-	  InsertionBar.place();
-	} else {
-      InsertionBar.show();
-	  InsertionMarker.setEnabled(false);
-	  InsertionMarker.hide();
-    }
-
-    return false;
-  },
-  "#pageInsertItemCancel a:click": function(e) {
-    InsertionBar.hide();
-    InsertionMarker.setEnabled(true);
-    
-    return false;
+Element.addMethods({
+  getSlotId: function(element) {
+    element = $(element)
+    return element.readAttribute('slot') ||
+      (element.id && element.id.match(/^page_slot_(\d+)$/) && RegExp.$1)
   }
-});
+})
 
 // Page controller object
 var Page = {
-  MARGIN: 20,
-  SLOT_VERGE: 20,
-  SLOT_GAP: 36,
+  SLOT_VERGE_BEFORE: 3,
+  SLOT_VERGE_AFTER: 6,
   READONLY: false,
 
-  init: function(readonly, url, auth) {
+  init: function(readonly, url) {
     this.READONLY = readonly;
-	this.url = url;
-	this.auth = auth;
-	document.currentPage = this;
+    this.url = url;
+    document.currentPage = this;
     if (!readonly) {
-      InsertionMarker.init();
+      InsertHere.init();
       InsertionBar.init();
-      InsertionMarker.set(null, true);
+      InsertHere.set(null, true);
 
-      $($('content').parentNode).observe('mousemove', InsertionMarkerFunc);
+      $($('content').parentNode).observe('mousemove', InsertHereFunc);
     }
   },
 
@@ -77,41 +29,42 @@ var Page = {
     if (this.READONLY)
       return;
 
-    Sortable.create('slots', {handle: 'slot_handle', tag: 'div', only: 'pageSlot',
+    Sortable.create('slots', {handle: 'slot_handle', tag: 'div', only: 'page_slot',
       onUpdate: function() {
-        new Ajax.Request(Page.url + '/reorder',
-        {
-          asynchronous:true, evalScripts:true,
-          onComplete:function(request) {},
-          parameters:Sortable.serialize('slots', {name: 'slots'}) + '&authenticity_token=' + Page.auth
-        });
+        var csrf_param = $$('meta[name=csrf-param]').first(),
+            csrf_token = $$('meta[name=csrf-token]').first(),
+            serialized = Sortable.serialize('slots', {name: 'slots'});
+        
+        if (csrf_param) {
+          var param = csrf_param.readAttribute('content'),
+              token = csrf_token.readAttribute('content')
+          
+          serialized += '&' + param + '=' + token
+        }
+
+        new Ajax.Request(Page.url + '/reorder', { parameters: serialized });
       } 
-	});		
+    });
   },
 
-  refreshEvents: function() {
-    Event.addBehavior.reload();
-  },
+  insertWidget: function(widget_id, pos, element_id, content) {
+    var el = $(element_id);
+    var opts = {};
+    if (!el) {
+      // fallback: before/after == top/bottom
+      el = $('slots');
+      if (pos == 'before')
+        opts['top'] = content;
+      else if (pos == 'after')
+        opts['bottom'] = content;
+      else
+        opts[pos] = content; // 0_0;
+    } else {
+      opts[pos] = content;
+    }
 
-  removeIFrameForm: function(frameDoc) {
-	$$('iframe').each(function(element) {
-		if (Page.uploaderDocument(element) == frameDoc) {
-			$(element).up('.pageForm').remove();
-			throw $break;
-		}
-	});
-  },
-
-  uploaderDocument: function(iframe) {
-    var doc = iframe.contentDocument;
-    if (!doc) { 
-	  var wnd = iframe.contentWindow; 
-	  doc = wnd ? wnd.document : null;  
-	}
-	if (!doc) {
-		return iframe.document
-	}
-	return doc;
+    el.insert(opts);
+    new Effect.Highlight(widget_id, {duration:3});
   }
 }
 
@@ -129,11 +82,11 @@ var InsertionBar = {
 
   show: function() {
     this.place();
-    this.element_bar.setStyle({'height': '32px'}).blindDown({duration: 0.3});
+    this.element_bar.blindDown({duration: 0.3});
   },
 
   place: function() {
-    InsertionMarker.element.insert({before: this.element});
+    InsertHere.element.insert({before: this.element});
   },
 
   hide: function() {
@@ -145,57 +98,49 @@ var InsertionBar = {
     this.element_bar.hide();
     this.current_form.show();
 
-    InsertionMarker.setEnabled(true);
+    InsertHere.enabled = true;
   },
     
   // Widget form
-  setWidgetForm: function(id) {
-    if (this.current_form)
-      this.clearWidgetForm();
+  setWidgetForm: function(form) {
+    this.clearWidgetForm();
+    form = $(form);
 
-      var template = $(id);
-
-      // Set insertion position
-      $(id + 'Before').writeAttribute('value', Page.insert_before ? '1' : '0');
-      $(id + 'Slot').writeAttribute('value', Page.insert_element ? Page.insert_element.readAttribute('slot') : '-1');
-
-      // Form should go in the insertion bar, so we can change the insertion location and maintain
-      // state
-      this.current_form = template;
-      this.revealForm();
+    // Set insertion position
+    form.down('input[name="position[before]"]').setValue(Page.insert_before ? '1' : '0')
+    form.down('input[name="position[slot]"]').setValue(Page.insert_element ? Page.insert_element.getSlotId() : '-1')
+    // Form should go in the insertion bar, so we can change the insertion location and maintain state
+    this.current_form = form;
+    this.revealForm();
   },
 
-  insertTempForm: function(template) {
-    var el = null;
-    var before = Page.insert_before ? '1' : '0';
-    var slot = Page.insert_element ? Page.insert_element.readAttribute('slot') : '-1';
-    var content = template.replace(/\{POS\}/, 'position[slot]=' + slot + '&position[before]=' + before);
+  setWidgetFormLoading: function(id, active) {
+    var form = $(id);
+    var submit = form ? form.down('.submit') : null;
+    var loading = form ? form.down('.loading') : null;
 
-    if (Page.insert_element == null) {
-      el = $('slots').insert({bottom: content}).next();
-    } else if (Page.insert_before) {
-      el = Page.insert_element.insert({before: content}).previous();
+    if (!(submit && loading)) return;
+
+    if (active) {
+      submit.hide();
+      loading.show();
     } else {
-      el = Page.insert_element.insert({after: content}).next();
+      submit.show();
+      loading.hide();
     }
-
-    this.hide();
-    el.auto_focus();
-    return el;
   },
 
   clearWidgetForm: function() {
-    if (!this.current_form)
-      return;
-
-    this.current_form.reset();
-    this.current_form.hide();
-    this.current_form = null;
+    if (this.current_form) {
+      this.current_form.reset();
+      this.current_form.hide();
+      this.current_form = null;
+    }
   }
 };
 
 // Insertion marker which appears between slots
-var InsertionMarker = {
+var InsertHere = {
   element: null,
   enabled: false,
   visible: false,
@@ -205,10 +150,6 @@ var InsertionMarker = {
     this.enabled = true;
     this.visible = false;
     Page.insert_element = null;
-  },
-
-  setEnabled: function(val) {
-    this.enabled = val;
   },
 
   show: function(el, insert_before) {
@@ -225,7 +166,7 @@ var InsertionMarker = {
       this.updateSlot(false);
       if (this.enabled)
         this.set(null, true);
-      }
+    }
   },
 
   updateSlot: function(active) {
@@ -242,17 +183,17 @@ var InsertionMarker = {
   },
 
   nextSlot: function() {
-	if (Page.insert_element == null)
-		return;
+    if (Page.insert_element == null)
+      return;
     var next = Page.insert_element.next();
-    while (next != null && next.readAttribute('slot') == null) {
+    while (next != null && !next.getSlotId()) {
       next = next.next();
     }
     return next;
   },
 
   set: function(element, insert_before) {
-    var el = element == null ? $(Element.getElementsBySelector($('slots'), '.pageSlot')[0]) : element;
+    var el = element == null ? $(Element.getElementsBySelector($('slots'), '.page_slot')[0]) : element;
     
     this.updateSlot(false);
     Page.insert_element = el;
@@ -270,44 +211,165 @@ var InsertionMarker = {
   }
 };
 
-// Hover observer for InsertionMarker
-var InsertionMarkerFunc = function(evt){
-  if (!InsertionMarker.enabled)
+// Hover observer for InsertHere
+var InsertHereFunc = function(evt){
+  if (!InsertHere.enabled)
     return;
 
   var el = $(evt.target);
-  var pt = evt.pointer();
-  var offset = el.cumulativeOffset();
-
-  pt.x -= Page.SLOT_GAP;
-  var delta = pt.x - offset.left;
-
-  if (!(delta < 0 || delta > Page.MARGIN))
-  {
+  if (el.readAttribute('id') == "PIB")
+    return;
+  var slot = el.hasClassName('page_slot') ? el : el.up('div.page_slot');
+  if (!slot)
+    return;
+  
+  var pt = evt.pointer(),
+      offset = slot.cumulativeOffset(),
+      delta = pt.x - offset.left,
+      w = slot.getDimensions().width;
+  
+  if (delta < (w-32)) {
     // Show bar here *if* we are within the slot
-    if (el.hasClassName('pageSlot'))
-    {
-      var h = el.getHeight(), thr = Math.min(h / 2, Page.SLOT_VERGE);
-      var t = offset.top, b = t + h;
-
-      // console.log(h + "," + thr + " | " + t + "," + b);
-
-      if (el.hasClassName('pageFooter')) // before footer
-        InsertionMarker.show(el, true);
-      else if (pt.y - t <= thr) // before element
-        InsertionMarker.show(el, true);
-      else if (b - pt.y <= thr) // after element
-        InsertionMarker.show(el, false);
-      else
-        InsertionMarker.hide(); // *poof*           
-      }
-  }
-  else
-  {
-    // Ignore the insertion marker
-    if (el.readAttribute('id') == "PIB") 
-      return;
-
-    InsertionMarker.hide(); // *poof*
+    var h = slot.getHeight(),
+        thr_b = Math.min(h / 2, Page.SLOT_VERGE_BEFORE), thr_a = Math.min(h / 2, Page.SLOT_VERGE_AFTER);
+    if (slot.hasClassName('pageFooter')) // before footer
+      InsertHere.show(slot, true);
+    else if (pt.y - offset.top <= thr_b) // before element
+      InsertHere.show(slot, true);
+    else if ((offset.top + h) - pt.y <= thr_a) // after element
+      InsertHere.show(slot, false);
+    else
+      InsertHere.hide();
+  } else {
+    InsertHere.hide();
   }
 }
+
+document.on('dom:loaded', function() {
+  if ($$('body.show_pages').first()) {
+    Page.init(false, window.location.pathname);
+    Page.makeSortable();
+  }
+})
+
+// Buttons
+
+document.on('click', 'a.note_button, a.divider_button, a.upload_button', function(e, button) {
+  e.preventDefault();
+  
+  if (!button.up('.pageSlots')) {
+    InsertHere.set(null, true);
+    InsertionBar.place();
+  }
+  
+  var type = button.className.match(/\b(note|divider|upload)_/)[1];
+  
+  var form = $('new_' + type);
+  InsertionBar.setWidgetFormLoading(form, false);
+  InsertionBar.setWidgetForm(form);
+  Form.reset(form).focusFirstElement();
+});
+
+document.on('click', 'a.cancelPageWidget', function(e) {
+  e.stop()
+  InsertionBar.clearWidgetForm();
+});
+
+document.on('click', '#page_reorder', function(e) {
+  e.stop();
+  $('page_reorder').hide();
+  $('page_reorder_done').show();
+  
+  Sortable.create('column_pages', {handle: 'drag', tag: 'div', only: 'page',
+    onUpdate: function() {
+      var csrf_param = $$('meta[name=csrf-param]').first(),
+          csrf_token = $$('meta[name=csrf-token]').first(),
+          serialized = Sortable.serialize('column_pages', {name: 'pages'});
+      
+      if (csrf_param) {
+        var param = csrf_param.readAttribute('content'),
+            token = csrf_token.readAttribute('content')
+        
+        serialized += '&' + param + '=' + token
+      }
+
+      new Ajax.Request($('column_pages').readAttribute('reorder_url'), { parameters: serialized });
+    } 
+  });
+  
+  $('column_pages').addClassName('reordering');
+});
+
+document.on('click', '#page_reorder_done', function(e) {
+  e.stop();
+  
+  $('column_pages').removeClassName('reordering');
+  $('page_reorder').show();
+  $('page_reorder_done').hide();
+  
+  Sortable.destroy('column_pages');
+});
+
+document.on('click', '.pageForm a.cancel', function(e, el){
+  e.stop();
+  el.up('.pageForm').remove();
+});
+
+document.on('click', '#pageInsert', function(e, el){
+  if (InsertionBar.current_form) {
+    InsertionBar.place();
+  } else {
+    InsertionBar.show();
+    InsertHere.enabled = false;
+    InsertHere.hide();
+  }
+});
+
+document.on('click', 'div.page_slot', function(e, el){
+  if (!InsertHere.visible)
+    return;
+  if (InsertionBar.current_form) {
+    InsertionBar.place();
+  } else {
+    InsertionBar.show();
+    InsertHere.enabled = false;
+    InsertHere.hide();
+  }
+});
+
+document.on('click', '#pageInsertItemCancel', function(e, el) {
+  e.stop();
+  InsertionBar.hide();
+  InsertHere.enabled = true;
+});
+
+// Widget actions, forms
+
+document.on('ajax:before', '.page_slot .actions, .page_slot .slotActions', function(e) {
+  e.findElement('a').hide().next('.loading_action').show();
+});
+
+document.on('ajax:complete', '.page_slot .actions, .page_slot .slotActions', function(e) {
+  e.findElement('a').show().next('.loading_action').hide();
+});
+
+document.on('ajax:before', '.page_slot .note form, .page_slot .divider form', function(e, el) {
+  el.down('.submit').hide();
+  el.down('img.loading').show();
+});
+
+document.on('ajax:complete', '.page_slot .note form, .page_slot .divider form', function(e, el) {
+  el.down('.submit').show();
+  el.down('img.loading').hide();
+});
+
+document.on('ajax:create', 'form.edit_note', function(e, element) {
+  element.down('img.loading').show()
+});
+
+document.on('submit', 'body.show_pages form#new_upload', function(e, form) {
+  var iframe = new Element('iframe', { id: 'file_upload_iframe', name: 'file_upload_iframe' }).hide()
+  $(document.body).insert(iframe)
+  form.target = iframe.id
+  form.insert(new Element('input', { type: 'hidden', name: 'iframe', value: 'true' }))
+})

@@ -1,19 +1,40 @@
-- cache "#{@current_user.language}_#{@current_user.time_zone.gsub(/\W/,'')}_comment_#{comment.id}" do
-  .comment{:id => "comment_#{comment.id}", :immutable_at => datetime_ms(comment.created_at + 15.minutes) }
+- threaded = false unless local_assigns[:threaded]
+- simpleconv = false unless local_assigns[:simpleconv]
+
+- cache_editable_comment(comment, threaded, simpleconv) do
+  %div[comment]{ :'data-editable-before' => datetime_ms(15.minutes.since(comment.created_at)) }
     .info
-      = thumb_avatar(comment.user)
+      - if threaded
+        = micro_avatar(comment.user)
+      - else
+        = thumb_avatar(comment.user)
     .block
-      .date
-        = posted_date comment.created_at
-      = comment_actions_link(comment)
-      .name
-        = conversation_last_comment_text(comment)
-        = activity_comment_user_link(comment)
-        = activity_project_link(comment.project)
-        = activity_comment_target_link(comment)
-        = comment_task_status(comment) if comment.target_type == 'Task'
+      - unless rss?
+        .actions_menu
+          %span.actiondate= posted_date comment.created_at
+          = image_tag('triangle.png', :class => 'triangle')
+          .extra
+            - case comment.target
+            - when Conversation
+              = link_to t('comments.actions.conversation_url'), project_conversation_path(comment.project, comment.target)
+            - if can?(:update, comment)
+              = link_to t('comments.actions.edit'), [:edit, comment.project, comment.target, comment],
+                  :rel => 'facebox', :'data-uneditable-message' => t('.cannot_edit')
+            - else
+              %span= t('.cannot_edit')
+            - if can?(:destroy, comment)
+              - unless comment.target.is_a?(Project) or comment.target.is_a?(TaskList) # legacy comments targeting a Project or a TaskList
+                = link_to t('common.delete'), [comment.project, comment.target, comment], :'data-method' => 'delete',
+                    :'data-confirm' => t('.confirm_delete'), :'data-remote' => true
       .body.textilized
+        .before
+          = link_to(comment.user.name, comment.user, :class => :user) + " "
+          - if comment.task_comment?
+            = comment_task_status(comment)
+          - if comment.hours?
+            = content_tag(:span, friendly_hours_value(comment.hours), :class => :hours)
         ~ comment.body_html
+
       - if comment.uploads.any?
         - if comment.uploads.all? { |upload| upload.image? }
           .upload_images

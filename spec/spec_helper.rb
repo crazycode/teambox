@@ -1,24 +1,27 @@
-# This file is copied to ~/spec when you run 'ruby script/generate rspec'
-# from the project root directory.
-ENV["RAILS_ENV"] ||= 'test'
-require File.dirname(__FILE__) + "/../config/environment" unless defined?(RAILS_ROOT)
+ENV['RAILS_ENV'] ||= 'test'
+require File.expand_path('../../config/environment', __FILE__) unless defined?(RAILS_ROOT)
 require 'spec/autorun'
 require 'spec/rails'
-require 'factory_girl'
-require File.dirname(__FILE__) + '/factories.rb'
+require File.expand_path('../factories', __FILE__)
 
 # Requires supporting files with custom matchers and macros, etc,
 # in ./support/ and its subdirectories.
 Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each {|f| require f}
 
+require 'email_spec/helpers'
+require 'email_spec/matchers'
+require 'cancan/matchers'
+
 Spec::Runner.configure do |config|
+  config.include AuthenticatedTestHelper, EmailSpec::Helpers, EmailSpec::Matchers
+
   # If you're not using ActiveRecord you should remove these
   # lines, delete config/database.yml and disable :active_record
   # in your config/boot.rb
   config.use_transactional_fixtures = true
   config.use_instantiated_fixtures  = false
   config.fixture_path = RAILS_ROOT + '/spec/fixtures/'
-
+  
   # == Fixtures
   #
   # You can declare fixtures for each example_group like this:
@@ -64,4 +67,50 @@ end
 
 def generate_file(filename, size = 1024)
   File.open(filename,"wb") { |f| f.seek(size-1); f.write("\0") }
+end
+
+def mock_uploader(file, type = 'image/png', data=nil)
+  uploader = ActionController::UploadedStringIO.new
+  unless data.nil?
+    uploader.write(data)
+    uploader.seek(0)
+    uploader.original_path = file
+  else
+    uploader.original_path = "%s/%s" % [ File.dirname(__FILE__), file ]
+    uploader.write(File.read(uploader.original_path))
+    uploader.seek(0)
+  end
+  
+  uploader.content_type = type
+  uploader
+end
+
+def mock_file(user, page=nil)
+  @project.uploads.new(mock_file_params).tap do |page_upload|
+    page_upload.page = page
+    page_upload.user = user
+    page_upload.save!
+  end
+end
+
+def mock_file_params
+  {:asset => mock_uploader("#{rand}.js", 'application/javascript', "1/0")}
+end
+
+def make_a_typical_project
+    @user = Factory.create(:confirmed_user)
+    @project = Factory.create(:project)
+    @organization = @project.organization
+    @organization.add_member(@user, Membership::ROLES[:participant])
+    @owner = @project.user
+    @project.add_user(@user)
+    @observer = Factory.create(:confirmed_user)
+    @organization.add_member(@observer, Membership::ROLES[:participant])
+    @project.add_user(@observer)
+    @project.people(true).last.update_attribute(:role, Person::ROLES[:observer])
+    @admin = Factory.create(:confirmed_user)
+    @organization.add_member(@admin, Membership::ROLES[:admin])
+    @project.add_user(@admin)
+    @project.people(true).last.update_attribute(:role, Person::ROLES[:admin])
+    @project
 end

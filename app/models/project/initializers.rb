@@ -41,12 +41,12 @@ class Project
   end
 
 
-  def new_comment(user,target,comment)
-    self.comments.new(comment) do |comment|
-      comment.project_id = self.id
-      comment.user_id = user.id
+  def new_comment(user, target, attributes)
+    self.comments.new.tap { |comment|
+      comment.user = user
       comment.target = target
-    end
+      comment.attributes = attributes
+    }
   end
   
   def new_page(user,page)
@@ -55,15 +55,17 @@ class Project
     end
   end
   
-  def new_upload(user,target = nil)
-    if target == nil
-      self.uploads.new(:user_id => user.id)
-    else
-      self.uploads.new do |upload|
-        upload.user_id = user.id
-        upload.target = target
-      end
-    end
+  def new_invitation(user, params)
+    self.invitations.new(params).tap { |invitation|
+      invitation.user = user
+    }
+  end
+  
+  def create_invitation(user, params)
+    self.invitations.new(params).tap { |invitation|
+      invitation.user = user
+      invitation.save
+    }
   end
 
 end

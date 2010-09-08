@@ -1,5 +1,5 @@
 class Comment
-  
+
   def self.find_by_year(year=nil)
     year ||= Time.new.year
     find(:all, :conditions => ["YEAR(created_at) = ?", year], :order => 'created_at DESC')

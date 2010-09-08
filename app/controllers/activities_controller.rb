@@ -18,12 +18,15 @@ class ActivitiesController < ApplicationController
   end
 
   def show_more
-    @activities = Project.get_activities_for @target, :before => params[:id]
+    opts = {:before => params[:id]}
+    opts[:user_id] = @user.id if @user
+    
+    @activities = Project.get_activities_for @target, opts
     @last_activity = @activities.last
     
     respond_to do |format|
       format.html { redirect_to projects_path }
-      format.js
+      format.js { @threads = Activity.get_threads(@activities) }
       format.xml  { render :xml     => @activities.to_xml }
       format.json { render :as_json => @activities.to_xml }
       format.yaml { render :as_yaml => @activities.to_xml }
@@ -36,10 +39,32 @@ class ActivitiesController < ApplicationController
     
     respond_to do |format|
       format.html { redirect_to projects_path }
-      format.js
+      format.js { @threads = Activity.get_threads(@activities) }
       format.xml  { render :xml     => @activities.to_xml }
       format.json { render :as_json => @activities.to_xml }
       format.yaml { render :as_yaml => @activities.to_xml }
+    end
+  end
+
+  def show_thread
+    # FIXME: insecure!
+    target = params[:thread_type].constantize.find params[:id]
+
+    @comments = target.comments
+    # TODO: ask why
+    @comments.pop if target.is_a?(Conversation) and target.simple?
+    
+    respond_to do |format|
+      format.html {
+        if request.xhr?
+          render :partial => 'comments/comment',
+            :collection => @comments.reverse, # regular chronological order
+            :locals => { :threaded => true }
+        end
+      }
+      format.xml  { render :xml     => @comments.to_xml }
+      format.json { render :as_json => @comments.to_xml }
+      format.yaml { render :as_yaml => @comments.to_xml }
     end
   end
 
@@ -48,10 +73,15 @@ class ActivitiesController < ApplicationController
     # * All projects if it's not defined
     # * The requested project if given
     def get_target
-      if params[:project_id]
-        @target = @current_user.projects.find(params[:project_id]) or not_found
+      @target = if params[:project_id]
+        @current_project = @current_user.projects.find_by_permalink(params[:project_id])
+      elsif params[:user_id]
+        @user = User.find_by_id(params[:user_id])
+        @user.projects_shared_with(@current_user)
       else
-        @target = @current_user.projects.find :all
+        @current_user.projects.find :all
       end
+      
+      redirect_to root_path if @target.nil? or (@user and @target.empty?)
     end
 end

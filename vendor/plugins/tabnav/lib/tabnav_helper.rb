@@ -2,7 +2,7 @@ module TabnavHelper
   protected 
 
   def tabnav(name, &block)
-    html = capture { render :partial => "shared/#{name}" }
+    html = capture { render "shared/#{name}" }
     if block_given?
       options = {:id => @_tabnav.html[:id] + '_content', :class => @_tabnav.html[:class] + '_content'}
       html << tag('div', options, true)
@@ -11,7 +11,7 @@ module TabnavHelper
       concat(html)
       nil # avoid duplication if called with <%= %>
     else
-      return html
+      html
     end
   end
 
@@ -37,7 +37,7 @@ module TabnavHelper
   def controller_names
     files = Dir.entries(File.join(RAILS_ROOT, 'app/controllers'))
     controllers = files.select {|x| x.match '_controller.rb'}
-    return controllers.map {|x| x.sub '_controller.rb', ''}.sort
+    controllers.map {|x| x.sub '_controller.rb', ''}.sort
   end
 
   private
@@ -64,6 +64,7 @@ module TabnavHelper
       if tab.html[:li_class]      
         li_options[:class] = tab.html[:li_class] 
       end
+      tab.html.delete(:li_class)
         
       if tab.html[:li_end]
         tag_end = tab.html[:li_end]

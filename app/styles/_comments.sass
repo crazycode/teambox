@@ -1,0 +1,158 @@
+span.comments_count
+  padding: 1px 5px
+  text-transform: uppercase
+  font-size: 11px
+  +rounded(4px)
+  color: rgb(255, 255, 255)
+  background: rgb(170, 170, 170)
+
+#column
+  span.comments_count
+    padding: 0
+    display: inline-block
+    width: 16px
+    text-align: center
+
+form.new_comment, form.edit_comment
+  padding-bottom: 3px
+  margin-bottom: 30px
+  .micro_avatar
+    +rounded(3px)
+    margin-top: 2px
+  .field
+    margin: 5px 0
+    label
+      font-weight: normal !important
+    textarea
+      width: 594px
+      margin-bottom: 0px
+      font-size: 13px
+      height: 1.4em
+      color: rgb(0, 0, 0)
+      #facebox &
+        width: 575px
+    .previewBox
+      margin: 4px
+      padding: 4px
+      border: solid 2px rgb(235, 235, 235)
+  .text_field.hours_field
+    font-size: 12px
+    label
+      display: inline
+    input
+      width: 5em
+      font-size: 14px
+      padding: 2px 4px
+      margin-right: 1em
+  .actions
+    width: 55%
+    float: left
+    .add_hours_icon, .attach_icon
+      text-indent: -9999em
+      margin-right: 5px
+      position: relative
+      top: 2px
+      *:first-child+html &
+        text-indent: 16px
+        overflow: hidden
+        top: -2px
+    *:first-child+html & .attach_icon
+      margin-left: -16px
+    .task_actions
+      display: inline
+      label
+        display: none
+      select[name="task[status]"]
+        width: 80px
+      select[name="task[assigned_id]"]
+        width: 150px
+  .submit
+    width: 45% !important
+    float: right
+    text-align: right
+  .project_select
+    font-size: 13px
+  .extra
+    +clearing
+  .error
+    color: firebrick
+
+form .upload_area
+  padding: .3em 0
+  p
+    margin: 0 0 .5em 0
+    color: $text !important
+  input[type=file]
+    display: block
+    margin-bottom: .7em
+
+div.thread
+  form.edit_comment
+    .body
+      textarea
+        width: 538px
+
+.comment
+  padding: 15px 0 5px
+  border:
+    top: 1px solid white
+    bottom: 1px solid white
+  p.actions
+    visibility: hidden
+    position: relative
+    margin: 0px
+    float: right
+    span
+      margin-left: -44px
+      overflow: auto
+      position: absolute
+      width: 38px
+      height: 40px
+      text-align: right
+  .info
+    width: 70px
+    padding-right: 10px
+    float: left
+    .thumb_avatar
+      float: right
+  span.hours
+    font-size: 11px
+    font-weight: bold
+    color: white
+    text-align: center
+    background-color: $navbar
+    +rounded(3px)
+    padding: 0 3px
+    white-space: nowrap
+    img
+      margin-top: 6px
+  span.arr
+    color: rgb(140, 140, 140)
+  .block
+    width: 560px
+    float: right
+    .date
+      float: right
+      font-size: 10px
+      color: #9da3a7
+    .body
+      .before
+        display: inline
+      a.user
+        text-decoration: none
+        font-weight: bold
+      p
+        margin-top: 0
+        margin-bottom: 2px
+      .before:first-child+p
+        display: inline
+  .mention
+    padding: 0 3px
+    background-color: #eee
+    border: 1px solid #ccc
+    +rounded(3px 3px)
+    text-decoration: none
+    color: #000
+  a.mention
+    &:hover
+      color: $navbar

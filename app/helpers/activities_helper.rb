@@ -1,15 +1,24 @@
+require 'rss_feed_helper'
+
 module ActivitiesHelper
 
-  def activity_project_link(project, arrow_pos = :before)
+  def activity_project_link(project)
     if project
-      out = ""
-      out << " <span class='arr project_arr'>&rarr;</span> " if arrow_pos == :before
+      out = " "
       out << "<span class='project'>"
+      out << "#{t('common.in_project')} "
       out <<   link_to(project, project_path(project))
       out << "</span>"
-      out << " <span class='arr project_arr'>&rarr;</span> " if arrow_pos == :after
       out
     end  
+  end
+  
+  def activity_section(activity)
+    haml_tag 'div', :class => "activity #{activity.action_type}" do
+      haml_concat micro_avatar(activity.user)
+      yield activity_title(activity)
+      haml_tag 'div', posted_date(activity.created_at), :class => :date unless rss?
+    end
   end
 
   # TODO for activities create_note, create_divider, edit and delete
@@ -17,26 +26,148 @@ module ActivitiesHelper
                       create_conversation
                       create_task_list
                       create_task
-                      create_page
+                      create_page edit_page
+                      create_note edit_note
                       create_upload
-                      create_person delete_person)
+                      create_person delete_person
+                      create_project
+                      )
 
   def list_activities(activities)
-    render :partial => "activities/activity", :collection => activities
+    activities.map { |activity| show_activity(activity) }.join('')
+  end
+
+  def list_threads(activities)
+    activities.map { |activity| show_threaded_activity(activity) }.join('')
+  end
+
+  def show_threaded_activity(activity)
+    if activity.thread.is_a?(Task) || activity.thread.is_a?(Conversation)
+      render 'activities/thread', :activity => activity
+    else
+      show_activity(activity)
+    end
+  end
+
+  def render_thread(thread)
+    render 'activities/thread', :thread => thread
   end
 
   def show_activity(activity)
-    # Activity#target is redefined so it finds deleted elements too
     if activity.target && ActivityTypes.include?(activity.action_type)
-      render_activity_partial(activity,activity.target)
+      render "activities/#{activity.action_type}", :activity => activity,
+        activity.target_type.underscore.to_sym => activity.target
     end
   end
   
-  def render_activity_partial(activity,target)
-    render :partial => "activities/#{activity.action_type}",
-      :locals => {
-        :activity => activity,
-        activity.target_type.underscore.to_sym => target }
+  def activity_title(activity, plain = false, mobile = false)
+    values = mobile ? { :user => (plain ? activity.user.short_name : "<span class='user'>#{activity.user.short_name}</span>") } :
+                      { :user => link_to_unless(plain, activity.user.name, activity.user) }
+    
+    case activity
+    when Comment
+      object = activity
+      type = 'create_comment'
+    when Upload
+      object = activity
+      type = 'create_upload'
+    else
+      object = activity.target
+      type = activity.action_type
+    end
+    
+    values.update case type
+    when 'create_note', 'edit_note'
+      page = Page.find_with_deleted(object.page_id)
+      { :note => object,
+        :page => link_to_unless(plain || page.deleted?, page, [activity.project, page]) }
+    when 'create_conversation'
+      { :conversation => link_to_unless(plain, object, [activity.project, object]) }
+    when 'create_page', 'edit_page'
+      { :page => link_to_unless(plain || object.deleted?, object, [activity.project, object]) }
+    when 'create_person', 'delete_person'
+      { :person => link_to_unless(plain, object.user.name, object.user),
+        :project => link_to_unless(plain, activity.project, activity.project) }
+    when 'create_task'
+      { :task => link_to_unless(plain, object, [activity.project, object.task_list, object]),
+        :task_list => link_to_unless(plain, object.task_list, [activity.project, object.task_list]) }
+    when 'create_task_list'
+      { :task_list => link_to_unless(plain, object, [activity.project, object]) }
+    when 'create_upload'
+      text = object.description.presence || object.file_name
+      { :file => link_to_unless(plain, text, project_uploads_path(activity.project, :anchor => dom_id(object))) }
+    when 'create_project'
+      { :person => link_to_unless(plain, activity.user, activity.user),
+        :project => link_to_unless(plain, activity.project, activity.project) }
+    when 'create_comment'
+      # one of Project, Task or Conversation
+      object = object.target
+      type << "_#{object.class.name.underscore}"
+      
+      target = case object
+      when Task then link_to_unless(plain, object.name, [object.project, object.task_list, object])
+      when Project then link_to_unless(plain, object.name, object)
+      when Conversation then link_to_unless(plain, object.name, [object.project, object])
+      end
+      { :target => target }
+    else
+      raise ArgumentError, "unknown activity type #{type}"
+    end
+    t("activities.#{type}.title", values)
+  end
+  
+  def activity_target_url(activity)
+    if activity.target_type == 'Task'
+      task = activity.target
+      project_task_list_task_url(activity.project, task.task_list_id, task)
+    elsif activity.comment_type == 'Task'
+      task = activity.target.target
+      project_task_list_task_url(activity.project, task.task_list_id, task)
+    elsif activity.target_type == 'TaskList'
+      project_task_list_url(activity.project, activity.target)
+    elsif activity.target_type == 'Page'
+      project_page_url(activity.project, activity.target)
+    elsif activity.target_type == 'Upload'
+      project_uploads_url(activity.project)
+    elsif activity.target_type == 'Conversation'
+      project_conversation_url(activity.project, activity.target)
+    elsif activity.comment_type == 'Conversation'
+      project_conversation_url(activity.project, activity.target.target)
+    else
+      project_url(activity.project, :anchor => "activity_#{activity.id}")
+    end
+  end
+  
+  def rss_activity_feed(options, &block)
+    i18n_values = {}
+    project = options.delete(:project)
+    i18n_values[:name] = project.name if project
+    
+    options[:xml] ||= eval("xml", block.binding)
+    options[:builder] = ActivityFeedBuilder
+    
+    rss_feed(options) do |feed|
+      feed.title t('.rss.title', i18n_values)
+      feed.description t('.rss.description', i18n_values)
+      
+      yield feed
+    end
+  end
+  
+  class ActivityFeedBuilder < RssFeedHelper::RssFeedBuilder
+    def entry(activity, options = {}, &block)
+      options[:published] ||= activity.posted_date
+      options[:url] ||= @view.activity_target_url(activity)
+      
+      block ||= Proc.new do |item|
+        item.title @view.activity_title(activity, true)
+        body = @view.show_activity(activity)
+        item.description body
+        item.tag! 'content:encoded', body
+        item.author activity.user.name
+      end
+      super(activity, options, &block)
+    end
   end
   
   def link_to_conversation(conversation)
@@ -56,16 +187,20 @@ module ActivitiesHelper
 
     if location_name == 'index_projects'
       url = show_more_path(options[:last_activity].id)
-    elsif location_name == 'show_more_activities' and params[:project_id].nil?
+    elsif location_name == 'show_more_activities' and params[:project_id].nil? and params[:user_id].nil?
       url = show_more_path(options[:last_activity].id)
+    elsif location_name == 'show_users'
+        url = user_show_more_path(@user.id, options[:last_activity].id)
     elsif location_name == 'show_projects'
-      url = project_show_more_path(@current_project.id, options[:last_activity].id)
+      url = project_show_more_path(@current_project.permalink, options[:last_activity].id)
     elsif location_name == 'show_more_activities' and params[:project_id]
       url = project_show_more_path(params[:project_id], options[:last_activity].id)
+    elsif location_name == 'show_more_activities' and params[:user_id]
+        url = user_show_more_path(params[:user_id], options[:last_activity].id)
     else
       raise "unexpected location #{location_name}"
     end
-    link_to_remote content_tag(:span, t('common.show_more', :number => APP_CONFIG['activities_per_page'])),
+    link_to_remote content_tag(:span, t('common.show_more')),
       :url => url,
       :loading => activities_paginate_loading,
       :html => {
@@ -88,8 +223,22 @@ module ActivitiesHelper
   
   def show_more_button(activities)
     if activities.size == APP_CONFIG['activities_per_page']
-      render :partial => 'activities/show_more'
+      render 'activities/show_more'
     end
   end
-
+  
+  def fluid_badge(count)
+    badge = "if (typeof(badge_count) != 'undefined') 
+                { badge_count += #{count}; }
+            else  badge_count = #{count};"
+    badge << "window.fluid.dockBadge = badge_count+'';"
+    badge << "ClearBadge = window.onfocus=function(){window.fluid.dockBadge = ''; badge_count = 0};"
+  end
+  
+  def fluid_growl(project, user, body)
+    "window.fluid.showGrowlNotification({
+        title: '#{project}', 
+        description: '#{user}: #{body}'
+    });"
+  end
 end

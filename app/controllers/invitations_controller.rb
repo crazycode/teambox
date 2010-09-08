@@ -1,7 +1,7 @@
 class InvitationsController < ApplicationController
   skip_before_filter :load_project
-  before_filter :load_group_or_project
-  before_filter :admins_target?, :except => [:index, :accept, :decline]
+  before_filter :load_target_project, :except => [:invite_format]
+  before_filter :admins_target?, :except => [:index, :accept, :decline, :invite_format]
   before_filter :set_page_title
   
   def index
@@ -12,12 +12,7 @@ class InvitationsController < ApplicationController
         # Do we have an invite?
         @invitation = @invite_target.invitations.find(:first, :conditions => {:invited_user_id => current_user.id})
         if @invitation.nil?
-          if @current_group
-            render :text => "You don't have permission to view this group", :status => :forbidden
-          else
-            render :text => "You don't have permission to view this project", :status => :forbidden
-          end
-          
+          render :text => "You don't have permission to view this project", :status => :forbidden
           return
         end
       end
@@ -25,9 +20,9 @@ class InvitationsController < ApplicationController
       respond_to do |f|
         f.html { 
           if @invitation
-            render :action => (@current_project ? 'index_project' : 'index_group')
+            render :action => 'index_project'
           else
-            redirect_to @current_project ? project_people_path(@current_project) : group_path(@current_group)
+            redirect_to project_people_path(@current_project)
           end }
       end
     else
@@ -43,51 +38,60 @@ class InvitationsController < ApplicationController
   end
   
   def create
-    if params[:login] # using a link to invite directly a user
-      @user = User.find_by_login(params[:login])
-      user_or_email = @user.login
-      role = 2
-    elsif params[:invitation]
+    if params[:invitation]
       user_or_email = params[:invitation][:user_or_email]
-      role = params[:invitation][:role] || 2
+      params[:invitation][:role] ||= Person::ROLES[:participant]
+      params[:invitation][:membership] ||= Membership::ROLES[:external]
+      
+      @targets = user_or_email.extract_emails
+      @targets = user_or_email.split if @targets.empty?
+      
+      @invitations = @targets.map { |target| make_invitation(target, params[:invitation]) }
     else
       flash[:error] = t('invitations.errors.invalid')
       redirect_to target_people_path
       return
     end
     
-    @invitation = @invite_target.invitations.new(:user_or_email => user_or_email.strip)
-    @invitation.role = role
-    @invitation.user = current_user
-
     respond_to do |f|
-      if @invitation.save
-        @user = @invitation.invited_user
+      if @saved_count > 0
         f.html { redirect_to target_people_path }
-        f.js
+        f.m    { redirect_to target_people_path }
       else
-        f.html do
-          flash[:error] = @invitation.errors.full_messages.first
-          redirect_to target_people_path
-        end
-        name = @user ? @user.name : 'user'
-        f.js { render :text => "alert('Error inviting #{user}. Maybe you are trying to invite an existing user.');" }
+        message = @invitations.length == 1 ? @invitations.first.errors.full_messages.first : t('people.errors.users_or_emails')
+        f.html { flash[:error] = message; redirect_to target_people_path }
+        f.m    { flash[:error] = message; redirect_to target_people_path }
       end
     end
   end
   
   def resend
-    @invitation = Invitation.find(params[:id])
-    @invitation.send_email if @invitation
-    respond_to{|f|f.js}
+    @invitation = Invitation.find params[:id]
+    @invitation.send(:send_email)
+    
+    respond_to do |wants|
+      wants.html {
+        flash[:notice] = t('invitations.resend.resent', :recipient => @invitation.email)
+        redirect_to :back
+      }
+      wants.js
+    end
   end
   
   def destroy
-    @invitation = Invitation.find(params[:id])
-    if @invitation
+    begin
+      @invitation = Invitation.find params[:id]
       @invitation.destroy
+    rescue
     end
-    respond_to{|f|f.js}
+    
+    respond_to do |wants|
+      wants.html {
+        flash[:notice] = t('invitations.destroy.discarded', :user => @invitation.email)
+        redirect_to :back
+      }
+      wants.js
+    end
   end
   
   before_filter :load_user_invitation, :only => [ :accept, :decline ]
@@ -96,11 +100,7 @@ class InvitationsController < ApplicationController
   def accept
     @invitation.accept(current_user)
     @invitation.destroy
-    if @invitation.project
-      redirect_to(project_path(@invitation.project))
-    else
-      redirect_to(group_path(@invitation.group))
-    end
+    redirect_to project_path(@invitation.project)
   end
   
   def decline
@@ -108,28 +108,20 @@ class InvitationsController < ApplicationController
     redirect_to(user_invitations_path(current_user))
   end
   
+  def invite_format
+    render :layout => false
+  end
+  
   private
-    def load_group_or_project
-      project_id = params[:project_id]
-      group_id = params[:group_id]
-
-      if project_id
-        load_project
-      elsif group_id
-        load_group
-      end
+    def load_target_project
+      load_project
       
-      @invite_target = @current_group || @current_project
+      @invite_target = @current_project
     end
     
     def load_user_invitation
-      conds = if @current_project
-        { :project_id => @current_project.id,
-          :invited_user_id => current_user.id}
-      else
-        { :group_id => @current_group.id,
-          :invited_user_id => current_user.id}
-      end
+      conds = { :project_id => @current_project.id,
+                :invited_user_id => current_user.id }
       
       @invitation = Invitation.find(:first,:conditions => conds)
       unless @invitation
@@ -139,28 +131,30 @@ class InvitationsController < ApplicationController
     end
     
     def target
-      @current_project || @current_group
+      @current_project
     end
     
     def target_people_path
-      if @current_project
-        project_people_path(@current_project)
-      else
-        group_path(@current_group)
-      end
+      project_people_path(@current_project)
+    end
+    
+    def make_invitation(user_or_email, params)
+      invitation = @invite_target.invitations.new(params.merge({:user_or_email => user_or_email.strip}))
+      invitation.user = current_user
+      @saved_count ||= 0
+      @saved_count += 1 if invitation.save
+      invitation
     end
 
     def admins_target?
       if !(@invite_target.owner?(current_user) or @invite_target.admin?(current_user))
           respond_to do |f|
-            flash[:error] = t('common.not_allowed')
+            message = t('common.not_allowed')
             f.html {
-              if @current_project
-                redirect_to project_path(@current_project)
-              else
-                redirect_to group_path(@current_group)
-              end 
+              flash[:error] = message
+              redirect_to project_path(@current_project)
             }
+            f.js { render :text => "alert('#{message}')" }
           end
         return false
       end

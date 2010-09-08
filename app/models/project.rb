@@ -2,7 +2,6 @@
 # A Person model describes the relationship of a User that follows a Project.
 
 class Project < ActiveRecord::Base
-
   acts_as_paranoid
 
   concerned_with :validation,
@@ -11,9 +10,19 @@ class Project < ActiveRecord::Base
                  :associations,
                  :callbacks,
                  :archival,
-                 :permalink
+                 :permalink,
+                 :invitations
 
-  attr_accessible :name, :permalink, :archived, :group_id, :tracks_time
+  attr_accessible :name, :permalink, :archived, :tracks_time, :public, :organization_name
+  attr_accessor :organization_name
+
+  def self.find_by_id_or_permalink(param)
+    if param =~ /^\d+$/
+      find(param)
+    else
+      find_by_permalink(param)
+    end
+  end
 
   def log_activity(target, action, creator_id=nil)
     creator_id ||= target.user_id
@@ -32,6 +41,37 @@ class Project < ActiveRecord::Base
     end
   end
   
+  def ensure_organization(current_user, params)
+    unless new_record?
+      unless self.organization.is_admin?(current_user)
+        self.errors.add(:organization_id, "You're not allowed to modify projects in this organization")
+        return nil
+      end
+    end
+    
+    self.organization = user.organizations.find_by_id(params[:organization_id]) if params[:organization_id]
+    
+    unless self.organization
+      if params[:organization_name]
+        new_org = Organization.new(:name => params[:organization_name])
+        unless new_org.save
+          self.errors.add :organization_name, ""
+          return new_org
+        end
+        new_org.memberships.create!(:user_id => current_user.id, :role => Membership::ROLES[:admin])
+        self.organization = new_org
+      end
+    end
+    self.organization
+  end
+  
+  def transfer_to(person)
+    self.user = person.user
+    saved = self.save
+    person.update_attribute(:role, Person::ROLES[:admin]) if saved # owners need to be admin!
+    saved
+  end
+
   def has_member?(user)
     Person.exists?(:project_id => self.id, :user_id => user.id)
   end
@@ -41,14 +81,6 @@ class Project < ActiveRecord::Base
       person = people.find_by_user_id(user.id)
       t << task_list if task_list.tasks.count(:conditions => {:assigned_id => person.id, :status => Task::STATUSES[:open]}) > 0
       t
-    end
-  end
-
-  def notify_new_comment(comment)
-    users.each do |user|
-      if user.notify_of_project_comment?(comment)
-        Emailer.send_with_language(:notify_comment, user.language, user, self, comment) # deliver_notify_comment
-      end
     end
   end
 
@@ -64,7 +96,12 @@ class Project < ActiveRecord::Base
     else
       conditions = ["project_id IN (?)", Array(projects).collect{ |p| p.id } ]
     end
-
+    
+    if options[:user_id]
+      conditions[0] += ' AND user_id = ?'
+      conditions << options[:user_id]
+    end
+    
     Activity.find(:all, :conditions => conditions,
                         :order => 'id DESC',
                         :limit => options[:limit] || APP_CONFIG['activities_per_page'])
@@ -102,34 +139,97 @@ class Project < ActiveRecord::Base
       end
     end
   end
-
-  def to_ical
-    Project.calendar_for_tasks(tasks)
+  
+  def to_api_hash(options = {})
+    base = {
+      :id => id,
+      :organization_id => organization_id,
+      :name => name,
+      :permalink => permalink,
+      :archived => archived,
+      :created_at => created_at.to_s(:db),
+      :updated_at => updated_at.to_s(:db),
+      :archived => archived,
+      :owner_user_id => user_id
+    }
+    
+    if Array(options[:include]).include? :people
+      base[:people] = people.map {|p| p.to_api_hash(options)}
+    end
+    
+    if Array(options[:include]).include? :task_lists
+      base[:task_lists] = task_lists.map {|p| p.to_api_hash(options)}
+    end
+    
+    if Array(options[:include]).include? :invitations
+      base[:invitations] = invitations.map {|p| p.to_api_hash(options)}
+    end
+    
+    if Array(options[:include]).include? :pages
+      base[:pages] = pages.map {|p| p.to_api_hash(options)}
+    end
+    
+    if Array(options[:include]).include? :uploads
+      base[:uploads] = uploads.map {|p| p.to_api_hash(options)}
+    end
+    
+    if Array(options[:include]).include? :conversations
+      base[:conversations] = conversations.map {|p| p.to_api_hash(options)}
+    end
+    
+    base
+  end
+  
+  def to_json(options = {})
+    to_api_hash(options).to_json
   end
 
-  def self.to_ical(projects)
+  def to_ical(filter_user = nil)
+    Project.calendar_for_tasks(tasks, self, filter_user)
+  end
+
+  def self.to_ical(projects, filter_user = nil, host = nil, port = 80)
     tasks = projects.collect{ |p| p.tasks }.flatten
-    self.calendar_for_tasks(tasks)
+    self.calendar_for_tasks(tasks, projects, filter_user, host, port)
   end
   
   protected
 
-    def self.calendar_for_tasks(tasks)
+    def self.calendar_for_tasks(tasks, projects, filter_user, host = nil, port = 80)
+      calendar_name = case projects
+      when Project then projects.name
+      else "Teambox - All Projects"
+      end
+
+      if filter_user
+        tasks = tasks.select { |task| task.assigned.try(:user_id) == filter_user.id }
+      end
+
       ical = Icalendar::Calendar.new
       ical.product_id = "-//Teambox//iCal 2.0//EN"
-      ical.custom_property("X-WR-CALNAME;VALUE=TEXT", "Teambox - All Projects")
+      ical.custom_property("X-WR-CALNAME;VALUE=TEXT", calendar_name)
       ical.custom_property("METHOD","PUBLISH")
       tasks.each do |task|
-        next unless task.due_on
-        date = task.due_on.to_date
+        next unless task.due_on && task.active?
+        date = task.due_on
+        created_date = task.created_at.to_time.to_datetime
         ical.event do
-          dtstart       Date.new(date.year, date.month, date.day)
-          dtend         Date.new(date.year, date.month, date.day) + 1.day
-          summary       task.name
+          dtstart       Date.new(date.year,date.month,date.day)
+          dtend         Date.new(date.year,date.month,date.day) + 1.day
+          dtstart.ical_params  = {"VALUE" => "DATE"}
+          dtend.ical_params    = {"VALUE" => "DATE"}
+          if projects.is_a?(Array) && projects.size > 1
+            summary "#{task} (#{task.project})"
+          else
+            summary task.name
+          end
+          if host
+            port_in_url = (port == 80) ? '' : ":#{port}"
+            url         "http://#{host}#{port_in_url}/projects/#{task.project.permalink}/task_lists/#{task.task_list.id}/tasks/#{task.id}"
+          end
           klass         task.project.name
-          dtstamp       task.created_at
-          #url           project_task_list_task_url(task.project, task.task_list, task)
-          uid           "task-#{id}"
+          dtstamp       DateTime.civil(created_date.year,created_date.month,created_date.day,created_date.hour,created_date.min,created_date.sec,created_date.offset)
+          uid           "tb-#{task.project.id}-#{task.id}"
         end
       end
       ical.to_ical

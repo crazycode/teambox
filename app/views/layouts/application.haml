@@ -2,39 +2,36 @@
 %html{ :xmlns => "http://www.w3.org/1999/xhtml", 'xml:lang'=>"en", :lang=>"en" }
   %head
     %meta{ 'http-equiv' => "content-type", :content => "text/html;charset=utf-8" }
-    %link{ :rel => "shortcut icon", :href => "/images/favicon.ico" }
-    %title
-      = @page_title
-      Teambox
+    = current_user_tag if current_user
+    = csrf_meta_tag
+    = auto_discovery_link_by_context(current_user, @current_project)
+    %link{ :rel => "shortcut icon", :href => "/favicon.ico" }
+    %title= "#{@page_title} Teambox"
     = stylesheet_link_tag 'application', :media => :screen
+    = #stylesheet_link_tag 'custom', :media => :screen
     = stylesheet_link_tag 'print', :media => :print
     = sprockets_include_tag
     = yield :js_includes
     - javascript_tag do
       = yield :js_templates
-  %body{ :class => "#{location_name} #{I18n.locale} #{ENV['RAILS_ENV']}"}
-    = strip(@current_project)
+  %body{ :class => "#{location_name} #{I18n.locale} #{Rails.env}", :reload_url => reload_url}
+    = javascript_include_tag 'modernizr', '/i18n/environment'
+    = archived_project_strip(@current_project)
+    = configure_this_organization
     .container
       = header
-      = global_navigation
-      = hot_flashes(flash)
       = navigation(@current_project,current_user.projects,current_user.recent_projects)
       .wrapper
-        - unless location_name?(['welcome_users','new_projects','show_users','edit_users','new_avatars','index_invitations'])
-          = project_navigation(@current_project)
-        - if @content_for_banner
-          .banner
-            = yield :banner
-        %div{ :class => @content_for_column.nil? ? 'content_wrap_single' : 'content_wrap' }
-          .content#content
-            = render :partial => "shared/current_user"
-            = yield
-        - if @content_for_column
+        - show_flash
+        - if yield :banner
+          .banner= yield :banner
+        - content_for_column = yield :column
+        %div{ :class => content_for_column.blank? ? 'content_wrap_single' : 'content_wrap' }
+          .content#content= yield
+        - unless content_for_column.blank?
           .column_wrap
-            .column#column
-              = yield :column
-            = profile_completeness
-          .clear
+            .column#column= content_for_column
       = footer
-    = face_box
+    #screenflash
+    = autocomplete_projects_people_data
     = javascripts

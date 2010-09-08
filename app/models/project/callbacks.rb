@@ -1,5 +1,5 @@
-class Project  
-  
+class Project
+
   def after_destroy
     remove_from_recent_projects
   end
@@ -10,7 +10,8 @@ class Project
   
   def after_create
     add_user(user)
-  end 
+    log_activity(self, 'create', user_id)
+  end
 
   private
 

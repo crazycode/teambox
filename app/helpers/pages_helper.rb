@@ -1,24 +1,24 @@
 module PagesHelper
 
   def page_primer(project)
-    return unless project.editable?(current_user)
-    render :partial => 'pages/primer', :locals => { :project => project }
+    render 'pages/primer', :project => project if project.editable?(current_user)
   end
 
   def page_column(project,pages,current_target = nil)
-    render :partial => 'pages/column', :locals => {
+    render 'pages/column',
       :project => project,
       :pages => pages,
-      :current_target => current_target }
+      :current_target => current_target
   end
   
   def new_page_link(project)
-    return unless project.editable?(current_user)
-    link_to content_tag(:span,t('.new_page')), new_project_page_path(project), :class => 'add_button'
+    if project.editable?(current_user)
+      link_to content_tag(:span,t('.new_page')), new_project_page_path(project), :class => 'add_button'
+    end
   end
   
   def page_fields(f)
-    render :partial => 'pages/fields', :locals => { :f => f }
+    render 'pages/fields', :f => f
   end
   
   def list_pages(pages,current_target)
@@ -30,7 +30,7 @@ module PagesHelper
   end
 
   def list_pages_with_toc(pages)
-    render :partial => 'pages/page', :collection => pages
+    render pages
   end
 
   def page_link(page)
@@ -39,6 +39,14 @@ module PagesHelper
   
   def edit_page_link(project,page)
     link_to t('common.edit'), edit_project_page_path(project,page)
+  end
+  
+  def rename_page_link(project,page)
+    link_to t('common.rename'), edit_project_page_path(project,page)
+  end
+  
+  def edit_mobile_page_link(project,page)
+    link_to t('common.edit'), edit_project_page_path(project,page, :edit_part => 'page')
   end
 
   def delete_page_link(project,page)
@@ -65,15 +73,17 @@ module PagesHelper
   end
   
   def page_action_links(project,page)
-    return unless project.editable?(current_user)
-    render :partial => 'pages/actions',
-    :locals => { 
-      :project => project,
-      :page => page }
+    if project.editable?(current_user)
+      render 'pages/actions', :project => project, :page => page
+    end
   end
   
-  def page_slot_fields(formName=nil, slot=0, before=0)
-    render :partial => 'pages/slot_fields', :locals => {:formName => formName, :pos_slot => slot, :pos_before => before}
+  def pages_tab_list(project,pages)
+    render 'shared/pages_dropdown', :project => project, :pages => pages
+  end
+  
+  def page_slot_fields(slot = 0, before = 0)
+    render 'pages/slot_fields', :pos_slot => slot, :pos_before => before
   end
   
   def drag_widget_handle(widget)
@@ -81,13 +91,12 @@ module PagesHelper
   end
   
   def page_buttons(project,page)
-    return unless project.editable?(current_user)
-    render :partial => 'pages/buttons', :locals => { :project => project, :page => page, :in_bar => false }
-  end
-
-  def page_bar_buttons(project,page)
-    return unless project.editable?(current_user)
-    render :partial => 'pages/buttons', :locals => { :project => project, :page => page, :in_bar => true }
+    if project.editable?(current_user)
+      render 'pages/buttons', :project => project, :page => page
+    end
   end
   
+  def insert_widget(widget_id, position, location, view_options={})
+    page.call "Page.insertWidget", widget_id, position, location, render(view_options)
+  end
 end
